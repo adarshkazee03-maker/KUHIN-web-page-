@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - KUHIN{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 bg-light rounded">
+    <div class="container">
+        <h1 class="display-4 text-primary">Welcome to KUHIN</h1>
+        <p class="lead">Kathmandu University Health Informatics Club</p>
+        <p class="mb-4">Promoting health technology, data science, and informatics education in healthcare</p>
+        <a href="/about/" class="btn btn-primary btn-lg me-2">Learn More</a>
+        <a href="/contact/" class="btn btn-outline-primary btn-lg">Join Us</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">What We Do</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-laptop-medical fa-3x text-primary mb-3"></i>
+                        <h4 class="card-title">Health Tech Workshops</h4>
+                        <p class="card-text">Hands-on sessions on EHR systems, health data analysis, and medical software development.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h4 class="card-title">Team Collaboration</h4>
+                        <p class="card-text">Work with healthcare professionals, developers, and researchers on real-world projects.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                        <h4 class="card-title">Research & Learning</h4>
+                        <p class="card-text">Access resources, research papers, and learning materials in health informatics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="events-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Upcoming Events</h2>
+        <div class="row">
+            {% for event in upcoming_events|slice:":3" %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>{{ event.date }} 
+                                <i class="fas fa-clock ms-3 me-1"></i>{{ event.time }}
+                            </small>
+                        </p>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                        <a href="/events/#event-{{ event.id }}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No upcoming events scheduled. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="/events/" class="btn btn-outline-primary">View All Events</a>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats -->
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-3">
+                <h3 class="text-primary">{{ member_count }}</h3>
+                <p>Active Members</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="text-primary">{{ event_count }}</h3>
+                <p>Events Organized</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="text-primary">{{ resource_count }}</h3>
+                <p>Resources Available</p>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h3 class="text-primary">6</h3>
+                <p>Core Team Members</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

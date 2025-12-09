@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - KUHIN{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Events & Activities</h1>
+
+<ul class="nav nav-tabs mb-4" id="eventsTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming">
+            Upcoming Events
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past">
+            Past Events
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="eventsTabContent">
+    <!-- Upcoming Events Tab -->
+    <div class="tab-pane fade show active" id="upcoming">
+        {% if upcoming_events %}
+        <div class="row">
+            {% for event in upcoming_events %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="event-date">
+                            {{ event.date }} at {{ event.time }}
+                        </span>
+                        <h5 class="card-title mt-2">{{ event.title }}</h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt me-1"></i>{{ event.location }}
+                        </p>
+                        <p class="card-text">{{ event.description|truncatewords:30 }}</p>
+                        {% if event.registration_link %}
+                        <a href="{{ event.registration_link }}" class="btn btn-primary" target="_blank">
+                            Register Now
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
+            <h4>No upcoming events scheduled</h4>
+            <p class="text-muted">Check back soon for our upcoming activities!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Past Events Tab -->
+    <div class="tab-pane fade" id="past">
+        {% if past_events %}
+        <div class="row">
+            {% for event in past_events %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if event.image %}
+                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">
+                            <small class="text-muted">{{ event.date }}</small>
+                        </p>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+            <h4>No past events recorded</h4>
+            <p class="text-muted">Our event history will appear here soon!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
