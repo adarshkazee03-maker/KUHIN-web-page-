@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - KUHIN Events{% endblock %}
+
+{% block content %}
+<!-- Event Banner -->
+{% if event.banner %}
+<div class="event-banner-container mb-4" style="position: relative; height: 400px; overflow: hidden; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);">
+    <img src="{{ event.banner.url }}" alt="{{ event.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px;">
+        <h1 style="color: white; margin: 0; font-size: 3rem; font-weight: 700; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);">
+            {{ event.title }}
+        </h1>
+        <p style="color: rgba(255, 255, 255, 0.95); margin: 10px 0 0 0; font-size: 1.1rem;">
+            <i class="fas fa-calendar-alt me-2"></i>
+            <span>{{ event.date|date:"F d, Y" }}</span>
+            {% if event.start_time %}
+            <span class="ms-3"><i class="fas fa-clock me-2"></i>{{ event.start_time|time:"g:i A" }}</span>
+            {% endif %}
+        </p>
+        <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 1.1rem;">
+            <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+        </p>
+    </div>
+</div>
+{% else %}
+<!-- Fallback Banner without Image -->
+<div class="card mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 40px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);">
+    <h1 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">{{ event.title }}</h1>
+    <p style="color: rgba(255, 255, 255, 0.95); margin: 15px 0 0 0; font-size: 1.1rem;">
+        <i class="fas fa-calendar-alt me-2"></i>
+        <span>{{ event.date|date:"F d, Y" }}</span>
+        {% if event.start_time %}
+        <span class="ms-3"><i class="fas fa-clock me-2"></i>{{ event.start_time|time:"g:i A" }}</span>
+        {% endif %}
+    </p>
+    <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 1.1rem;">
+        <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+    </p>
+</div>
+{% endif %}
+
+<div class="row mt-5">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <!-- Event Info Cards -->
+        <div class="row mb-5">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #667eea;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-calendar me-2"></i>Date & Time</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ event.date|date:"l, F d, Y" }}</strong><br>
+                            {% if event.start_time %}
+                            Start: <strong>{{ event.start_time|time:"g:i A" }}</strong>
+                            {% endif %}
+                            {% if event.end_time %}
+                            <br>End: <strong>{{ event.end_time|time:"g:i A" }}</strong>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #764ba2;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-map-marker-alt me-2"></i>Location</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ event.location }}</strong>
+                            {% if event.venue_link %}
+                            <br><a href="{{ event.venue_link }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="fas fa-external-link-alt me-1"></i>View on Map
+                            </a>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Type & Status -->
+        <div class="row mb-5">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #f093fb;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-tag me-2"></i>Event Type</h6>
+                        <p class="card-text">
+                            <span class="badge" style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 8px 12px; font-size: 0.95rem;">
+                                {{ event.event_type }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #4facfe;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-info-circle me-2"></i>Status</h6>
+                        <p class="card-text">
+                            {% if event.status == 'upcoming' %}
+                            <span class="badge bg-success">Upcoming</span>
+                            {% elif event.status == 'ongoing' %}
+                            <span class="badge bg-warning">Ongoing</span>
+                            {% elif event.status == 'completed' %}
+                            <span class="badge bg-secondary">Completed</span>
+                            {% else %}
+                            <span class="badge bg-danger">{{ event.status|title }}</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="card mb-5">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-align-left me-2"></i>About This Event</h4>
+                <div class="card-text" style="line-height: 1.8; color: #555;">
+                    {{ event.description|safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Prerequisites -->
+        {% if event.prerequisites %}
+        <div class="card mb-5">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-list-check me-2"></i>Prerequisites</h4>
+                <div class="card-text" style="line-height: 1.8; color: #555;">
+                    {{ event.prerequisites|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- What You'll Learn -->
+        {% if event.outcome %}
+        <div class="card mb-5" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border: none;">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-lightbulb me-2 text-warning"></i>What You'll Learn</h4>
+                <div class="card-text" style="line-height: 1.8; color: #555;">
+                    {{ event.outcome|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Speakers -->
+        {% if event.speakers %}
+        <div class="card mb-5">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-microphone me-2"></i>Speakers</h4>
+                <p class="card-text" style="line-height: 1.8; color: #555;">
+                    {{ event.speakers|linebreaks }}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Registration Card -->
+        {% if event.registration_link or event.status == 'upcoming' %}
+        <div class="card mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <div class="card-body text-center">
+                <h5 class="card-title text-white">Interested?</h5>
+                {% if event.registration_link %}
+                <a href="{{ event.registration_link }}" class="btn btn-light w-100 mt-3" target="_blank">
+                    <i class="fas fa-pen-fancy me-2"></i>Register Now
+                </a>
+                {% endif %}
+                {% if event.registration_deadline %}
+                <small class="text-white-50 d-block mt-3">
+                    Registration Deadline: {{ event.registration_deadline|date:"F d, Y" }}
+                </small>
+                {% endif %}
+                {% if event.max_participants %}
+                <small class="text-white-50 d-block">
+                    Limited to {{ event.max_participants }} participants
+                </small>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Share Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase text-muted mb-3"><i class="fas fa-share-alt me-2"></i>Share Event</h6>
+                <div class="d-flex gap-2">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ event.title }}" target="_blank" class="btn btn-outline-info btn-sm">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Card -->
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase text-muted mb-3"><i class="fas fa-envelope me-2"></i>Questions?</h6>
+                <p class="card-text">
+                    Contact KUHIN for more information about this event.
+                </p>
+                <a href="{% url 'contact' %}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-envelope me-2"></i>Get in Touch
+                </a>
+                <a href="mailto:kuhin@ku.edu.np" class="btn btn-outline-secondary w-100 mt-2">
+                    kuhin@ku.edu.np
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Events -->
+{% if related_events %}
+<hr class="my-5">
+<section>
+    <h3 class="mb-4"><i class="fas fa-calendar-alt me-2"></i>Other Upcoming Events</h3>
+    <div class="row">
+        {% for related_event in related_events %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 transition-all">
+                {% if related_event.image %}
+                <img src="{{ related_event.image.url }}" class="card-img-top" alt="{{ related_event.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div style="height: 200px; background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                {% endif %}
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ related_event.date|date:"M d, Y" }}</h6>
+                    <h5 class="card-title">{{ related_event.title }}</h5>
+                    <p class="card-text small text-muted">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ related_event.location }}
+                    </p>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a href="{% url 'event_detail' related_event.slug %}" class="btn btn-sm btn-primary w-100">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Back Button -->
+<div class="mt-5 mb-3">
+    <a href="{% url 'events' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Events
+    </a>
+</div>
+{% endblock %}

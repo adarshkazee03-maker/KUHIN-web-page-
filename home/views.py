@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
@@ -39,6 +39,15 @@ def events(request):
     return render(request, 'events.html', {
         'upcoming_events': upcoming,
         'past_events': past
+    })
+
+def event_detail(request, slug):
+    event = get_object_or_404(Event, slug=slug)
+    # Get related upcoming events
+    related_events = Event.objects.filter(status='upcoming').exclude(slug=slug).order_by('date')[:3]
+    return render(request, 'event_detail.html', {
+        'event': event,
+        'related_events': related_events
     })
 
 def gallery(request):
