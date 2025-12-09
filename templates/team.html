@@ -6,45 +6,113 @@
 <h1 class="mb-4 text-center">Meet Our Team</h1>
 <p class="text-center mb-5">The dedicated students behind KUHIN</p>
 
-<div class="row">
-    {% for member in members %}
-    <div class="col-md-4 mb-4">
-        <div class="card team-card text-center h-100">
-            <div class="card-body">
-                {% if member.photo %}
-                <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid">
-                {% else %}
-                <div class="placeholder-photo bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" 
-                     style="width: 150px; height: 150px;">
-                    <i class="fas fa-user fa-4x text-secondary"></i>
-                </div>
-                {% endif %}
-                <h4 class="card-title">{{ member.name }}</h4>
-                <p class="card-subtitle text-primary mb-2">{{ member.position }}</p>
-                <p class="text-muted mb-2">{{ member.role_in_project }}</p>
-                <p class="text-muted small mb-3">Batch: {{ member.batch }}</p>
-                <p class="card-text">{{ member.bio|truncatewords:30 }}</p>
-                <div class="social-links mt-3">
-                    {% if member.email %}
-                    <a href="mailto:{{ member.email }}" class="text-primary me-2" title="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
+<!-- Executive Committee Section -->
+{% if executive_committee %}
+<section class="mb-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title">
+            <i class="fas fa-briefcase me-2 text-primary"></i>Executive Committee
+        </h2>
+        <div class="divider mx-auto" style="width: 80px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px;"></div>
+    </div>
+    <div class="row">
+        {% for member in executive_committee %}
+        <div class="col-md-4 mb-4">
+            <div class="card team-card text-center h-100">
+                <div class="card-body">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid">
+                    {% else %}
+                    <div class="placeholder-photo bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" 
+                         style="width: 150px; height: 150px;">
+                        <i class="fas fa-user fa-4x text-secondary"></i>
+                    </div>
                     {% endif %}
-                    {% if member.linkedin %}
-                    <a href="{{ member.linkedin }}" class="text-primary me-2" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    {% endif %}
-                    {% if member.github %}
-                    <a href="{{ member.github }}" class="text-primary" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    {% endif %}
+                    <h4 class="card-title">{{ member.name }}</h4>
+                    <p class="card-subtitle text-primary mb-2">{{ member.position }}</p>
+                    <p class="text-muted mb-2">{{ member.role_in_project }}</p>
+                    <p class="text-muted small mb-3">Batch: {{ member.batch }}</p>
+                    <p class="card-text">{{ member.bio|truncatewords:30 }}</p>
+                    <div class="social-links mt-3">
+                        {% if member.email %}
+                        <a href="mailto:{{ member.email }}" class="text-primary me-2" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.linkedin %}
+                        <a href="{{ member.linkedin }}" class="text-primary me-2" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.github %}
+                        <a href="{{ member.github }}" class="text-primary" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% empty %}
+</section>
+{% endif %}
+
+<!-- Advisory Board Section -->
+{% if advisory_board %}
+<section class="mb-5">
+    <div class="text-center mb-4">
+        <h2 class="section-title">
+            <i class="fas fa-users me-2 text-primary"></i>Advisory Board
+        </h2>
+        <div class="divider mx-auto" style="width: 80px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 2px;"></div>
+    </div>
+    <div class="row">
+        {% for member in advisory_board %}
+        <div class="col-md-4 mb-4">
+            <div class="card team-card text-center h-100">
+                <div class="card-body">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid">
+                    {% else %}
+                    <div class="placeholder-photo bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" 
+                         style="width: 150px; height: 150px;">
+                        <i class="fas fa-user fa-4x text-secondary"></i>
+                    </div>
+                    {% endif %}
+                    <h4 class="card-title">{{ member.name }}</h4>
+                    <p class="card-subtitle text-primary mb-2">{{ member.position }}</p>
+                    <p class="text-muted mb-2">{{ member.role_in_project }}</p>
+                    <p class="text-muted small mb-3">Batch: {{ member.batch }}</p>
+                    <p class="card-text">{{ member.bio|truncatewords:30 }}</p>
+                    <div class="social-links mt-3">
+                        {% if member.email %}
+                        <a href="mailto:{{ member.email }}" class="text-primary me-2" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.linkedin %}
+                        <a href="{{ member.linkedin }}" class="text-primary me-2" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        {% endif %}
+                        {% if member.github %}
+                        <a href="{{ member.github }}" class="text-primary" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- No Members -->
+{% if not members %}
+<div class="row">
     <div class="col-12 text-center">
         <div class="alert alert-info">
             <i class="fas fa-info-circle me-2"></i>

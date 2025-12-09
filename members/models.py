@@ -24,8 +24,14 @@ class Member(models.Model):
         ('2025', '2025'),
     ]
     
+    TEAM_CHOICES = [
+        ('Executive Committee', 'Executive Committee'),
+        ('Advisory Board', 'Advisory Board'),
+    ]
+    
     name = models.CharField(max_length=100)
     position = models.CharField(max_length=50, choices=POSITION_CHOICES)
+    team = models.CharField(max_length=50, choices=TEAM_CHOICES, default='Executive Committee')
     role_in_project = models.CharField(max_length=100)
     batch = models.CharField(max_length=10, choices=BATCH_CHOICES)
     bio = RichTextField(max_length=1000)
@@ -44,7 +50,7 @@ class Member(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['display_order', 'name']
+        ordering = ['team', 'display_order', 'name']
         verbose_name = 'Team Member'
         verbose_name_plural = 'Team Members'
     

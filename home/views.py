@@ -24,8 +24,14 @@ def about(request):
     return render(request, 'about.html')
 
 def team(request):
-    members = Member.objects.all()
-    return render(request, 'team.html', {'members': members})
+    executive_committee = Member.objects.filter(team='Executive Committee').order_by('display_order', 'name')
+    advisory_board = Member.objects.filter(team='Advisory Board').order_by('display_order', 'name')
+    all_members = Member.objects.all()
+    return render(request, 'team.html', {
+        'executive_committee': executive_committee,
+        'advisory_board': advisory_board,
+        'members': all_members
+    })
 
 def events(request):
     upcoming = Event.objects.filter(status='upcoming').order_by('date')
