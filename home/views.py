@@ -60,5 +60,18 @@ def resources(request):
     resources_list = Resource.objects.all()
     return render(request, 'resources.html', {'resources': resources_list})
 
+def resource_detail(request, slug):
+    from resources.models import Resource
+    resource = get_object_or_404(Resource, slug=slug)
+    # Increment download count
+    resource.download_count += 1
+    resource.save(update_fields=['download_count'])
+    # Get related resources from same category
+    related_resources = Resource.objects.filter(category=resource.category).exclude(slug=slug)[:4]
+    return render(request, 'resource_detail.html', {
+        'resource': resource,
+        'related_resources': related_resources
+    })
+
 def contact(request):
     return render(request, 'contact.html')

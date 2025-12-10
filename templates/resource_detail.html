@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ resource.title }} - Resources - KUHIN{% endblock %}
+
+{% block content %}
+<!-- Resource Header -->
+<div class="card mb-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 40px;">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">{{ resource.title }}</h1>
+            <p style="color: rgba(255, 255, 255, 0.95); margin: 15px 0 0 0; font-size: 1.1rem;">
+                <i class="fas fa-tag me-2"></i>
+                <span class="badge bg-light text-dark">{{ resource.get_resource_type_display }}</span>
+            </p>
+            {% if resource.category %}
+            <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0; font-size: 1rem;">
+                <i class="fas fa-folder me-2"></i>{{ resource.category.name }}
+            </p>
+            {% endif %}
+        </div>
+        <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+            {% if resource.thumbnail %}
+            <img src="{{ resource.thumbnail.url }}" alt="{{ resource.title }}" style="max-width: 150px; border-radius: 8px; border: 3px solid white;">
+            {% else %}
+            <div style="width: 150px; height: 150px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-left: auto;">
+                <i class="fas fa-file fa-4x text-white" style="opacity: 0.7;"></i>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <!-- Resource Info Cards -->
+        <div class="row mb-5">
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #667eea;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-user me-2"></i>Uploaded By</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ resource.uploaded_by }}</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #764ba2;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-calendar me-2"></i>Uploaded On</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ resource.uploaded_at|date:"F d, Y" }}</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #f093fb;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-download me-2"></i>Downloads</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ resource.download_count }}</strong> times
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="card h-100" style="border-left: 4px solid #4facfe;">
+                    <div class="card-body">
+                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-bookmark me-2"></i>Type</h6>
+                        <p class="card-text fs-5">
+                            <strong>{{ resource.get_resource_type_display }}</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="card mb-5">
+            <div class="card-body">
+                <h4 class="card-title"><i class="fas fa-align-left me-2"></i>Description</h4>
+                <div class="card-text" style="line-height: 1.8; color: #555;">
+                    {{ resource.description|safe }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        {% if resource.tags %}
+        <div class="card mb-5">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase text-muted mb-3"><i class="fas fa-tags me-2"></i>Tags</h6>
+                <div>
+                    {% for tag in resource.tags.split:"," %}
+                    <span class="badge bg-info me-2 mb-2">{{ tag|striptags }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Related Resources -->
+        {% if related_resources %}
+        <hr class="my-5">
+        <h4 class="mb-4"><i class="fas fa-sitemap me-2"></i>More from {{ resource.category.name }}</h4>
+        <div class="row">
+            {% for related in related_resources %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 transition-all">
+                    {% if related.thumbnail %}
+                    <img src="{{ related.thumbnail.url }}" class="card-img-top" alt="{{ related.title }}" style="height: 150px; object-fit: cover;">
+                    {% else %}
+                    <div style="height: 150px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-file fa-3x text-white" style="opacity: 0.5;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ related.get_resource_type_display }}</h6>
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text small text-muted">
+                            {{ related.uploaded_by }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'resource_detail' related.slug %}" class="btn btn-sm btn-primary w-100">
+                            View Resource
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Action Buttons -->
+        <div class="card mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <div class="card-body text-center">
+                <h5 class="card-title text-white">Access Resource</h5>
+                
+                {% if resource.file %}
+                <a href="{{ resource.file.url }}" download class="btn btn-light w-100 mt-3">
+                    <i class="fas fa-download me-2"></i>Download
+                </a>
+                <p class="text-white-50 mt-2 small">Direct download</p>
+                {% elif resource.external_link %}
+                <a href="{{ resource.external_link }}" target="_blank" class="btn btn-light w-100 mt-3">
+                    <i class="fas fa-external-link-alt me-2"></i>Open External Link
+                </a>
+                <p class="text-white-50 mt-2 small">Open in new window</p>
+                {% else %}
+                <p class="text-white-50 mt-3">No download or link available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Share Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase text-muted mb-3"><i class="fas fa-share-alt me-2"></i>Share Resource</h6>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ resource.title }}" target="_blank" class="btn btn-outline-info btn-sm">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:?subject={{ resource.title }}&body={{ request.build_absolute_uri }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title text-uppercase text-muted mb-3"><i class="fas fa-info-circle me-2"></i>Resource Info</h6>
+                <dl class="row" style="font-size: 0.95rem;">
+                    <dt class="col-sm-6">Type:</dt>
+                    <dd class="col-sm-6">{{ resource.get_resource_type_display }}</dd>
+                    
+                    <dt class="col-sm-6">Category:</dt>
+                    <dd class="col-sm-6">
+                        <a href="{% url 'resources' %}" class="text-decoration-none">
+                            {{ resource.category.name }}
+                        </a>
+                    </dd>
+                    
+                    <dt class="col-sm-6">Downloads:</dt>
+                    <dd class="col-sm-6">{{ resource.download_count }}</dd>
+                    
+                    <dt class="col-sm-6">Added:</dt>
+                    <dd class="col-sm-6">{{ resource.uploaded_at|date:"M d, Y" }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back Button -->
+<div class="mt-5 mb-3">
+    <a href="{% url 'resources' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Resources
+    </a>
+</div>
+{% endblock %}
