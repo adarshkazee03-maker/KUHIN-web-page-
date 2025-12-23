@@ -3,26 +3,48 @@
 {% block title %}Contact Us - KUHIN{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-lg-8 mx-auto">
-        <h1 class="mb-4 text-center">Contact Us</h1>
-        
-        <div class="row mb-5">
-            <div class="col-md-6 mb-4">
-                <div class="card text-center h-100">
-                    <div class="card-body">
-                        <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
+<div class="contact-page-container">
+    <!-- Header Section -->
+    <div class="contact-header mb-5">
+        <h1 class="contact-title">Get In Touch</h1>
+        <p class="contact-subtitle">Interested in joining KUHIN or have any questions? We'd love to hear from you!</p>
+    </div>
+
+    <!-- Messages Display -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                {% if message.tags == 'success' %}
+                    <i class="fas fa-check-circle me-2"></i>
+                {% else %}
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                {% endif %}
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <!-- Contact Information Cards -->
+        <div class="col-lg-8 mx-auto mb-5">
+            <div class="row mb-5">
+                <div class="col-md-6 mb-4">
+                    <div class="contact-info-card text-center h-100">
+                        <div class="card-icon">
+                            <i class="fas fa-envelope fa-3x"></i>
+                        </div>
                         <h5 class="card-title">Email</h5>
                         <p class="card-text">
-                            <a href="mailto:kuhin@ku.edu.np">kuhin@ku.edu.np</a>
+                            <a href="mailto:kuhin@ku.edu.np" class="contact-link">kuhin@ku.edu.np</a>
                         </p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 mb-4">
-                <div class="card text-center h-100">
-                    <div class="card-body">
-                        <i class="fas fa-map-marker-alt fa-3x text-primary mb-3"></i>
+                <div class="col-md-6 mb-4">
+                    <div class="contact-info-card text-center h-100">
+                        <div class="card-icon">
+                            <i class="fas fa-map-marker-alt fa-3x"></i>
+                        </div>
                         <h5 class="card-title">Location</h5>
                         <p class="card-text">
                             Kathmandu University<br>
@@ -32,60 +54,387 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Google Maps Location -->
-        <div class="card mb-5">
-            <div class="card-body p-0">
+            <!-- Google Maps -->
+            <div class="map-card mb-5">
                 <h5 class="card-title p-3">Our Location</h5>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.1234567!2d85.5394458!3d27.6196898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb098fe8f2b1ad%3A0x241afd754bfc2622!2sKathmandu%20University%20School%20of%20Engineering!5e0!3m2!1sen!2snp!4v1670000000000" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.1234567!2d85.5394458!3d27.6196898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb098fe8f2b1ad%3A0x241afd754bfc2622!2sKathmandu%20University%20School%20of%20Engineering!5e0!3m2!1sen!2snp!4v1670000000000" width="100%" height="400" style="border:0; border-radius: 0.8rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Get In Touch</h3>
-                <p class="card-text mb-4">
-                    Interested in joining KUHIN or have any questions? We'd love to hear from you!
-                </p>
+            <!-- Contact Form Card -->
+            <div class="form-card">
+                <div class="card-header-custom">
+                    <h3 class="mb-0">
+                        <i class="fas fa-paper-plane me-2"></i>Send us a Message
+                    </h3>
+                </div>
                 
-                <form method="post" action="#" id="contactForm">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Your Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="subject" class="form-label">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane me-2"></i>Send Message
-                    </button>
-                </form>
+                <div class="card-body-custom">
+                    <form method="post" action="{% url 'contact' %}" id="contactForm" class="contact-form">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-4">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-user me-2 text-primary"></i>Your Name
+                            </label>
+                            <input type="text" class="form-control form-control-custom" id="name" name="name" 
+                                   placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control form-control-custom" id="email" name="email" 
+                                   placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label for="subject" class="form-label">
+                                <i class="fas fa-heading me-2 text-primary"></i>Subject
+                            </label>
+                            <input type="text" class="form-control form-control-custom" id="subject" name="subject" 
+                                   placeholder="What is this about?" required>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <label for="message" class="form-label">
+                                <i class="fas fa-message me-2 text-primary"></i>Message
+                            </label>
+                            <textarea class="form-control form-control-custom" id="message" name="message" 
+                                      rows="6" placeholder="Tell us more..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-submit w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-                <div class="mt-4">
-                    <h5>Connect With Us</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-primary me-3" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-primary me-3" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
-                        <a href="#" class="text-primary me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-primary" title="GitHub"><i class="fab fa-github fa-lg"></i></a>
-                    </div>
+            <!-- Social Links Section -->
+            <div class="social-section mt-5 text-center">
+                <h5 class="mb-4">
+                    <i class="fas fa-share-alt me-2"></i>Connect With Us
+                </h5>
+                <div class="social-links-footer">
+                    <a href="#" class="social-icon" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .contact-page-container {
+        padding: 2rem 0;
+    }
+
+    .contact-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 202, 240, 0.05) 100%);
+        border-radius: 1rem;
+    }
+
+    .contact-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #212529;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-subtitle {
+        font-size: 1.1rem;
+        color: #6c757d;
+        margin: 0;
+    }
+
+    /* Contact Info Cards */
+    .contact-info-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 202, 240, 0.1) 100%);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d6efd;
+    }
+
+    .contact-info-card .card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-link {
+        color: #0d6efd;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+        color: #0b5ed7;
+        text-decoration: underline;
+    }
+
+    /* Map Card */
+    .map-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .map-card .card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #212529;
+        margin: 0;
+    }
+
+    /* Form Card */
+    .form-card {
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .card-header-custom {
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 202, 240, 0.08) 100%);
+        border-bottom: 1px solid rgba(13, 110, 253, 0.1);
+    }
+
+    .card-header-custom h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #212529;
+        margin: 0;
+    }
+
+    .card-body-custom {
+        padding: 2rem;
+    }
+
+    /* Form Styles */
+    .contact-form {
+        width: 100%;
+    }
+
+    .form-label {
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control-custom {
+        border: 2px solid #e9ecef;
+        border-radius: 0.6rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control-custom:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        background-color: white;
+    }
+
+    .form-control-custom::placeholder {
+        color: #adb5bd;
+    }
+
+    .btn-submit {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+        border: none;
+        border-radius: 0.6rem;
+        color: white;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(13, 110, 253, 0.3);
+        background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+    /* Social Links Section */
+    .social-section {
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 202, 240, 0.05) 100%);
+        border-radius: 1rem;
+    }
+
+    .social-section h5 {
+        font-weight: 700;
+        color: #212529;
+        font-size: 1.25rem;
+    }
+
+    .social-links-footer {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .social-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .social-icon:nth-child(1) {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .social-icon:nth-child(2) {
+        background: linear-gradient(135deg, #0077b5 0%, #0a66c2 100%);
+        color: white;
+    }
+
+    .social-icon:nth-child(3) {
+        background: linear-gradient(135deg, #e4405f 0%, #d6249f 100%);
+        color: white;
+    }
+
+    .social-icon:nth-child(4) {
+        background: linear-gradient(135deg, #333 0%, #666 100%);
+        color: white;
+    }
+
+    .social-icon:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        text-decoration: none;
+    }
+
+    /* Alert Styles */
+    .alert-success {
+        background: linear-gradient(135deg, rgba(25, 135, 84, 0.1) 0%, rgba(20, 110, 70, 0.1) 100%);
+        border: 2px solid rgba(25, 135, 84, 0.3);
+        color: #0f5132;
+    }
+
+    .alert-error {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(200, 30, 50, 0.1) 100%);
+        border: 2px solid rgba(220, 53, 69, 0.3);
+        color: #842029;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .contact-title {
+            font-size: 1.75rem;
+        }
+
+        .contact-subtitle {
+            font-size: 1rem;
+        }
+
+        .card-body-custom {
+            padding: 1.5rem;
+        }
+
+        .card-header-custom {
+            padding: 1.2rem 1.5rem;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+        }
+
+        .form-control-custom {
+            padding: 0.65rem 0.875rem;
+        }
+
+        .social-links-footer {
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .contact-header {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-title {
+            font-size: 1.5rem;
+        }
+
+        .card-header-custom {
+            padding: 1rem 1.2rem;
+        }
+
+        .card-body-custom {
+            padding: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem !important;
+        }
+
+        .social-section {
+            padding: 1.5rem;
+        }
+    }
+</style>
 {% endblock %}

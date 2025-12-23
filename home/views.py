@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
+from .models import ContactMessage
 
 def home(request):
     # Get upcoming events
@@ -73,5 +75,27 @@ def resource_detail(request, slug):
         'related_resources': related_resources
     })
 
+def member_detail(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    return render(request, 'member_detail.html', {'member': member})
+
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        
+        if name and email and subject and message:
+            ContactMessage.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message
+            )
+            messages.success(request, 'Thank you for your message! We will get back to you soon.')
+            return redirect('contact')
+        else:
+            messages.error(request, 'Please fill in all fields.')
+    
     return render(request, 'contact.html')

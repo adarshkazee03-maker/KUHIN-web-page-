@@ -1,0 +1,945 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ member.name }} - KUHIN Team Member{% endblock %}
+
+{% block content %}
+<div class="member-detail-container">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/team/">Team</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ member.name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Hero Header Section -->
+    <div class="hero-header mb-5">
+        <div class="hero-background"></div>
+        <div class="container-fluid">
+            <div class="row align-items-end" style="min-height: 300px;">
+                <!-- Photo Section -->
+                <div class="col-lg-3 col-md-4 mb-4 mb-lg-0">
+                    <div class="member-photo-wrapper">
+                        {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-photo">
+                        {% else %}
+                        <div class="placeholder-photo-large bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user fa-10x text-secondary"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Header Info Section -->
+                <div class="col-lg-9 col-md-8">
+                    <div class="header-info">
+                        <h1 class="member-name">{{ member.name }}</h1>
+                        <p class="member-position">
+                            <i class="fas fa-briefcase me-2"></i>{{ member.position }}
+                        </p>
+                        
+                        <!-- Badges -->
+                        <div class="badges-container mb-4">
+                            <span class="badge badge-custom primary">
+                                <i class="fas fa-building me-1"></i>{{ member.team }}
+                            </span>
+                            <span class="badge badge-custom secondary">
+                                <i class="fas fa-graduation-cap me-1"></i>Batch {{ member.batch }}
+                            </span>
+                            {% if member.is_active %}
+                            <span class="badge badge-custom success">
+                                <i class="fas fa-check-circle me-1"></i>Active Member
+                            </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Social Links - Prominent Display -->
+                        <div class="social-links-section">
+                            <h6 class="text-uppercase text-muted fw-bold mb-3">
+                                <i class="fas fa-share-alt me-2"></i>Connect
+                            </h6>
+                            <div class="social-links-container">
+                                {% if member.email %}
+                                <a href="mailto:{{ member.email }}" class="social-icon email-icon" 
+                                   data-tooltip="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if member.linkedin %}
+                                <a href="{{ member.linkedin }}" target="_blank" rel="noopener noreferrer" 
+                                   class="social-icon linkedin-icon" data-tooltip="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if member.github %}
+                                <a href="{{ member.github }}" target="_blank" rel="noopener noreferrer" 
+                                   class="social-icon github-icon" data-tooltip="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if member.twitter %}
+                                <a href="{{ member.twitter }}" target="_blank" rel="noopener noreferrer" 
+                                   class="social-icon twitter-icon" data-tooltip="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if member.website %}
+                                <a href="{{ member.website }}" target="_blank" rel="noopener noreferrer" 
+                                   class="social-icon website-icon" data-tooltip="Website">
+                                    <i class="fas fa-globe"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Primary Content -->
+            <div class="col-lg-8">
+                <!-- Key Information Grid -->
+                <div class="info-grid-card mb-5">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="info-box">
+                                <div class="info-box-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="info-box-content">
+                                    <small class="info-label">Role in Project</small>
+                                    <p class="info-value">{{ member.role_in_project }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="info-box">
+                                <div class="info-box-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="info-box-content">
+                                    <small class="info-label">Specialization</small>
+                                    <p class="info-value">{{ member.specialization|default:"Not specified" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <div class="info-box-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="info-box-content">
+                                    <small class="info-label">Join Date</small>
+                                    <p class="info-value">
+                                        {% if member.join_date %}
+                                            {{ member.join_date|date:"M d, Y" }}
+                                        {% else %}
+                                            Not specified
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <div class="info-box-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="info-box-content">
+                                    <small class="info-label">Member Since</small>
+                                    <p class="info-value">{{ member.created_at|date:"M d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bio Section -->
+                {% if member.bio %}
+                <div class="content-card mb-5">
+                    <div class="card-header-custom">
+                        <h3 class="section-title">
+                            <i class="fas fa-user-circle me-2"></i>Biography
+                        </h3>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="bio-content">
+                            {{ member.bio|safe }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Achievements Section -->
+                {% if member.achievements %}
+                <div class="content-card mb-5">
+                    <div class="card-header-custom">
+                        <h3 class="section-title">
+                            <i class="fas fa-trophy me-2"></i>Achievements
+                        </h3>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="achievements-content">
+                            {{ member.achievements|safe }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Contact Information Card -->
+                <div class="sidebar-card contact-card mb-4">
+                    <div class="card-header-custom">
+                        <h5 class="mb-0">
+                            <i class="fas fa-phone me-2"></i>Contact Information
+                        </h5>
+                    </div>
+                    <div class="card-body-custom">
+                        {% if member.email %}
+                        <div class="contact-item">
+                            <label class="contact-label">Email</label>
+                            <a href="mailto:{{ member.email }}" class="contact-value email-link">
+                                {{ member.email }}
+                            </a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if member.phone %}
+                        <div class="contact-item">
+                            <label class="contact-label">Phone</label>
+                            <a href="tel:{{ member.phone }}" class="contact-value phone-link">
+                                {{ member.phone }}
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        {% if member.website %}
+                        <div class="contact-item">
+                            <label class="contact-label">Website</label>
+                            <a href="{{ member.website }}" target="_blank" rel="noopener noreferrer" class="contact-value website-link">
+                                Visit Profile <i class="fas fa-external-link-alt ms-1"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Team Information Card -->
+                <div class="sidebar-card team-info-card mb-4">
+                    <div class="card-header-custom">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>Team Details
+                        </h5>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="team-detail">
+                            <span class="detail-label">Position</span>
+                            <span class="detail-value">{{ member.position }}</span>
+                        </div>
+                        <div class="team-detail">
+                            <span class="detail-label">Team</span>
+                            <span class="detail-value">{{ member.team }}</span>
+                        </div>
+                        <div class="team-detail">
+                            <span class="detail-label">Batch</span>
+                            <span class="detail-value">{{ member.batch }}</span>
+                        </div>
+                        <div class="team-detail">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value">
+                                {% if member.is_active %}
+                                <span class="status-badge active">Active</span>
+                                {% else %}
+                                <span class="status-badge inactive">Inactive</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links Card -->
+                <div class="sidebar-card social-card">
+                    <div class="card-header-custom">
+                        <h5 class="mb-0">
+                            <i class="fas fa-link me-2"></i>Social Networks
+                        </h5>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="social-grid">
+                            {% if member.email %}
+                            <a href="mailto:{{ member.email }}" class="social-card-item email" title="Email">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email</span>
+                            </a>
+                            {% endif %}
+                            
+                            {% if member.linkedin %}
+                            <a href="{{ member.linkedin }}" target="_blank" rel="noopener noreferrer" 
+                               class="social-card-item linkedin" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            {% endif %}
+                            
+                            {% if member.github %}
+                            <a href="{{ member.github }}" target="_blank" rel="noopener noreferrer" 
+                               class="social-card-item github" title="GitHub">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            {% endif %}
+                            
+                            {% if member.twitter %}
+                            <a href="{{ member.twitter }}" target="_blank" rel="noopener noreferrer" 
+                               class="social-card-item twitter" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                                <span>Twitter</span>
+                            </a>
+                            {% endif %}
+                            
+                            {% if member.website %}
+                            <a href="{{ member.website }}" target="_blank" rel="noopener noreferrer" 
+                               class="social-card-item website" title="Website">
+                                <i class="fas fa-globe"></i>
+                                <span>Website</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-5 pt-5 border-top">
+        <a href="/team/" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-arrow-left me-2"></i>Back to Team
+        </a>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --primary-light: #6ea8fe;
+        --secondary: #6c757d;
+        --success: #198754;
+        --info: #0dcaf0;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --dark: #212529;
+        --light: #f8f9fa;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .member-detail-container {
+        padding: 2rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    }
+
+    /* Hero Header */
+    .hero-header {
+        position: relative;
+        padding: 3rem;
+        border-radius: 1.5rem;
+        overflow: hidden;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 202, 240, 0.1) 100%);
+        z-index: 0;
+    }
+
+    .hero-header .container-fluid {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Photo Wrapper */
+    .member-photo-wrapper {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+    }
+
+    .member-photo-wrapper:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(13, 110, 253, 0.2);
+    }
+
+    .member-photo {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .placeholder-photo-large {
+        width: 100%;
+        min-height: 400px;
+        border-radius: 1rem;
+    }
+
+    /* Header Info */
+    .header-info {
+        padding: 0 2rem;
+    }
+
+    .member-name {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin: 0 0 0.5rem 0;
+        line-height: 1.2;
+    }
+
+    .member-position {
+        font-size: 1.5rem;
+        color: var(--primary);
+        font-weight: 600;
+        margin: 0 0 1.5rem 0;
+    }
+
+    /* Badges */
+    .badges-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .badge-custom {
+        padding: 0.6rem 1.2rem;
+        border-radius: 2rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+    }
+
+    .badge-custom.primary {
+        background: var(--primary);
+        color: white;
+    }
+
+    .badge-custom.secondary {
+        background: var(--secondary);
+        color: white;
+    }
+
+    .badge-custom.success {
+        background: var(--success);
+        color: white;
+    }
+
+    /* Social Links Section - Hero */
+    .social-links-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .social-links-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        transition: var(--transition);
+        position: relative;
+        box-shadow: var(--shadow-md);
+        border: none;
+        text-decoration: none;
+    }
+
+    .social-icon::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: -2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--dark);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+    }
+
+    .social-icon:hover::after {
+        opacity: 1;
+    }
+
+    .social-icon.email-icon {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .social-icon.linkedin-icon {
+        background: linear-gradient(135deg, #0077b5 0%, #0a66c2 100%);
+        color: white;
+    }
+
+    .social-icon.github-icon {
+        background: linear-gradient(135deg, #333 0%, #666 100%);
+        color: white;
+    }
+
+    .social-icon.twitter-icon {
+        background: linear-gradient(135deg, #1da1f2 0%, #1a91da 100%);
+        color: white;
+    }
+
+    .social-icon.website-icon {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        color: white;
+    }
+
+    .social-icon:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* Info Grid Card */
+    .info-grid-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 1.2rem;
+        box-shadow: var(--shadow-md);
+        border-left: 4px solid var(--primary);
+    }
+
+    .info-box {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.05) 0%, rgba(13, 202, 240, 0.05) 100%);
+        border-radius: 0.8rem;
+        transition: var(--transition);
+    }
+
+    .info-box:hover {
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.1) 0%, rgba(13, 202, 240, 0.1) 100%);
+        transform: translateX(5px);
+    }
+
+    .info-box-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 0.6rem;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.25rem;
+    }
+
+    .info-box-content {
+        flex: 1;
+    }
+
+    .info-label {
+        color: var(--secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-value {
+        color: var(--dark);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 0.5rem 0 0 0;
+    }
+
+    /* Content Cards */
+    .content-card {
+        background: white;
+        border-radius: 1.2rem;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .content-card:hover {
+        box-shadow: var(--shadow-lg);
+    }
+
+    .card-header-custom {
+        padding: 1.5rem 2rem;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(13, 202, 240, 0.08) 100%);
+        border-bottom: 1px solid rgba(13, 110, 253, 0.1);
+    }
+
+    .card-header-custom h3,
+    .card-header-custom h5 {
+        margin: 0;
+        font-weight: 700;
+        color: var(--dark);
+    }
+
+    .card-body-custom {
+        padding: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .bio-content,
+    .achievements-content {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--dark);
+    }
+
+    .bio-content p,
+    .achievements-content p {
+        margin-bottom: 1rem;
+    }
+
+    /* Sidebar Cards */
+    .sidebar-card {
+        background: white;
+        border-radius: 1.2rem;
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: var(--transition);
+    }
+
+    .sidebar-card:hover {
+        box-shadow: var(--shadow-lg);
+    }
+
+    .contact-item {
+        padding: 1.2rem;
+        border-bottom: 1px solid var(--light);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contact-item:last-child {
+        border-bottom: none;
+    }
+
+    .contact-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-value {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .contact-value:hover {
+        color: var(--primary-dark);
+    }
+
+    /* Team Details */
+    .team-detail {
+        padding: 1rem;
+        border-bottom: 1px solid var(--light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .team-detail:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 700;
+        color: var(--secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+    }
+
+    .detail-value {
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border-radius: 2rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .status-badge.active {
+        background: rgba(25, 135, 84, 0.2);
+        color: var(--success);
+    }
+
+    .status-badge.inactive {
+        background: rgba(220, 53, 69, 0.2);
+        color: var(--danger);
+    }
+
+    /* Social Grid */
+    .social-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .social-card-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1rem;
+        border-radius: 0.8rem;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        border: 2px solid transparent;
+    }
+
+    .social-card-item i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .social-card-item.email {
+        background: rgba(102, 126, 234, 0.1);
+        color: #667eea;
+        border-color: #667eea;
+    }
+
+    .social-card-item.linkedin {
+        background: rgba(0, 119, 181, 0.1);
+        color: #0077b5;
+        border-color: #0077b5;
+    }
+
+    .social-card-item.github {
+        background: rgba(51, 51, 51, 0.1);
+        color: #333;
+        border-color: #333;
+    }
+
+    .social-card-item.twitter {
+        background: rgba(29, 161, 242, 0.1);
+        color: #1da1f2;
+        border-color: #1da1f2;
+    }
+
+    .social-card-item.website {
+        background: rgba(255, 107, 107, 0.1);
+        color: #ff6b6b;
+        border-color: #ff6b6b;
+    }
+
+    .social-card-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: currentColor;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .member-name {
+            font-size: 2rem;
+        }
+
+        .header-info {
+            padding: 0 1rem;
+        }
+
+        .hero-header {
+            padding: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .member-name {
+            font-size: 1.75rem;
+        }
+
+        .member-position {
+            font-size: 1.25rem;
+        }
+
+        .hero-header {
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-info {
+            padding: 0;
+            margin-top: 2rem;
+        }
+
+        .member-photo-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links-section {
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 1.2rem;
+        }
+
+        .badges-container {
+            gap: 0.5rem;
+        }
+
+        .badge-custom {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .info-grid-card {
+            padding: 1.5rem;
+        }
+
+        .info-box {
+            padding: 0.8rem;
+            gap: 1rem;
+        }
+
+        .info-box-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+        }
+
+        .card-header-custom {
+            padding: 1.2rem 1.5rem;
+        }
+
+        .card-body-custom {
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .social-grid {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .social-card-item {
+            padding: 1rem 0.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .member-name {
+            font-size: 1.5rem;
+        }
+
+        .member-position {
+            font-size: 1.1rem;
+        }
+
+        .hero-header {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badges-container {
+            gap: 0.4rem;
+        }
+
+        .badge-custom {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+        }
+
+        .social-links-container {
+            gap: 0.5rem;
+        }
+
+        .social-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 1rem;
+        }
+
+        .info-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .info-grid-card {
+            padding: 1rem;
+        }
+
+        .info-box {
+            padding: 0.75rem;
+        }
+
+        .social-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .card-header-custom {
+            padding: 1rem 1.2rem;
+        }
+
+        .card-body-custom {
+            padding: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
