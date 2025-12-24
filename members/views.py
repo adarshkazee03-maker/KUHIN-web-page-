@@ -80,22 +80,4 @@ def member_detail(request, pk):
     return render(request, 'member_detail.html', {'member': member})
 
 def contact(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        
-        if name and email and subject and message:
-            ContactMessage.objects.create(
-                name=name,
-                email=email,
-                subject=subject,
-                message=message
-            )
-            messages.success(request, 'Thank you for your message! We will get back to you soon.')
-            return redirect('contact')
-        else:
-            messages.error(request, 'Please fill in all fields.')
-    
     return render(request, 'contact.html')
