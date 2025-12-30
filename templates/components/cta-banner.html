@@ -1,0 +1,20 @@
+<!-- Call-to-Action Banner Component -->
+<!-- Usage: {% include 'components/cta-banner.html' with title="Join KUHIN" text="Become part of our Health Informatics community" button_text="Join Now" button_url="/join/" %} -->
+
+<section class="cta-banner">
+    <div class="cta-banner-content">
+        <h2 class="cta-banner-title">{{ title }}</h2>
+        {% if text %}
+            <p class="cta-banner-text">{{ text }}</p>
+        {% endif %}
+        
+        {% if button_text and button_url %}
+            <div class="cta-banner-actions">
+                <a href="{{ button_url }}" class="btn btn-light btn-lg">
+                    {{ button_text }}
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>

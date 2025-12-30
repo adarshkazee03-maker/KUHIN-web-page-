@@ -1459,3 +1459,202 @@ img {
 .breadcrumb-item.active {
     color: #666;
 }
+
+/* ============================================
+   ENHANCED HOMEPAGE STYLES
+   ============================================ */
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.hero-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.min-h-400 {
+    min-height: 400px;
+}
+
+/* Mission & Vision Section */
+.mission-section {
+    background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+}
+
+.section-header {
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.section-header::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    margin-top: 0.75rem;
+}
+
+/* What We Do Section */
+.what-we-do-section .card:hover {
+    border-color: var(--primary-color) !important;
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+/* Stats Section */
+.stat-card {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.stat-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(13, 110, 253, 0.15);
+    transform: translateY(-4px);
+}
+
+.stat-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+/* Events Section */
+.events-section h2,
+.blog-section h2,
+.news-section h2 {
+    color: #212529;
+    font-weight: 700;
+}
+
+/* News Card Styling */
+.news-card .card-body {
+    padding: 1.5rem;
+}
+
+.news-card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Blog Section */
+.blog-section .blog-card {
+    transition: all 0.3s ease;
+}
+
+.blog-section .blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 300px;
+    }
+    
+    .min-h-400 {
+        min-height: 250px;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem !important;
+    }
+    
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+}
+
+/* Main Content Area */
+.main-content {
+    min-height: calc(100vh - 200px);
+    padding: 2rem 0;
+}
+
+/* Footer Enhancements */
+.footer-section {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ecf0f1;
+    margin-top: 4rem;
+    padding: 3rem 0 1rem;
+}
+
+/* Utility Classes */
+.text-accent {
+    color: var(--accent-color) !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0b5ed7 100%) !important;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Accessibility - Skip Link */
+.visually-hidden-focusable {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.visually-hidden-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection Color */
+::selection {
+    background-color: var(--primary-color);
+    color: white;
+}

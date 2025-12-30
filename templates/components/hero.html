@@ -1,0 +1,12 @@
+<!-- Hero Section Component -->
+<!-- Usage: {% include 'components/hero.html' with title="Page Title" subtitle="Subtitle" image_url="..." %} -->
+
+<div class="hero-section" {% if image_url %}style="background-image: url('{{ image_url }}');"{% endif %}>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">{{ title }}</h1>
+        {% if subtitle %}
+            <p class="hero-subtitle">{{ subtitle }}</p>
+        {% endif %}
+    </div>
+</div>

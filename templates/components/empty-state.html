@@ -1,0 +1,22 @@
+<!-- Empty State Component -->
+<!-- Usage: {% include 'components/empty-state.html' with icon="fas fa-inbox" title="No items found" message="There are no items to display right now." %} -->
+
+<div class="empty-state">
+    {% if icon %}
+        <div class="empty-state-icon">
+            <i class="{{ icon }}"></i>
+        </div>
+    {% endif %}
+    
+    {% if title %}
+        <h3 class="empty-state-title">{{ title }}</h3>
+    {% endif %}
+    
+    {% if message %}
+        <p class="empty-state-description">{{ message }}</p>
+    {% endif %}
+    
+    {% if cta_text and cta_url %}
+        <a href="{{ cta_url }}" class="btn btn-primary">{{ cta_text }}</a>
+    {% endif %}
+</div>

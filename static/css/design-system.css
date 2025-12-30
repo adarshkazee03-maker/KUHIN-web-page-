@@ -1,0 +1,170 @@
+/* ===============================================================
+   KUHIN WEBSITE - DESIGN SYSTEM
+   CSS Variables for Colors, Typography, Spacing, Shadows
+   Professional Academic Palette
+   =============================================================== */
+
+:root {
+    /* ===== PRIMARY COLORS - Academic Blue/Teal/Purple ===== */
+    --primary-color: #2c3e91;           /* Deep Academic Blue */
+    --primary-light: #3d5bbf;           /* Medium Blue */
+    --primary-lighter: #5a7dd4;         /* Light Blue */
+    --primary-lightest: #e8f0ff;        /* Very Light Blue */
+    
+    --secondary-color: #00897b;         /* Teal */
+    --secondary-light: #26a69a;         /* Light Teal */
+    --secondary-lighter: #80cbc4;       /* Very Light Teal */
+    --secondary-lightest: #e0f2f1;      /* Pale Teal */
+    
+    --accent-color: #7e57c2;            /* Purple Accent */
+    --accent-light: #9575cd;            /* Light Purple */
+    --accent-lighter: #ede7f6;          /* Very Light Purple */
+    
+    /* ===== NEUTRAL COLORS ===== */
+    --dark: #1a1a2e;                    /* Almost Black */
+    --dark-gray: #2d3436;               /* Dark Gray */
+    --gray: #636e72;                    /* Medium Gray */
+    --light-gray: #b2bec3;              /* Light Gray */
+    --lighter-gray: #dfe6e9;            /* Very Light Gray */
+    --lightest-gray: #f5f6fa;           /* Almost White */
+    --white: #ffffff;                   /* White */
+    
+    /* ===== SEMANTIC COLORS ===== */
+    --success: #27ae60;                 /* Success Green */
+    --success-light: #d5f4e6;            /* Light Success */
+    --warning: #f39c12;                 /* Warning Orange */
+    --warning-light: #fef5e7;            /* Light Warning */
+    --danger: #e74c3c;                  /* Danger Red */
+    --danger-light: #fadbd8;             /* Light Danger */
+    --info: #3498db;                    /* Info Blue */
+    --info-light: #d6eaf8;               /* Light Info */
+    
+    /* ===== TYPOGRAPHY ===== */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-secondary: 'Georgia', 'Garamond', serif;
+    --font-mono: 'Courier New', monospace;
+    
+    --font-size-xs: 0.75rem;            /* 12px */
+    --font-size-sm: 0.875rem;           /* 14px */
+    --font-size-base: 1rem;             /* 16px */
+    --font-size-lg: 1.125rem;           /* 18px */
+    --font-size-xl: 1.25rem;            /* 20px */
+    --font-size-2xl: 1.5rem;            /* 24px */
+    --font-size-3xl: 1.875rem;          /* 30px */
+    --font-size-4xl: 2.25rem;           /* 36px */
+    --font-size-5xl: 3rem;              /* 48px */
+    
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    --line-height-loose: 2;
+    
+    /* ===== SPACING ===== */
+    --spacing-xs: 0.25rem;              /* 4px */
+    --spacing-sm: 0.5rem;               /* 8px */
+    --spacing-md: 1rem;                 /* 16px */
+    --spacing-lg: 1.5rem;               /* 24px */
+    --spacing-xl: 2rem;                 /* 32px */
+    --spacing-2xl: 2.5rem;              /* 40px */
+    --spacing-3xl: 3rem;                /* 48px */
+    --spacing-4xl: 4rem;                /* 64px */
+    
+    /* ===== BORDERS & RADIUS ===== */
+    --border-radius-sm: 0.25rem;        /* 4px */
+    --border-radius-md: 0.5rem;         /* 8px */
+    --border-radius-lg: 1rem;           /* 16px */
+    --border-radius-xl: 1.5rem;         /* 24px */
+    --border-radius-full: 9999px;
+    
+    --border-width-thin: 1px;
+    --border-width-md: 2px;
+    --border-width-thick: 3px;
+    --border-width-heavy: 4px;
+    
+    --border-color: var(--lighter-gray);
+    --border-color-dark: var(--light-gray);
+    
+    /* ===== SHADOWS ===== */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    --shadow-color-blue: 0 10px 30px rgba(44, 62, 145, 0.15);
+    --shadow-color-teal: 0 10px 30px rgba(0, 137, 123, 0.15);
+    --shadow-color-purple: 0 10px 30px rgba(126, 87, 194, 0.15);
+    
+    /* ===== TRANSITIONS ===== */
+    --transition-fast: 150ms ease-in-out;
+    --transition-base: 250ms ease-in-out;
+    --transition-slow: 350ms ease-in-out;
+    
+    /* ===== Z-INDEX ===== */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    
+    /* ===== BREAKPOINTS ===== */
+    /* Used with media queries in separate rules */
+    /* xs: 0px, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px */
+}
+
+/* ===== DARK MODE (Future support) ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dark: #f5f6fa;
+        --dark-gray: #dfe6e9;
+        --gray: #b2bec3;
+        --light-gray: #636e72;
+        --lighter-gray: #2d3436;
+        --lightest-gray: #1a1a2e;
+        --white: #1a1a2e;
+    }
+}
+
+/* ===== BASE STYLES ===== */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--dark-gray);
+    background-color: var(--lightest-gray);
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== ACCESSIBILITY ===== */
+:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

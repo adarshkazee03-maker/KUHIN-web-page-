@@ -1,0 +1,10 @@
+<!-- Section Header Component -->
+<!-- Usage: {% include 'components/section-header.html' with title="Section Title" subtitle="Optional subtitle" %} -->
+
+<div class="section-header text-center mb-5">
+    <h2 class="section-title">{{ title }}</h2>
+    {% if subtitle %}
+        <p class="section-subtitle">{{ subtitle }}</p>
+    {% endif %}
+    <div class="section-divider"></div>
+</div>

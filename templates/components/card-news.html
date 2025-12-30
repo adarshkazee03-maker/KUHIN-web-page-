@@ -1,0 +1,24 @@
+<!-- News Card Component -->
+<!-- Usage: {% include 'components/card-news.html' with news=news_update %} -->
+
+<div class="news-card card h-100">
+    <div class="card-body">
+        <div class="news-card-date">
+            <span class="badge badge-secondary">{{ news.created_at|date:"M d, Y" }}</span>
+        </div>
+        
+        <h3 class="news-card-title">
+            <a href="{% url 'newsletter:news_detail' news.slug %}">{{ news.title }}</a>
+        </h3>
+        
+        <p class="news-card-excerpt text-muted">
+            {{ news.description|truncatewords:30|striptags }}
+        </p>
+    </div>
+    
+    <div class="card-footer">
+        <a href="{% url 'newsletter:news_detail' news.slug %}" class="btn btn-sm btn-outline w-100">
+            <i class="fas fa-arrow-right me-2"></i>Read News
+        </a>
+    </div>
+</div>

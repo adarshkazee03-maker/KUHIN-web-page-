@@ -1,0 +1,23 @@
+<!-- Breadcrumb Navigation Component -->
+<!-- Usage: {% include 'components/breadcrumb.html' with items=breadcrumb_items %} -->
+<!-- breadcrumb_items format: [{'label': 'Home', 'url': '/'}, {'label': 'Current Page', 'url': None}] -->
+
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'home:home' %}">
+                <i class="fas fa-home me-2"></i>Home
+            </a>
+        </li>
+        
+        {% for item in items %}
+            <li class="breadcrumb-item {% if not item.url %}active{% endif %}">
+                {% if item.url %}
+                    <a href="{{ item.url }}">{{ item.label }}</a>
+                {% else %}
+                    <span>{{ item.label }}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+</nav>

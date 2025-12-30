@@ -1,0 +1,41 @@
+<!-- Event Card Component -->
+<!-- Usage: {% include 'components/card-event.html' with event=event_obj %} -->
+
+<div class="event-card card h-100">
+    {% if event.image %}
+        <a href="{% url 'home:event_detail' event.id %}" class="event-card-image-link">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="card-image" loading="lazy">
+        </a>
+    {% else %}
+        <div class="card-image-placeholder">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+    {% endif %}
+    
+    <div class="card-body">
+        <div class="event-card-meta">
+            <span class="badge {% if event.status == 'upcoming' %}badge-info{% elif event.status == 'ongoing' %}badge-warning{% else %}badge-success{% endif %}">
+                {{ event.get_status_display }}
+            </span>
+            <span class="event-card-date">{{ event.date|date:"M d, Y" }}</span>
+        </div>
+        
+        <h3 class="event-card-title">
+            <a href="{% url 'home:event_detail' event.id %}">{{ event.title }}</a>
+        </h3>
+        
+        <p class="event-card-location text-muted">
+            <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+        </p>
+        
+        <p class="event-card-excerpt text-muted text-sm">
+            {{ event.description|truncatewords:20|striptags }}
+        </p>
+    </div>
+    
+    <div class="card-footer">
+        <a href="{% url 'home:event_detail' event.id %}" class="btn btn-sm btn-outline w-100">
+            <i class="fas fa-arrow-right me-2"></i>Event Details
+        </a>
+    </div>
+</div>
