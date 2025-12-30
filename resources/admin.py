@@ -8,9 +8,9 @@ class ResourceCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'resource_type', 'download_count', 'is_featured']
+    list_display = ['title', 'category', 'resource_type', 'is_featured']
     list_filter = ['category', 'resource_type', 'is_featured']
     search_fields = ['title', 'description', 'tags']
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['is_featured']
-    readonly_fields = ['download_count', 'uploaded_at', 'updated_at']
+    readonly_fields = ['uploaded_at', 'updated_at']

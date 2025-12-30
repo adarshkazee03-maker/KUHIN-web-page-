@@ -58,17 +58,6 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <div class="card h-100" style="border-left: 4px solid #f093fb;">
-                    <div class="card-body">
-                        <h6 class="card-title text-muted text-uppercase"><i class="fas fa-download me-2"></i>Downloads</h6>
-                        <p class="card-text fs-5">
-                            <strong>{{ resource.download_count }}</strong> times
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-3">
                 <div class="card h-100" style="border-left: 4px solid #4facfe;">
                     <div class="card-body">
                         <h6 class="card-title text-muted text-uppercase"><i class="fas fa-bookmark me-2"></i>Type</h6>
@@ -143,18 +132,13 @@
             <div class="card-body text-center">
                 <h5 class="card-title text-white">Access Resource</h5>
                 
-                {% if resource.file %}
-                <a href="{{ resource.file.url }}" download class="btn btn-light w-100 mt-3">
-                    <i class="fas fa-download me-2"></i>Download
-                </a>
-                <p class="text-white-50 mt-2 small">Direct download</p>
-                {% elif resource.external_link %}
+                {% if resource.external_link %}
                 <a href="{{ resource.external_link }}" target="_blank" class="btn btn-light w-100 mt-3">
                     <i class="fas fa-external-link-alt me-2"></i>Open External Link
                 </a>
                 <p class="text-white-50 mt-2 small">Open in new window</p>
                 {% else %}
-                <p class="text-white-50 mt-3">No download or link available</p>
+                <p class="text-white-50 mt-3">No link available</p>
                 {% endif %}
             </div>
         </div>
@@ -194,9 +178,6 @@
                             {{ resource.category.name }}
                         </a>
                     </dd>
-                    
-                    <dt class="col-sm-6">Downloads:</dt>
-                    <dd class="col-sm-6">{{ resource.download_count }}</dd>
                     
                     <dt class="col-sm-6">Added:</dt>
                     <dd class="col-sm-6">{{ resource.uploaded_at|date:"M d, Y" }}</dd>

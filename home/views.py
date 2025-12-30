@@ -1,11 +1,20 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.views.decorators.http import require_http_methods
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
 from blog.models import BlogPost
 from newsletter.models import NewsUpdate
 from .models import ContactMessage
+from .forms import ContactForm
+from .email_utils import (
+    get_client_ip,
+    check_rate_limit,
+    increment_rate_limit,
+    send_contact_email,
+    send_confirmation_email
+)
 
 def home(request):
     # Get upcoming events
@@ -79,9 +88,6 @@ def resources(request):
 def resource_detail(request, slug):
     from resources.models import Resource
     resource = get_object_or_404(Resource, slug=slug)
-    # Increment download count
-    resource.download_count += 1
-    resource.save(update_fields=['download_count'])
     # Get related resources from same category
     related_resources = Resource.objects.filter(category=resource.category).exclude(slug=slug)[:4]
     return render(request, 'resource_detail.html', {
@@ -94,22 +100,69 @@ def member_detail(request, pk):
     return render(request, 'member_detail.html', {'member': member})
 
 def contact(request):
+    """
+    Handle contact form submissions with email sending and rate limiting
+    """
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
+        form = ContactForm(request.POST)
         
-        if name and email and subject and message:
-            ContactMessage.objects.create(
+        if form.is_valid():
+            # Get client IP for rate limiting
+            client_ip = get_client_ip(request)
+            
+            # Check rate limit
+            is_allowed, remaining_messages, current_count = check_rate_limit(client_ip)
+            
+            if not is_allowed:
+                messages.error(
+                    request,
+                    f'You have reached the message limit (5 messages per hour). Please try again later.'
+                )
+                return redirect('contact')
+            
+            # Extract validated data
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message_text = form.cleaned_data['message']
+            
+            # Try to send the email
+            email_result = send_contact_email(
                 name=name,
                 email=email,
                 subject=subject,
-                message=message
+                message=message_text,
+                request=request
             )
-            messages.success(request, 'Thank you for your message! We will get back to you soon.')
-            return redirect('contact')
+            
+            if email_result['success']:
+                # Increment rate limit counter
+                increment_rate_limit(client_ip)
+                
+                # Send confirmation email to user
+                confirmation_result = send_confirmation_email(email, name)
+                
+                # Show success message
+                messages.success(
+                    request,
+                    email_result['message']
+                )
+                
+                # Clear form by redirecting
+                return redirect('contact')
+            else:
+                # Email sending failed
+                messages.error(request, email_result['error'])
         else:
-            messages.error(request, 'Please fill in all fields.')
+            # Form validation failed
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
+    else:
+        # GET request - display empty form
+        form = ContactForm()
     
-    return render(request, 'contact.html')
+    context = {
+        'form': form,
+    }
+    return render(request, 'contact.html', context)
