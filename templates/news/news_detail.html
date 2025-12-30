@@ -1,0 +1,318 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ news.title }} - KUHIN Club News{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'newsletter:news_list' %}">News & Updates</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ news.title }}</li>
+        </ol>
+    </nav>
+
+    <article class="news-detail-article">
+        <!-- Article Header -->
+        <div class="article-header mb-5">
+            <h1 class="article-title display-5 fw-bold">{{ news.title }}</h1>
+            
+            <div class="article-meta mt-4 mb-3">
+                <span class="published-date">
+                    <i class="fas fa-calendar"></i> 
+                    Published: {{ news.created_at|date:"F d, Y \a\t g:i A" }}
+                </span>
+                {% if news.updated_at != news.created_at %}
+                    <span class="separator">•</span>
+                    <span class="updated-date">
+                        <i class="fas fa-edit"></i> 
+                        Updated: {{ news.updated_at|date:"F d, Y" }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="article-content mb-5">
+            {{ news.description|safe }}
+        </div>
+
+        <!-- Article Footer -->
+        <div class="article-footer border-top border-bottom py-4 mb-5">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">
+                        <strong>Status:</strong> 
+                        <span class="badge bg-success">Active</span>
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                    <p class="mb-0">
+                        <strong>Share this update:</strong>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" class="share-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ news.title }}" 
+                           target="_blank" class="share-btn twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                           target="_blank" class="share-btn linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Updates -->
+        {% if related_news %}
+            <section class="related-updates">
+                <h3 class="section-title mb-4">Other Updates</h3>
+                <div class="related-grid">
+                    {% for update in related_news %}
+                        <div class="related-card">
+                            <div class="card-header-date">
+                                <span class="month">{{ update.created_at|date:"M" }}</span>
+                                <span class="day">{{ update.created_at|date:"d" }}</span>
+                            </div>
+                            <div class="card-content">
+                                <h5 class="card-title">{{ update.title }}</h5>
+                                <p class="card-excerpt">{{ update.description|striptags|truncatewords:20 }}</p>
+                                <a href="{% url 'newsletter:news_detail' update.slug %}" class="btn btn-link btn-sm">
+                                    Read More →
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </article>
+
+    <!-- Back to News Link -->
+    <div class="text-center mt-5 pt-4">
+        <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Back to News & Updates
+        </a>
+    </div>
+</div>
+
+<style>
+    .article-header {
+        text-align: center;
+        padding: 2rem 0;
+        border-bottom: 3px solid #d4af37;
+    }
+
+    .article-title {
+        color: #1a1a1a;
+        line-height: 1.3;
+    }
+
+    .article-meta {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .separator {
+        color: #ddd;
+    }
+
+    .article-content {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #444;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .article-content h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+    }
+
+    .article-content h3 {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #333;
+    }
+
+    .article-content p {
+        margin-bottom: 1rem;
+    }
+
+    .article-content ul, .article-content ol {
+        margin-bottom: 1rem;
+        margin-left: 2rem;
+    }
+
+    .article-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    .article-content blockquote {
+        border-left: 4px solid #d4af37;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: #666;
+    }
+
+    .article-footer {
+        background: #f8f9fa;
+        padding: 2rem !important;
+        border-radius: 8px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .share-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin-left: 0.5rem;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .share-btn.facebook {
+        background: #3b5998;
+    }
+
+    .share-btn.twitter {
+        background: #1da1f2;
+    }
+
+    .share-btn.linkedin {
+        background: #0077b5;
+    }
+
+    .share-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .related-updates {
+        background: #f8f9fa;
+        padding: 3rem 2rem;
+        border-radius: 8px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section-title {
+        color: #1a1a1a;
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .related-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        display: flex;
+    }
+
+    .related-card:hover {
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        transform: translateY(-4px);
+    }
+
+    .card-header-date {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem;
+        min-width: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .card-header-date .month {
+        display: block;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .card-header-date .day {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .card-content {
+        flex: 1;
+        padding: 1.25rem;
+    }
+
+    .card-title {
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+    }
+
+    .card-excerpt {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.75rem;
+    }
+
+    .btn-outline-primary {
+        border-color: #667eea;
+        color: #667eea;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #667eea;
+        border-color: #667eea;
+    }
+
+    @media (max-width: 768px) {
+        .article-header {
+            padding: 1.5rem 0;
+        }
+
+        .article-title {
+            font-size: 1.8rem;
+        }
+
+        .related-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

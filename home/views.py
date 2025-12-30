@@ -3,22 +3,36 @@ from django.contrib import messages
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
+from blog.models import BlogPost
+from newsletter.models import NewsUpdate
 from .models import ContactMessage
 
 def home(request):
     # Get upcoming events
     upcoming_events = Event.objects.filter(status='upcoming').order_by('date')[:3]
     
+    # Get latest published blog posts
+    latest_blogs = BlogPost.objects.filter(status='published').order_by('-published_date', '-created_at')[:3]
+    
+    # Get latest active news updates
+    latest_news = NewsUpdate.objects.filter(is_active=True).order_by('-created_at')[:5]
+    
     # Get counts for stats
     member_count = Member.objects.count()
     event_count = Event.objects.count()
     resource_count = Resource.objects.count()
+    blog_count = BlogPost.objects.filter(status='published').count()
+    news_count = NewsUpdate.objects.filter(is_active=True).count()
     
     context = {
         'upcoming_events': upcoming_events,
+        'latest_blogs': latest_blogs,
+        'latest_news': latest_news,
         'member_count': member_count,
         'event_count': event_count,
         'resource_count': resource_count,
+        'blog_count': blog_count,
+        'news_count': news_count,
     }
     return render(request, 'home/index.html', context)
 
