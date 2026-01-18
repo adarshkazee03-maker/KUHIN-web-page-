@@ -1,34 +1,129 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Gallery - KUHIN{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">Gallery</h1>
-<p class="text-center mb-5">Moments from KUHIN events and activities</p>
 
-{% if images %}
-<div class="row">
-    {% for image in images %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <img src="{{ image.image.url }}" class="card-img-top" alt="{{ image.title }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ image.title }}</h5>
-                <p class="card-text">
-                    <span class="badge bg-primary">{{ image.category }}</span>
-                </p>
-                <p class="card-text">{{ image.description|truncatewords:15 }}</p>
-                <small class="text-muted">{{ image.uploaded_at|date:"M d, Y" }}</small>
+<!-- Gallery Hero Header -->
+<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
+    <!-- Background overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="container position-relative z-1 text-center py-5">
+        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+            <i class="fas fa-camera-retro me-2"></i>Visual Archives
+        </span>
+        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Gallery</h1>
+        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+            Moments from KUHIN events and activities.
+        </p>
+    </div>
+</section>
+
+<div class="container py-5 mt-n5 position-relative z-2">
+
+    {% if images %}
+    
+    <!-- Filter Buttons (Placeholder for future functionality) -->
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-5 fade-in-up">
+        <button class="btn btn-primary rounded-pill px-4 shadow-sm">All Photos</button>
+        <button class="btn btn-light text-secondary border rounded-pill px-4 hover-lift">Events</button>
+        <button class="btn btn-light text-secondary border rounded-pill px-4 hover-lift">Workshops</button>
+    </div>
+
+    <div class="row g-4">
+        {% for image in images %}
+        <div class="col-lg-4 col-md-6 fade-in-up" style="transition-delay: 0.1s;">
+            <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden position-relative hover-lift transition-all group border-0 shadow-sm">
+                
+                <!-- Image Container with Zoom Effect -->
+                <div class="position-relative overflow-hidden" style="height: 260px;">
+                    {% if image.image %}
+                    <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover transition-transform duration-700 group-hover:scale-110" alt="{{ image.title }}">
+                    {% else %}
+                    <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted">
+                        <i class="fas fa-image fa-3x opacity-25"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Overlay Gradient (Visible on hover) -->
+                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 group-hover:opacity-20 transition-all duration-300"></div>
+                    
+                    <!-- Category Badge -->
+                    <div class="position-absolute top-0 start-0 p-3">
+                        <span class="badge bg-white text-primary shadow-sm backdrop-blur fw-bold bg-opacity-90">
+                            {{ image.category }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Content Body -->
+                <div class="p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="fw-bold text-dark mb-0 text-truncate" style="max-width: 70%;">{{ image.title }}</h5>
+                        <small class="text-muted d-flex align-items-center" style="font-size: 0.75rem;">
+                            <i class="far fa-calendar-alt me-1"></i> {{ image.uploaded_at|date:"M d, Y" }}
+                        </small>
+                    </div>
+                    
+                    <p class="text-muted small mb-0 line-clamp-2">
+                        {{ image.description|truncatewords:15 }}
+                    </p>
+                </div>
+
+                <!-- Full View Trigger (Lightbox Logic to be added) -->
+                <a href="{{ image.image.url }}" target="_blank" class="stretched-link" aria-label="View full image"></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="row fade-in-up">
+        <div class="col-12 text-center py-5">
+            <div class="glass-panel p-5 rounded-4 d-inline-block">
+                <div class="mb-3 text-secondary opacity-25">
+                    <i class="fas fa-images fa-4x"></i>
+                </div>
+                <h4 class="text-muted fw-bold">Gallery Coming Soon</h4>
+                <p class="text-muted small">Check back soon to see photos from our events!</p>
             </div>
         </div>
     </div>
-    {% endfor %}
+    {% endif %}
+
 </div>
-{% else %}
-<div class="text-center py-5">
-    <i class="fas fa-images fa-3x text-muted mb-3"></i>
-    <h4>Gallery Coming Soon</h4>
-    <p class="text-muted">Check back soon to see photos from our events!</p>
-</div>
-{% endif %}
+
+<style>
+    /* Specific styles for gallery interactions */
+    .object-fit-cover { object-fit: cover; }
+    
+    .backdrop-blur { 
+        backdrop-filter: blur(4px); 
+        -webkit-backdrop-filter: blur(4px); 
+    }
+    
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .group:hover .group-hover\:scale-110 {
+        transform: scale(1.1);
+    }
+    
+    .transition-transform { transition: transform 0.5s ease; }
+    .duration-300 { transition-duration: 0.3s; }
+    .duration-700 { transition-duration: 0.7s; }
+    
+    /* Hover opacity utility */
+    .opacity-0 { opacity: 0; }
+    .group:hover .group-hover\:opacity-20 { opacity: 0.2; }
+</style>
+
 {% endblock %}

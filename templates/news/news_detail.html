@@ -1,318 +1,155 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ news.title }} - KUHIN Club News{% endblock %}
+{% block title %}{{ news.title }} - KUHIN News{% endblock %}
+{% block meta_description %}{{ news.description|truncatewords:30|striptags }}{% endblock %}
+{% block og_title %}{{ news.title }}{% endblock %}
+{% block og_description %}{{ news.description|truncatewords:30|striptags }}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'newsletter:news_list' %}">News & Updates</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ news.title }}</li>
-        </ol>
-    </nav>
 
-    <article class="news-detail-article">
-        <!-- Article Header -->
-        <div class="article-header mb-5">
-            <h1 class="article-title display-5 fw-bold">{{ news.title }}</h1>
-            
-            <div class="article-meta mt-4 mb-3">
-                <span class="published-date">
-                    <i class="fas fa-calendar"></i> 
-                    Published: {{ news.created_at|date:"F d, Y \a\t g:i A" }}
-                </span>
-                {% if news.updated_at != news.created_at %}
-                    <span class="separator">•</span>
-                    <span class="updated-date">
-                        <i class="fas fa-edit"></i> 
-                        Updated: {{ news.updated_at|date:"F d, Y" }}
+<!-- News Hero Header -->
+<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
+    <!-- Background overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="container position-relative z-1 py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center fade-in-up">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="d-flex justify-content-center mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'newsletter:news_list' %}" class="text-white-50 text-decoration-none">News</a></li>
+                        <li class="breadcrumb-item active text-white" aria-current="page">{{ news.title|truncatechars:30 }}</li>
+                    </ol>
+                </nav>
+
+                <h1 class="display-4 fw-bold mb-4">{{ news.title }}</h1>
+                
+                <div class="d-flex align-items-center justify-content-center gap-4 text-white-50 small">
+                    <span class="d-flex align-items-center gap-2">
+                        <i class="far fa-calendar-alt text-primary"></i> 
+                        {{ news.created_at|date:"F d, Y" }}
                     </span>
-                {% endif %}
-            </div>
-        </div>
-
-        <!-- Article Content -->
-        <div class="article-content mb-5">
-            {{ news.description|safe }}
-        </div>
-
-        <!-- Article Footer -->
-        <div class="article-footer border-top border-bottom py-4 mb-5">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0 text-muted">
-                        <strong>Status:</strong> 
-                        <span class="badge bg-success">Active</span>
-                    </p>
-                </div>
-                <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                    <p class="mb-0">
-                        <strong>Share this update:</strong>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
-                           target="_blank" class="share-btn facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ news.title }}" 
-                           target="_blank" class="share-btn twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
-                           target="_blank" class="share-btn linkedin">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </p>
+                    {% if news.updated_at|date:"Ymd" > news.created_at|date:"Ymd" %}
+                    <span class="border-start border-white border-opacity-25 ps-4">
+                        <i class="fas fa-edit text-warning me-2"></i> Updated: {{ news.updated_at|date:"M d" }}
+                    </span>
+                    {% endif %}
                 </div>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- Related Updates -->
-        {% if related_news %}
-            <section class="related-updates">
-                <h3 class="section-title mb-4">Other Updates</h3>
-                <div class="related-grid">
-                    {% for update in related_news %}
-                        <div class="related-card">
-                            <div class="card-header-date">
-                                <span class="month">{{ update.created_at|date:"M" }}</span>
-                                <span class="day">{{ update.created_at|date:"d" }}</span>
-                            </div>
-                            <div class="card-content">
-                                <h5 class="card-title">{{ update.title }}</h5>
-                                <p class="card-excerpt">{{ update.description|striptags|truncatewords:20 }}</p>
-                                <a href="{% url 'newsletter:news_detail' update.slug %}" class="btn btn-link btn-sm">
-                                    Read More →
-                                </a>
+<div class="container py-5 mt-n5 position-relative z-2">
+    <div class="row justify-content-center">
+        
+        <!-- Main Content Column -->
+        <div class="col-lg-9">
+            
+            <div class="row">
+                <!-- Share Sidebar (Desktop Sticky) -->
+                <div class="col-lg-1 d-none d-lg-block">
+                    <div class="position-sticky d-flex flex-column gap-3 align-items-center" style="top: 150px;">
+                        <span class="small text-muted text-uppercase fw-bold" style="writing-mode: vertical-rl; transform: rotate(180deg);">Share</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-primary hover-scale" style="width: 40px; height: 40px; display: grid; place-items: center;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ news.title }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-info hover-scale" style="width: 40px; height: 40px; display: grid; place-items: center;"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-primary hover-scale" style="width: 40px; height: 40px; display: grid; place-items: center;"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Article Content -->
+                <div class="col-lg-11">
+                    <article class="glass-panel p-4 p-md-5 rounded-4 mb-5 fade-in-up" style="transition-delay: 0.1s;">
+                        
+                        <!-- Status Badge -->
+                        <div class="mb-4 pb-3 border-bottom d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25">
+                                <i class="fas fa-check-circle me-2"></i>Active Update
+                            </span>
+                            <!-- Mobile Share (Visible only on small screens) -->
+                            <div class="d-lg-none d-flex gap-2">
+                                <a href="#" class="text-muted"><i class="fas fa-share-alt"></i></a>
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
-    </article>
 
-    <!-- Back to News Link -->
-    <div class="text-center mt-5 pt-4">
-        <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left"></i> Back to News & Updates
-        </a>
+                        <!-- Post Body -->
+                        <div class="news-content text-dark" style="font-size: 1.1rem; line-height: 1.8;">
+                            {{ news.description|safe }}
+                        </div>
+
+                    </article>
+
+                    <!-- Related Updates -->
+                    {% if related_news %}
+                    <div class="mt-5 fade-in-up" style="transition-delay: 0.2s;">
+                        <h4 class="fw-bold mb-4 ps-2 border-start border-4 border-primary">Other Recent Updates</h4>
+                        <div class="row g-4">
+                            {% for update in related_news %}
+                            <div class="col-md-6">
+                                <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden d-flex transition-all hover-lift border-0 shadow-sm">
+                                    
+                                    <!-- Date Column -->
+                                    <div class="bg-light p-3 d-flex flex-column align-items-center justify-content-center text-center border-end" style="min-width: 80px;">
+                                        <span class="small text-uppercase fw-bold text-muted">{{ update.created_at|date:"M" }}</span>
+                                        <span class="h3 fw-bold mb-0 text-dark">{{ update.created_at|date:"d" }}</span>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="p-3 flex-grow-1 d-flex flex-column justify-content-center">
+                                        <h6 class="fw-bold mb-1">
+                                            <a href="{% url 'newsletter:news_detail' update.slug %}" class="text-dark text-decoration-none stretched-link">
+                                                {{ update.title|truncatechars:50 }}
+                                            </a>
+                                        </h6>
+                                        <p class="small text-muted mb-0">{{ update.description|striptags|truncatewords:10 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Back Button -->
+                    <div class="text-center mt-5 pt-4">
+                        <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-primary rounded-pill px-4 hover-scale">
+                            <i class="fas fa-arrow-left me-2"></i> Back to News
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 
+
 <style>
-    .article-header {
-        text-align: center;
-        padding: 2rem 0;
-        border-bottom: 3px solid #d4af37;
-    }
-
-    .article-title {
-        color: #1a1a1a;
-        line-height: 1.3;
-    }
-
-    .article-meta {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-        color: #666;
-        font-size: 0.95rem;
-    }
-
-    .separator {
-        color: #ddd;
-    }
-
-    .article-content {
-        font-size: 1.05rem;
-        line-height: 1.8;
-        color: #444;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .article-content h2 {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        color: #1a1a1a;
-    }
-
-    .article-content h3 {
-        font-size: 1.4rem;
-        font-weight: bold;
-        margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
-        color: #333;
-    }
-
-    .article-content p {
-        margin-bottom: 1rem;
-    }
-
-    .article-content ul, .article-content ol {
-        margin-bottom: 1rem;
-        margin-left: 2rem;
-    }
-
-    .article-content li {
-        margin-bottom: 0.5rem;
-    }
-
-    .article-content blockquote {
-        border-left: 4px solid #d4af37;
+    /* Typography improvements for news content */
+    .news-content p { margin-bottom: 1.5rem; color: #4b5563; }
+    .news-content h2 { margin-top: 2.5rem; margin-bottom: 1rem; font-weight: 800; color: var(--secondary-color); font-size: 1.75rem; }
+    .news-content h3 { margin-top: 2rem; margin-bottom: 1rem; font-weight: 700; color: var(--secondary-color); font-size: 1.5rem; }
+    .news-content ul, .news-content ol { margin-bottom: 1.5rem; padding-left: 2rem; color: #4b5563; }
+    .news-content li { margin-bottom: 0.5rem; }
+    .news-content blockquote {
+        border-left: 4px solid var(--primary-color);
         padding-left: 1.5rem;
-        margin: 2rem 0;
         font-style: italic;
-        color: #666;
+        color: #555;
+        background: rgba(8, 145, 178, 0.05);
+        padding: 1.5rem;
+        border-radius: 0 12px 12px 0;
+        margin: 2rem 0;
     }
-
-    .article-footer {
-        background: #f8f9fa;
-        padding: 2rem !important;
-        border-radius: 8px;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .share-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        margin-left: 0.5rem;
-        border-radius: 50%;
-        color: white;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .share-btn.facebook {
-        background: #3b5998;
-    }
-
-    .share-btn.twitter {
-        background: #1da1f2;
-    }
-
-    .share-btn.linkedin {
-        background: #0077b5;
-    }
-
-    .share-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .related-updates {
-        background: #f8f9fa;
-        padding: 3rem 2rem;
-        border-radius: 8px;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .section-title {
-        color: #1a1a1a;
-        font-weight: bold;
-        font-size: 1.8rem;
-    }
-
-    .related-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .related-card {
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        display: flex;
-    }
-
-    .related-card:hover {
-        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        transform: translateY(-4px);
-    }
-
-    .card-header-date {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 1rem;
-        min-width: 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .card-header-date .month {
-        display: block;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    .card-header-date .day {
-        display: block;
-        font-size: 1.6rem;
-        font-weight: bold;
-        line-height: 1;
-    }
-
-    .card-content {
-        flex: 1;
-        padding: 1.25rem;
-    }
-
-    .card-title {
-        font-size: 0.95rem;
-        font-weight: bold;
-        color: #1a1a1a;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-    }
-
-    .card-excerpt {
-        font-size: 0.85rem;
-        color: #666;
-        margin-bottom: 0.75rem;
-    }
-
-    .btn-outline-primary {
-        border-color: #667eea;
-        color: #667eea;
-    }
-
-    .btn-outline-primary:hover {
-        background-color: #667eea;
-        border-color: #667eea;
-    }
-
-    @media (max-width: 768px) {
-        .article-header {
-            padding: 1.5rem 0;
-        }
-
-        .article-title {
-            font-size: 1.8rem;
-        }
-
-        .related-grid {
-            grid-template-columns: 1fr;
-        }
-    }
+    .news-content a { color: var(--primary-color); text-decoration: underline; text-underline-offset: 4px; }
+    .news-content a:hover { color: var(--primary-dark); }
+    
+    .hover-scale:hover { transform: scale(1.1); }
 </style>
+
 {% endblock %}

@@ -1,22 +1,94 @@
 <!-- Empty State Component -->
-<!-- Usage: {% include 'components/empty-state.html' with icon="fas fa-inbox" title="No items found" message="There are no items to display right now." %} -->
+<!-- Usage: {% include 'components/empty-state.html' with icon="fas fa-inbox" title="No items found" message="Try adjusting filters." cta_text="Go Back" cta_url="/" %} -->
 
-<div class="empty-state">
-    {% if icon %}
-        <div class="empty-state-icon">
-            <i class="{{ icon }}"></i>
+<div class="text-center py-5 fade-in-up w-100">
+    <div class="glass-panel empty-state-container p-5 rounded-4 d-inline-block mx-auto position-relative overflow-hidden" style="min-width: 300px; max-width: 500px;">
+        
+        <!-- Subtle Background Decoration -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-to-b opacity-10 pointer-events-none"></div>
+
+        {% if icon %}
+        <div class="mb-4 text-secondary opacity-25 scale-in-center">
+            <i class="{{ icon }} fa-4x"></i>
         </div>
-    {% endif %}
-    
-    {% if title %}
-        <h3 class="empty-state-title">{{ title }}</h3>
-    {% endif %}
-    
-    {% if message %}
-        <p class="empty-state-description">{{ message }}</p>
-    {% endif %}
-    
-    {% if cta_text and cta_url %}
-        <a href="{{ cta_url }}" class="btn btn-primary">{{ cta_text }}</a>
-    {% endif %}
+        {% endif %}
+        
+        {% if title %}
+        <h4 class="text-dark fw-bold mb-2 fade-in-up" style="animation-delay: 0.1s;">{{ title }}</h4>
+        {% endif %}
+        
+        {% if message %}
+        <p class="text-muted small mb-0 opacity-75 mx-auto fade-in-up" style="max-width: 350px; line-height: 1.6; animation-delay: 0.2s;">
+            {{ message }}
+        </p>
+        {% endif %}
+        
+        {% if cta_text and cta_url %}
+        <div class="mt-4 pt-2 fade-in-up" style="animation-delay: 0.3s;">
+            <a href="{{ cta_url }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold hover-scale shadow-sm d-inline-flex align-items-center gap-2 transition-all">
+                {{ cta_text }}
+                <i class="fas fa-arrow-right small"></i>
+            </a>
+        </div>
+        {% endif %}
+    </div>
 </div>
+
+<style>
+    /* Empty State Component Styles */
+    .empty-state-container {
+        background: rgba(248, 249, 250, 0.7) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(226, 232, 240, 0.5) !important;
+    }
+    
+    .bg-gradient-to-b {
+        background: linear-gradient(to bottom, rgba(44, 62, 145, 0.15), transparent);
+    }
+    
+    .pointer-events-none { pointer-events: none; }
+    
+    .hover-scale { 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-scale:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(44, 62, 145, 0.2) !important;
+    }
+    
+    /* Entrance animations */
+    .scale-in-center {
+        animation: scaleInCenter 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+    
+    @keyframes scaleInCenter {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 0.25; }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 576px) {
+        .empty-state-container {
+            min-width: 280px;
+            padding: 2rem 1.5rem !important;
+        }
+    }
+</style>

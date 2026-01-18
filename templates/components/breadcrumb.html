@@ -1,23 +1,146 @@
 <!-- Breadcrumb Navigation Component -->
-<!-- Usage: {% include 'components/breadcrumb.html' with items=breadcrumb_items %} -->
-<!-- breadcrumb_items format: [{'label': 'Home', 'url': '/'}, {'label': 'Current Page', 'url': None}] -->
+<!-- Usage: {% include 'components/breadcrumb.html' with breadcrumb_items=breadcrumbs %} -->
+<!-- Context variable 'breadcrumb_items' format: [{'label': 'Page', 'url': '/link/'}, {'label': 'Current', 'url': None}] -->
 
-<nav class="breadcrumb-nav" aria-label="breadcrumb">
-    <ol class="breadcrumb">
+<nav aria-label="breadcrumb" class="breadcrumb-wrapper fade-in-up">
+    <ol class="breadcrumb justify-content-center justify-content-lg-start mb-0">
+        <!-- Home Link -->
         <li class="breadcrumb-item">
-            <a href="{% url 'home:home' %}">
-                <i class="fas fa-home me-2"></i>Home
+            <a href="/" class="breadcrumb-link text-white-50 text-decoration-none small transition-all hover-text-primary" title="Go to Home">
+                <i class="fas fa-home me-1"></i> Home
             </a>
         </li>
         
-        {% for item in items %}
-            <li class="breadcrumb-item {% if not item.url %}active{% endif %}">
-                {% if item.url %}
-                    <a href="{{ item.url }}">{{ item.label }}</a>
+        <!-- Dynamic Items -->
+        {% for bc_item in breadcrumb_items %}
+            <li class="breadcrumb-item {% if not bc_item.url %}active{% endif %}" {% if not bc_item.url %}aria-current="page"{% endif %}>
+                {% if bc_item.url %}
+                    <a href="{{ bc_item.url }}" class="breadcrumb-link text-white-50 text-decoration-none small transition-all hover-text-primary" title="{{ bc_item.label }}">
+                        {{ bc_item.label }}
+                    </a>
                 {% else %}
-                    <span>{{ item.label }}</span>
+                    <span class="text-white small fw-bold breadcrumb-current">{{ bc_item.label }}</span>
                 {% endif %}
             </li>
         {% endfor %}
     </ol>
 </nav>
+
+<style>
+    /* Breadcrumb Navigation Styles */
+    .breadcrumb-wrapper {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        list-style: none;
+    }
+    
+    .breadcrumb-item {
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.9rem;
+    }
+    
+    /* Separator styling for dark backgrounds */
+    .breadcrumb-item + .breadcrumb-item::before {
+        display: inline-block;
+        padding: 0 0.625rem;
+        color: rgba(255, 255, 255, 0.3);
+        content: "/";
+        font-weight: 300;
+    }
+    
+    /* Link styling */
+    .breadcrumb-link {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        color: rgba(255, 255, 255, 0.65);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        position: relative;
+    }
+    
+    .breadcrumb-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-color, #2c3e91);
+        transition: width 0.3s ease;
+    }
+    
+    .breadcrumb-link:hover {
+        color: #ffffff;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+    
+    .breadcrumb-link:hover::after {
+        width: 100%;
+    }
+    
+    .hover-text-primary:hover {
+        color: var(--primary-color, #2c3e91) !important;
+    }
+    
+    /* Active item styling */
+    .breadcrumb-item.active .breadcrumb-current {
+        color: #ffffff;
+        font-weight: 600;
+    }
+    
+    /* Transition utilities */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    /* Focus states for accessibility */
+    .breadcrumb-link:focus-visible {
+        outline: 2px solid var(--primary-color, #2c3e91);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .breadcrumb {
+            font-size: 0.85rem;
+            gap: 0.35rem;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            padding: 0 0.4rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .breadcrumb {
+            font-size: 0.8rem;
+            gap: 0.25rem;
+        }
+        
+        .breadcrumb-item + .breadcrumb-item::before {
+            padding: 0 0.3rem;
+        }
+    }
+    
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

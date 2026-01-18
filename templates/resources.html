@@ -1,48 +1,129 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Resources - KUHIN{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">Health Informatics Resources</h1>
-<p class="text-center mb-5">Collection of valuable learning materials and tools</p>
 
-{% if resources %}
-<div class="row">
-    {% for resource in resources %}
-    <div class="col-md-6 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                    <h5 class="card-title">{{ resource.title }}</h5>
-                    <span class="badge bg-info">{{ resource.category }}</span>
+<!-- Resources Hero Section -->
+<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
+    <!-- Background overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="container position-relative z-1 text-center py-5">
+        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+            <i class="fas fa-book me-2"></i>Resource Library
+        </span>
+        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Health Informatics Resources</h1>
+        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+            Collection of valuable learning materials, tools, and documentation for health informatics professionals.
+        </p>
+    </div>
+</section>
+
+<div class="container py-5 mt-n5 position-relative z-2">
+
+    {% if resources %}
+    <div class="row g-4">
+        {% for resource in resources %}
+        <div class="col-lg-4 col-md-6 fade-in-up" style="transition-delay: 0.1s;">
+            <a href="{% url 'home:resource_detail' resource.slug %}" class="text-decoration-none">
+                <div class="glass-panel h-100 p-4 rounded-4 hover-lift d-flex flex-column transition-all border-0 shadow-sm position-relative">
+                    
+                    <!-- Icon Header -->
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div class="rounded-3 bg-primary bg-opacity-10 p-3 text-primary d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-file-alt fa-lg"></i>
+                        </div>
+                        
+                        {% if resource.category %}
+                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-1">
+                            {{ resource.category }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mb-3 flex-grow-1">
+                        <h5 class="fw-bold text-dark mb-2 line-clamp-2">{{ resource.title }}</h5>
+                        <p class="text-muted small mb-0 line-clamp-3">
+                            {{ resource.description|striptags }}
+                        </p>
+                    </div>
+
+                    <!-- Meta Footer -->
+                    <div class="mt-auto pt-3 border-top border-secondary border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-center text-muted small mb-3">
+                            {% if resource.uploaded_by %}
+                            <span><i class="fas fa-user me-1"></i> {{ resource.uploaded_by }}</span>
+                            {% endif %}
+                            <span><i class="far fa-calendar-alt me-1"></i> {{ resource.uploaded_at|date:"M d, Y" }}</span>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="d-grid gap-2">
+                            <span class="btn btn-primary rounded-pill fw-bold shadow-glow btn-sm">
+                                <i class="fas fa-eye me-2"></i>View Details
+                            </span>
+                            {% if resource.external_link %}
+                            <object class="d-grid">
+                                <a href="{{ resource.external_link }}" target="_blank" class="btn btn-outline-primary rounded-pill btn-sm hover-bg-primary" onclick="event.stopPropagation();">
+                                    <i class="fas fa-external-link-alt me-2"></i>External Link
+                                </a>
+                            </object>
+                            {% endif %}
+                        </div>
+                    </div>
+
                 </div>
-                <p class="card-text">{{ resource.description|truncatewords:30 }}</p>
-                {% if resource.uploaded_by %}
-                <p class="card-text">
-                    <small class="text-muted">Uploaded by: {{ resource.uploaded_by }}</small>
-                </p>
-                {% endif %}
-                <p class="card-text">
-                    <small class="text-muted">{{ resource.uploaded_at|date:"M d, Y" }}</small>
-                </p>
-                <a href="{% url 'resource_detail' resource.slug %}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-eye me-1"></i>View Details
-                </a>
-                {% if resource.external_link %}
-                <a href="{{ resource.external_link }}" target="_blank" class="btn btn-outline-primary btn-sm ms-2">
-                    <i class="fas fa-external-link-alt me-1"></i>Open Link
-                </a>
-                {% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="row fade-in-up">
+        <div class="col-12 text-center py-5">
+            <div class="glass-panel p-5 rounded-4 d-inline-block">
+                <div class="mb-3 text-secondary opacity-25">
+                    <i class="fas fa-book-open fa-4x"></i>
+                </div>
+                <h4 class="text-muted fw-bold">Resources Coming Soon</h4>
+                <p class="text-muted small">We're building our resource library.<br>Check back soon for valuable learning materials!</p>
             </div>
         </div>
     </div>
-    {% endfor %}
+    {% endif %}
+
 </div>
-{% else %}
-<div class="text-center py-5">
-    <i class="fas fa-book fa-3x text-muted mb-3"></i>
-    <h4>Resources Coming Soon</h4>
-    <p class="text-muted">We're building our resource library. Check back soon!</p>
-</div>
-{% endif %}
+
+<style>
+    /* Utilities */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(8, 145, 178, 0.1) !important;
+    }
+    
+    .hover-bg-primary:hover {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+</style>
+
 {% endblock %}

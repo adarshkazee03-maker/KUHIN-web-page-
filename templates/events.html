@@ -1,95 +1,208 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Events - KUHIN{% endblock %}
+{% block title %}Events & Activities - KUHIN{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Events & Activities</h1>
 
-<ul class="nav nav-tabs mb-4" id="eventsTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming">
-            Upcoming Events
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past">
-            Past Events
-        </button>
-    </li>
-</ul>
+<!-- Events Hero Section -->
+<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
+    <!-- Background overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="container position-relative z-1 text-center py-5">
+        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+            <i class="fas fa-calendar-check me-2"></i>Workshops & Seminars
+        </span>
+        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Events & Activities</h1>
+        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+            Join us for hands-on workshops, expert talks, and community gatherings.
+        </p>
+    </div>
+</section>
 
-<div class="tab-content" id="eventsTabContent">
-    <!-- Upcoming Events Tab -->
-    <div class="tab-pane fade show active" id="upcoming">
-        {% if upcoming_events %}
-        <div class="row">
-            {% for event in upcoming_events %}
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <span class="event-date">
-                            {{ event.date }} at {{ event.start_time|default:"TBA" }}
-                        </span>
-                        <h5 class="card-title mt-2">{{ event.title }}</h5>
-                        <p class="card-text">
-                            <i class="fas fa-map-marker-alt me-1"></i>{{ event.location }}
-                        </p>
-                        <p class="card-text">{{ event.description|truncatewords:30 }}</p>
-                        <div class="btn-group" role="group">
-                            <a href="{% url 'event_detail' event.slug %}" class="btn btn-info">
-                                View Details
-                            </a>
-                            {% if event.registration_link %}
-                            <a href="{{ event.registration_link }}" class="btn btn-primary" target="_blank">
-                                Register Now
-                            </a>
-                            {% endif %}
+<div class="container py-5 mt-n5 position-relative z-2">
+
+    <!-- Modern Tab Toggle -->
+    <div class="d-flex justify-content-center mb-5 fade-in-up" style="transition-delay: 0.3s;">
+        <div class="glass-panel p-2 rounded-pill d-inline-block shadow-lg bg-white">
+            <ul class="nav nav-pills custom-pills" id="eventsTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 py-2 active fw-bold" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab">
+                        Upcoming Events
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 py-2 fw-bold" id="past-tab" data-bs-toggle="pill" data-bs-target="#past" type="button" role="tab">
+                        Past Archive
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content" id="eventsTabContent">
+        
+        <!-- Upcoming Events Tab -->
+        <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+            {% if upcoming_events %}
+                <div class="row g-4">
+                    {% for event in upcoming_events %}
+                    <div class="col-lg-6 fade-in-up">
+                        <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden border-0 shadow-sm hover-lift transition-all d-flex flex-column flex-sm-row">
+                            
+                            <!-- Date "Ticket Stub" Column -->
+                            <div class="bg-primary bg-opacity-10 text-primary p-4 d-flex flex-column align-items-center justify-content-center text-center border-end border-primary border-opacity-10" style="min-width: 140px;">
+                                <span class="d-block small text-uppercase fw-bold ls-1">{{ event.date|date:"M" }}</span>
+                                <span class="d-block display-4 fw-bold lh-1">{{ event.date|date:"d" }}</span>
+                                <span class="d-block small opacity-75 mb-2">{{ event.date|date:"Y" }}</span>
+                                {% if event.start_time %}
+                                <div class="badge bg-white text-primary shadow-sm rounded-pill mt-2">
+                                    {{ event.start_time|time:"H:i" }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Content Column -->
+                            <div class="p-4 flex-grow-1 d-flex flex-column">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <span class="badge bg-light text-secondary border rounded-pill">
+                                            <i class="fas fa-map-marker-alt me-1"></i> {{ event.location }}
+                                        </span>
+                                        {% if event.registration_link %}
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill">Open</span>
+                                        {% endif %}
+                                    </div>
+                                    <h4 class="fw-bold mb-2 text-dark">{{ event.title }}</h4>
+                                    <p class="text-muted small mb-0 line-clamp-2">{{ event.description|striptags }}</p>
+                                </div>
+
+                                <div class="mt-auto d-flex gap-2">
+                                    <a href="{% url 'home:event_detail' event.slug %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 flex-grow-1">
+                                        Details
+                                    </a>
+                                    {% if event.registration_link %}
+                                    <a href="{{ event.registration_link }}" target="_blank" class="btn btn-primary btn-sm rounded-pill px-3 fw-bold shadow-glow">
+                                        Register
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="text-center py-5">
-            <i class="fas fa-calendar fa-3x text-muted mb-3"></i>
-            <h4>No upcoming events scheduled</h4>
-            <p class="text-muted">Check back soon for our upcoming activities!</p>
-        </div>
-        {% endif %}
-    </div>
-
-    <!-- Past Events Tab -->
-    <div class="tab-pane fade" id="past">
-        {% if past_events %}
-        <div class="row">
-            {% for event in past_events %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    {% if event.image %}
-                    <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <p class="card-text">
-                            <small class="text-muted">{{ event.date }}</small>
-                        </p>
-                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
-                        <a href="{% url 'event_detail' event.slug %}" class="btn btn-sm btn-info">
-                            View Details
-                        </a>
+            {% else %}
+                <div class="text-center py-5 fade-in-up">
+                    <div class="glass-panel p-5 rounded-4 d-inline-block">
+                        <i class="fas fa-calendar-times fa-4x text-muted mb-3 opacity-50"></i>
+                        <h4 class="text-muted fw-bold">No Upcoming Events</h4>
+                        <p class="text-muted small">We are currently planning our next activities.<br>Check back soon!</p>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
+            {% endif %}
         </div>
-        {% else %}
-        <div class="text-center py-5">
-            <i class="fas fa-history fa-3x text-muted mb-3"></i>
-            <h4>No past events recorded</h4>
-            <p class="text-muted">Our event history will appear here soon!</p>
+
+        <!-- Past Events Tab -->
+        <div class="tab-pane fade" id="past" role="tabpanel">
+            {% if past_events %}
+                <div class="row g-4">
+                    {% for event in past_events %}
+                    <div class="col-md-6 col-lg-4 fade-in-up">
+                        <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden border-0 shadow-sm hover-lift transition-all group">
+                            
+                            <!-- Image Header -->
+                            <div class="position-relative overflow-hidden" style="height: 180px;">
+                                {% if event.image %}
+                                <img src="{{ event.image.url }}" class="w-100 h-100 object-fit-cover transition-transform duration-500 group-hover:scale-110" alt="{{ event.title }}">
+                                {% else %}
+                                <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-history fa-3x text-muted opacity-25"></i>
+                                </div>
+                                {% endif %}
+                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-25"></div>
+                                <div class="position-absolute bottom-0 start-0 p-3 text-white w-100" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);">
+                                    <small class="fw-bold"><i class="far fa-calendar me-1"></i> {{ event.date|date:"M d, Y" }}</small>
+                                </div>
+                            </div>
+
+                            <!-- Body -->
+                            <div class="p-4 d-flex flex-column h-100" style="min-height: 180px;">
+                                <h5 class="fw-bold mb-2 text-dark">{{ event.title }}</h5>
+                                <p class="text-muted small mb-3 flex-grow-1 line-clamp-3">
+                                    {{ event.description|striptags }}
+                                </p>
+                                <a href="{% url 'home:event_detail' event.slug %}" class="btn btn-link text-secondary text-decoration-none p-0 fw-bold small text-start">
+                                    View Recap <i class="fas fa-arrow-right ms-1 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <div class="glass-panel p-5 rounded-4 d-inline-block">
+                        <i class="fas fa-archive fa-4x text-muted mb-3 opacity-50"></i>
+                        <h4 class="text-muted fw-bold">No Past Events</h4>
+                        <p class="text-muted small">Our event history will appear here.</p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-        {% endif %}
+
     </div>
 </div>
+
+<style>
+    /* Custom Pills Styling */
+    .custom-pills .nav-link {
+        color: var(--secondary-color);
+        transition: all 0.3s ease;
+    }
+    
+    .custom-pills .nav-link:hover {
+        background-color: rgba(8, 145, 178, 0.05);
+        color: var(--primary-color);
+    }
+    
+    .custom-pills .nav-link.active {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+        box-shadow: 0 4px 10px rgba(8, 145, 178, 0.3);
+    }
+
+    /* Utilities */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .ls-1 { letter-spacing: 1px; }
+    
+    /* Card Hover Effects */
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    
+    .group:hover .group-hover\:scale-110 {
+        transform: scale(1.1);
+    }
+    
+    .transition-transform { transition: transform 0.2s; }
+    .hover-lift:hover .fa-arrow-right { transform: translateX(3px); }
+</style>
+
 {% endblock %}

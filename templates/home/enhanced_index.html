@@ -1,0 +1,1194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - KUHIN | Kathmandu University Health Informatics Club{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Carousel Section */
+    .hero-carousel {
+        height: 500px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
+    
+    .hero-slide.active {
+        opacity: 1;
+    }
+    
+    /* Handle background images via data attributes */
+    .hero-slide[data-bg-image] {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .hero-slide[data-bg-color] {
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .hero-content {
+        z-index: 2;
+        max-width: 800px;
+        padding: 2rem;
+    }
+    
+    .hero-slide h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-slide p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .hero-cta {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: var(--primary-color, #2c3e91);
+        color: white;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.3);
+    }
+    
+    .hero-cta:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.4);
+        background: rgba(44, 62, 145, 0.9);
+        color: white;
+    }
+    
+    .hero-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        display: flex;
+        gap: 10px;
+    }
+    
+    .hero-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.5);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .hero-indicator.active {
+        background: white;
+        width: 30px;
+        border-radius: 6px;
+    }
+    
+    /* Event Countdown Timer */
+    .countdown-section {
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+        border-radius: 24px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .countdown-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+    }
+    
+    .countdown-timer {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+    
+    .countdown-item {
+        text-align: center;
+        background: rgba(255,255,255,0.15);
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        min-width: 80px;
+    }
+    
+    .countdown-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        display: block;
+        line-height: 1;
+    }
+    
+    .countdown-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.5rem;
+    }
+    
+    /* Stats Counter Section */
+    .stats-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 2rem 1rem;
+        background: rgba(248, 249, 250, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        border: 1px solid rgba(44, 62, 145, 0.1);
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.15);
+        background: rgba(248, 249, 250, 0.9);
+    }
+    
+    .stat-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--primary-color, #2c3e91);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 1.1rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    /* Member Spotlight */
+    .spotlight-section {
+        margin-bottom: 3rem;
+    }
+    
+    .spotlight-card {
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        color: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(44, 62, 145, 0.25);
+    }
+    
+    .spotlight-content {
+        padding: 3rem;
+    }
+    
+    .spotlight-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .spotlight-name {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .spotlight-position {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 1.5rem;
+    }
+    
+    .spotlight-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+    
+    .spotlight-achievement {
+        background: rgba(255,255,255,0.15);
+        padding: 1rem;
+        border-radius: 10px;
+        border-left: 4px solid white;
+    }
+    
+    .spotlight-image {
+        position: relative;
+        height: 100%;
+        min-height: 400px;
+    }
+    
+    .spotlight-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    /* Achievement Badges */
+    .achievements-section {
+        margin-bottom: 3rem;
+    }
+    
+    .achievement-card {
+        background: rgba(248, 249, 250, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        border-top: 4px solid var(--primary-color, #2c3e91);
+    }
+    
+    .achievement-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.15);
+        background: rgba(248, 249, 250, 0.9);
+    }
+    
+    .achievement-icon {
+        font-size: 3.5rem;
+        color: var(--primary-color, #2c3e91);
+        margin-bottom: 1rem;
+    }
+    
+    .achievement-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    .achievement-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .achievement-stat {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .achievement-stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color, #2c3e91);
+        display: block;
+    }
+    
+    .achievement-stat-label {
+        font-size: 0.9rem;
+        color: #666;
+        text-transform: uppercase;
+    }
+    
+    /* Testimonials Carousel */
+    .testimonials-section {
+        background: #f8f9fa;
+        padding: 3rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    .testimonial-card {
+        background: rgba(248, 249, 250, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.08);
+        height: 100%;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.15);
+    }
+    
+    .testimonial-quote {
+        font-size: 3rem;
+        color: var(--primary-color, #2c3e91);
+        opacity: 0.15;
+        position: absolute;
+        top: 10px;
+        left: 20px;
+    }
+    
+    .testimonial-text {
+        font-style: italic;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .testimonial-photo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary-color, #2c3e91);
+    }
+    
+    .testimonial-info h5 {
+        margin: 0;
+        color: #333;
+        font-weight: 600;
+    }
+    
+    .testimonial-info p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .testimonial-rating {
+        color: #ffc107;
+        margin-top: 1rem;
+    }
+    
+    /* Activity Feed */
+    .activity-feed-section {
+        margin-bottom: 3rem;
+    }
+    
+    .activity-card {
+        background: rgba(248, 249, 250, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.08);
+        display: flex;
+        gap: 1rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(44, 62, 145, 0.1);
+    }
+    
+    .activity-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.15);
+    }
+    
+    .activity-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .activity-icon.blog { background: rgba(44, 62, 145, 0.1); color: var(--primary-color, #2c3e91); }
+    .activity-icon.news { background: rgba(0, 137, 123, 0.1); color: var(--secondary-color, #00897b); }
+    .activity-icon.event { background: rgba(126, 87, 194, 0.1); color: var(--accent-color, #7e57c2); }
+    .activity-icon.member { background: rgba(44, 62, 145, 0.1); color: var(--primary-color, #2c3e91); }
+    .activity-icon.achievement { background: rgba(0, 137, 123, 0.1); color: var(--secondary-color, #00897b); }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 0.25rem;
+    }
+    
+    .activity-description {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .activity-time {
+        font-size: 0.85rem;
+        color: #999;
+    }
+    
+    /* Trending Section */
+    .trending-section {
+        background: rgba(248, 249, 250, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.08);
+        height: 100%;
+        border: 1px solid rgba(44, 62, 145, 0.1);
+    }
+    
+    .trending-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .trending-header i {
+        color: var(--primary-color, #2c3e91);
+        font-size: 1.5rem;
+    }
+    
+    .trending-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.3s;
+    }
+    
+    .trending-item:hover {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding-left: 0.5rem;
+    }
+    
+    .trending-item:last-child {
+        border-bottom: none;
+    }
+    
+    .trending-number {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+    
+    .trending-content h6 {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .trending-content p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.5rem;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        border-radius: 2px;
+    }
+    
+    .section-subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-slide h1 {
+            font-size: 2rem;
+        }
+        
+        .hero-slide p {
+            font-size: 1rem;
+        }
+        
+        .countdown-timer {
+            gap: 1rem;
+        }
+        
+        .countdown-item {
+            padding: 0.75rem 1rem;
+            min-width: 60px;
+        }
+        
+        .countdown-value {
+            font-size: 1.8rem;
+        }
+        
+        .spotlight-name {
+            font-size: 1.8rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .discovery-card {
+            margin-bottom: 1.5rem;
+        }
+
+        .discovery-buttons {
+            gap: 1rem;
+        }
+
+        .discovery-btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Search Discovery Section */
+    .search-discovery-section {
+        margin-bottom: 3rem;
+        margin-top: 2rem;
+    }
+
+    .discovery-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 2rem;
+    }
+
+    .discovery-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 50px rgba(102, 126, 234, 0.25);
+    }
+
+    .discovery-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        opacity: 0.05;
+        pointer-events: none;
+    }
+
+    .discovery-content {
+        padding: 3rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .discovery-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .discovery-header i {
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .discovery-header h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #333;
+    }
+
+    .discovery-card > .discovery-content > p {
+        color: #666;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+    }
+
+    .discovery-buttons {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .discovery-btn {
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        border: none;
+        cursor: pointer;
+    }
+
+    .discovery-btn-primary {
+        background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.3);
+    }
+
+    .discovery-btn-primary:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.4);
+        color: white;
+    }
+
+    .discovery-btn-secondary {
+        background: white;
+        color: var(--primary-color, #2c3e91);
+        border: 2px solid var(--primary-color, #2c3e91);
+        box-shadow: 0 4px 15px rgba(44, 62, 145, 0.15);
+    }
+
+    .discovery-btn-secondary:hover {
+        background: var(--primary-color, #2c3e91);
+        color: white;
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(44, 62, 145, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Carousel Section -->
+    <div class="hero-carousel">
+        {% for announcement in announcements %}
+        <div class="hero-slide {% if forloop.first %}active{% endif %}"
+             {% if announcement.image %}data-bg-image="{{ announcement.image.url }}"{% endif %}
+             {% if announcement.background_color %}data-bg-color="{{ announcement.background_color }}"{% else %}data-bg-color="linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%)"{% endif %}>
+            <div class="hero-content">
+                <h1>{{ announcement.title }}</h1>
+                {% if announcement.subtitle %}
+                <p>{{ announcement.subtitle }}</p>
+                {% endif %}
+                {% if announcement.button_link %}
+                <a href="{{ announcement.button_link }}" class="hero-cta">
+                    {{ announcement.button_text }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <!-- Default hero slide if no announcements -->
+        <div class="hero-slide active" style="background: linear-gradient(135deg, var(--primary-color, #2c3e91) 0%, var(--secondary-color, #00897b) 100%);">
+            <div class="hero-content">
+                <h1>Welcome to KUHIN</h1>
+                <p>Kathmandu University Health Informatics Club</p>
+                <a href="{% url 'about' %}" class="hero-cta">
+                    Learn More
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+        
+        {% if announcements|length > 1 %}
+        <div class="hero-indicators">
+            {% for announcement in announcements %}
+            <div class="hero-indicator {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.counter0 }}"></div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Search Discovery Section -->
+    <div class="search-discovery-section">
+        <div class="discovery-card">
+            <div class="discovery-gradient"></div>
+            <div class="discovery-content">
+                <div class="discovery-header">
+                    <i class="fas fa-search"></i>
+                    <h2>Discover Content</h2>
+                </div>
+                <p>Explore our comprehensive knowledge base with powerful search and discovery tools</p>
+                <div class="discovery-buttons">
+                    <a href="{% url 'search:global_search' %}" class="discovery-btn discovery-btn-primary">
+                        <i class="fas fa-search me-2"></i>Search Database
+                    </a>
+                    <a href="{% url 'search:trending' %}" class="discovery-btn discovery-btn-secondary">
+                        <i class="fas fa-fire me-2"></i>View Trending
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Countdown Section -->
+    {% if next_event %}
+    <div class="countdown-section">
+        <div class="text-center">
+            <h2 class="mb-1"><i class="fas fa-calendar-alt me-2"></i>Next Event</h2>
+            <h3 class="mb-3">{{ next_event.title }}</h3>
+            <p class="mb-0">
+                <i class="fas fa-map-marker-alt me-2"></i>{{ next_event.location }}
+                <span class="mx-3">|</span>
+                <i class="fas fa-clock me-2"></i>{{ next_event.date|date:"F d, Y" }} at {{ next_event.start_time|time:"g:i A" }}
+            </p>
+        </div>
+        <div class="countdown-timer" id="countdown" 
+             data-date="{{ next_event.date|date:'Y-m-d' }}" 
+             data-time="{{ next_event.start_time|time:'H:i' }}">
+            <div class="countdown-item">
+                <span class="countdown-value" id="days">00</span>
+                <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="hours">00</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="minutes">00</span>
+                <span class="countdown-label">Minutes</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="seconds">00</span>
+                <span class="countdown-label">Seconds</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Stats Counter Section -->
+    <div class="stats-section">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <i class="fas fa-users stat-icon"></i>
+                    <span class="stat-number counter" data-target="{{ stats.total_members }}">0</span>
+                    <div class="stat-label">Active Members</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check stat-icon"></i>
+                    <span class="stat-number counter" data-target="{{ stats.total_events }}">0</span>
+                    <div class="stat-label">Events Held</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <i class="fas fa-newspaper stat-icon"></i>
+                    <span class="stat-number counter" data-target="{{ stats.total_blogs }}">0</span>
+                    <div class="stat-label">Blog Posts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <!-- Achievements Section -->
+    {% if achievements %}
+    <div class="achievements-section">
+        <div class="section-header">
+            <h2 class="section-title">Our Achievements</h2>
+            <p class="section-subtitle">Milestones we're proud of</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for achievement in achievements %}
+            <div class="col-md-6 col-lg-3">
+                <div class="achievement-card">
+                    <i class="fas {{ achievement.icon }} achievement-icon"></i>
+                    <h4 class="achievement-title">{{ achievement.title }}</h4>
+                    <p class="achievement-description">{{ achievement.description|truncatewords:20 }}</p>
+                    {% if achievement.stat_value %}
+                    <div class="achievement-stat">
+                        <span class="achievement-stat-value">{{ achievement.stat_value }}</span>
+                        <span class="achievement-stat-label">{{ achievement.stat_label }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Latest Content Grid -->
+    <div class="row g-4 mb-5">
+        <!-- Latest Blogs -->
+        <div class="col-lg-4">
+            <div class="section-header text-start">
+                <h3><i class="fas fa-newspaper me-2"></i>Latest Blogs</h3>
+            </div>
+            {% for blog in latest_blogs %}
+            <div class="activity-card">
+                <div class="activity-icon blog">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="activity-content">
+                    <h6 class="activity-title">
+                        <a href="{% url 'blog:blog_detail' blog.slug %}" style="text-decoration: none; color: inherit;">
+                            {{ blog.title|truncatewords:8 }}
+                        </a>
+                    </h6>
+                    <p class="activity-description">{{ blog.content|striptags|truncatewords:15 }}</p>
+                    <small class="activity-time">
+                        <i class="fas fa-calendar me-1"></i>{{ blog.created_at|date:"M d, Y" }}
+                    </small>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No blog posts yet.</p>
+            {% endfor %}
+            <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary w-100 mt-3">
+                View All Blogs <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        
+        <!-- Latest News -->
+        <div class="col-lg-4">
+            <div class="section-header text-start">
+                <h3><i class="fas fa-bullhorn me-2"></i>Latest News</h3>
+            </div>
+            {% for news in latest_news %}
+            <div class="activity-card">
+                <div class="activity-icon news">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="activity-content">
+                    <h6 class="activity-title">
+                        <a href="{% url 'newsletter:news_detail' news.slug %}" style="text-decoration: none; color: inherit;">
+                            {{ news.title|truncatewords:8 }}
+                        </a>
+                    </h6>
+                    <p class="activity-description">{{ news.description|striptags|truncatewords:15 }}</p>
+                    <small class="activity-time">
+                        <i class="fas fa-calendar me-1"></i>{{ news.created_at|date:"M d, Y" }}
+                    </small>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No news updates yet.</p>
+            {% endfor %}
+            <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-warning w-100 mt-3">
+                View All News <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        
+        <!-- Upcoming Events -->
+        <div class="col-lg-4">
+            <div class="section-header text-start">
+                <h3><i class="fas fa-calendar me-2"></i>Upcoming Events</h3>
+            </div>
+            {% for event in upcoming_events %}
+            <div class="activity-card">
+                <div class="activity-icon event">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="activity-content">
+                    <h6 class="activity-title">
+                        <a href="{% url 'event_detail' event.slug %}" style="text-decoration: none; color: inherit;">
+                            {{ event.title|truncatewords:8 }}
+                        </a>
+                    </h6>
+                    <p class="activity-description">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ event.location }}
+                    </p>
+                    <small class="activity-time">
+                        <i class="fas fa-calendar me-1"></i>{{ event.date|date:"M d, Y" }}
+                        {% if event.start_time %}
+                        <span class="mx-1">•</span>
+                        <i class="fas fa-clock me-1"></i>{{ event.start_time|time:"g:i A" }}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No upcoming events.</p>
+            {% endfor %}
+            <a href="{% url 'home:events' %}" class="btn btn-outline-info w-100 mt-3">
+                View All Events <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Testimonials Section -->
+    {% if testimonials %}
+    <div class="testimonials-section">
+        <div class="section-header">
+            <h2 class="section-title">What People Say</h2>
+            <p class="section-subtitle">Testimonials from our community</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for testimonial in testimonials|slice:":3" %}
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <i class="fas fa-quote-left testimonial-quote"></i>
+                    <p class="testimonial-text">{{ testimonial.testimonial_text }}</p>
+                    <div class="testimonial-author">
+                        {% if testimonial.photo %}
+                        <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.name }}" class="testimonial-photo">
+                        {% else %}
+                        <div class="testimonial-photo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            {{ testimonial.name|first }}
+                        </div>
+                        {% endif %}
+                        <div class="testimonial-info">
+                            <h5>{{ testimonial.name }}</h5>
+                            <p>{{ testimonial.position }}</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        {% for i in "12345"|slice:":"|make_list %}
+                            {% if forloop.counter <= testimonial.rating %}
+                            <i class="fas fa-star"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Activity Feed & Trending -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="activity-feed-section">
+                <div class="section-header text-start">
+                    <h3><i class="fas fa-stream me-2"></i>Latest Activity</h3>
+                </div>
+                {% for activity in activity_feed|slice:":5" %}
+                <div class="activity-card">
+                    <div class="activity-icon {{ activity.activity_type }}">
+                        <i class="fas {{ activity.icon }}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h6 class="activity-title">{{ activity.title }}</h6>
+                        <p class="activity-description">{{ activity.description|truncatewords:20 }}</p>
+                        <small class="activity-time">
+                            <i class="fas fa-clock me-1"></i>{{ activity.created_at|timesince }} ago
+                        </small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted">No recent activity.</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="trending-section">
+                <div class="trending-header">
+                    <i class="fas fa-fire"></i>
+                    <h4 class="mb-0">Trending This Week</h4>
+                </div>
+                {% for blog in trending_blogs %}
+                <a href="{% url 'blog:blog_detail' blog.slug %}" class="trending-item">
+                    <div class="trending-number">{{ forloop.counter }}</div>
+                    <div class="trending-content">
+                        <h6>{{ blog.title|truncatewords:8 }}</h6>
+                        <p><i class="fas fa-eye me-1"></i>{{ blog.views }} views</p>
+                    </div>
+                </a>
+                {% empty %}
+                <p class="text-muted text-center">No trending content yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Setup hero slide backgrounds from data attributes
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.hero-slide').forEach(slide => {
+        const bgImage = slide.dataset.bgImage;
+        const bgColor = slide.dataset.bgColor || '#667eea';
+        
+        if (bgImage) {
+            slide.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${bgImage}')`;
+        } else {
+            slide.style.background = `linear-gradient(135deg, ${bgColor} 0%, #764ba2 100%)`;
+        }
+    });
+});
+
+// Hero Carousel Auto-rotation
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const indicators = document.querySelectorAll('.hero-indicator');
+
+function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
+    
+    if (index >= slides.length) currentSlide = 0;
+    if (index < 0) currentSlide = slides.length - 1;
+    else currentSlide = index;
+    
+    slides[currentSlide].classList.add('active');
+    if (indicators[currentSlide]) {
+        indicators[currentSlide].classList.add('active');
+    }
+}
+
+function nextSlide() {
+    showSlide(currentSlide + 1);
+}
+
+// Add click handlers to indicators
+indicators.forEach(indicator => {
+    indicator.addEventListener('click', function() {
+        const slideIndex = parseInt(this.dataset.slide);
+        showSlide(slideIndex);
+    });
+});
+
+// Auto-advance carousel every 5 seconds
+if (slides.length > 1) {
+    setInterval(nextSlide, 5000);
+}
+
+// Event Countdown Timer
+const countdownElement = document.getElementById('countdown');
+if (countdownElement) {
+    const eventDate = countdownElement.dataset.date;
+    const eventTime = countdownElement.dataset.time || '00:00';
+    const targetDateTime = new Date(`${eventDate}T${eventTime}`).getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDateTime - now;
+        
+        if (distance < 0) {
+            document.getElementById('days').textContent = '00';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = String(days).padStart(2, '0');
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+// Stats Counter Animation
+function animateCounter(element) {
+    const target = parseInt(element.dataset.target);
+    const duration = 2000; // 2 seconds
+    const increment = target / (duration / 16); // 60 FPS
+    let current = 0;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, 16);
+}
+
+// Intersection Observer for counter animation
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+            entry.target.classList.add('counted');
+            animateCounter(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter').forEach(counter => {
+    counterObserver.observe(counter);
+});
+</script>
+{% endblock %}

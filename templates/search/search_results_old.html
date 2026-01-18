@@ -1,0 +1,554 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results{% if query %} for "{{ query }}"{% endif %} - KUHIN{% endblock %}
+
+{% block extra_css %}
+<style>
+    .search-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem 0 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .search-box-large {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    .search-box-large input {
+        padding: 1rem 3rem 1rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .search-box-large .search-icon {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-size: 1.3rem;
+    }
+    
+    .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        margin-top: 0.5rem;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+    }
+    
+    .autocomplete-suggestions.show {
+        display: block;
+    }
+    
+    .suggestion-item {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background 0.2s;
+    }
+    
+    .suggestion-item:hover {
+        background: #f8f9fa;
+    }
+    
+    .suggestion-item:last-child {
+        border-bottom: none;
+    }
+    
+    .filter-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+    }
+    
+    .filter-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .filter-chip {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: #f8f9fa;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: #333;
+    }
+    
+    .filter-chip.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .filter-chip:hover {
+        border-color: #667eea;
+        transform: translateY(-2px);
+    }
+    
+    .result-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .result-type-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .badge-blog { background: #e3f2fd; color: #1976d2; }
+    .badge-news { background: #fff3e0; color: #f57c00; }
+    .badge-event { background: #f3e5f5; color: #7b1fa2; }
+    .badge-resource { background: #e8f5e9; color: #388e3c; }
+    .badge-member { background: #fce4ec; color: #c2185b; }
+    
+    .result-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .result-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    
+    .result-title a:hover {
+        color: #667eea;
+    }
+    
+    .result-meta {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.75rem;
+    }
+    
+    .result-snippet {
+        color: #555;
+        line-height: 1.6;
+    }
+    
+    .result-snippet mark {
+        background: #fff59d;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+    
+    .trending-searches {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .trending-tag {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #f8f9fa;
+        border-radius: 20px;
+        margin: 0.25rem;
+        text-decoration: none;
+        color: #555;
+        transition: all 0.3s;
+    }
+    
+    .trending-tag:hover {
+        background: #667eea;
+        color: white;
+        transform: scale(1.05);
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 3rem 0;
+    }
+    
+    .no-results i {
+        font-size: 4rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .search-header {
+            padding: 2rem 0 1.5rem;
+        }
+        
+        .filter-chips {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            padding-bottom: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="search-header">
+    <div class="container">
+        <h1 class="text-center mb-4">
+            <i class="fas fa-search me-2"></i>
+            {% if query %}
+                Search Results for "{{ query }}"
+            {% else %}
+                Search KUHIN
+            {% endif %}
+        </h1>
+        
+        <div class="search-box-large">
+            <form method="get" action="{% url 'search:global_search' %}" id="searchForm">
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="form-control" 
+                    placeholder="Search blogs, news, events, resources, members..."
+                    value="{{ query }}"
+                    autocomplete="off"
+                    id="searchInput"
+                >
+                <i class="fas fa-search search-icon"></i>
+                <div class="autocomplete-suggestions" id="autocompleteSuggestions"></div>
+            </form>
+        </div>
+        
+        {% if query %}
+        <p class="text-center mt-3 mb-0" style="opacity: 0.9;">
+            Found <strong>{{ total_results }}</strong> result{{ total_results|pluralize }}
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="container mb-5">
+    <!-- Filters -->
+    <div class="filter-section">
+        <h5 class="mb-3"><i class="fas fa-filter me-2"></i>Filter Results</h5>
+        
+        <!-- Content Type Filter -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Content Type:</label>
+            <div class="filter-chips">
+                <a href="?q={{ query }}&type=all" class="filter-chip {% if content_filter == 'all' %}active{% endif %}">
+                    <i class="fas fa-th me-1"></i> All
+                </a>
+                <a href="?q={{ query }}&type=blog" class="filter-chip {% if content_filter == 'blog' %}active{% endif %}">
+                    <i class="fas fa-newspaper me-1"></i> Blogs
+                </a>
+                <a href="?q={{ query }}&type=news" class="filter-chip {% if content_filter == 'news' %}active{% endif %}">
+                    <i class="fas fa-bullhorn me-1"></i> News
+                </a>
+                <a href="?q={{ query }}&type=event" class="filter-chip {% if content_filter == 'event' %}active{% endif %}">
+                    <i class="fas fa-calendar me-1"></i> Events
+                </a>
+                <a href="?q={{ query }}&type=resource" class="filter-chip {% if content_filter == 'resource' %}active{% endif %}">
+                    <i class="fas fa-book me-1"></i> Resources
+                </a>
+                <a href="?q={{ query }}&type=member" class="filter-chip {% if content_filter == 'member' %}active{% endif %}">
+                    <i class="fas fa-users me-1"></i> Members
+                </a>
+            </div>
+        </div>
+        
+        <!-- Date Range Filter -->
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label fw-bold">From Date:</label>
+                <input type="date" class="form-control" id="dateFrom" value="{{ date_from }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold">To Date:</label>
+                <input type="date" class="form-control" id="dateTo" value="{{ date_to }}">
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Results -->
+        <div class="col-lg-9">
+            {% if query and total_results > 0 %}
+                
+                <!-- Blog Results -->
+                {% if results.blogs %}
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="fas fa-newspaper me-2"></i>Blog Posts ({{ results.blogs|length }})</h4>
+                    {% for blog in results.blogs %}
+                    <div class="result-card">
+                        <span class="result-type-badge badge-blog">BLOG</span>
+                        <h3 class="result-title">
+                            <a href="{% url 'blog:blog_detail' blog.slug %}">{{ blog.title }}</a>
+                        </h3>
+                        <div class="result-meta">
+                            <i class="fas fa-calendar me-1"></i> {{ blog.created_at|date:"M d, Y" }}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-tag me-1"></i> {{ blog.category.name }}
+                            {% if blog.views %}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-eye me-1"></i> {{ blog.views }} views
+                            {% endif %}
+                        </div>
+                        <div class="result-snippet">
+                            {{ blog.content|striptags|truncatewords:30 }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- News Results -->
+                {% if results.news %}
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="fas fa-bullhorn me-2"></i>News Updates ({{ results.news|length }})</h4>
+                    {% for news in results.news %}
+                    <div class="result-card">
+                        <span class="result-type-badge badge-news">NEWS</span>
+                        <h3 class="result-title">
+                            <a href="{% url 'newsletter:news_detail' news.slug %}">{{ news.title }}</a>
+                        </h3>
+                        <div class="result-meta">
+                            <i class="fas fa-calendar me-1"></i> {{ news.created_at|date:"M d, Y" }}
+                        </div>
+                        <div class="result-snippet">
+                            {{ news.description|striptags|truncatewords:30 }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Event Results -->
+                {% if results.events %}
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="fas fa-calendar me-2"></i>Events ({{ results.events|length }})</h4>
+                    {% for event in results.events %}
+                    <div class="result-card">
+                        <span class="result-type-badge badge-event">EVENT</span>
+                        <h3 class="result-title">
+                            <a href="{% url 'events:event_detail' event.slug %}">{{ event.title }}</a>
+                        </h3>
+                        <div class="result-meta">
+                            <i class="fas fa-calendar me-1"></i> {{ event.date|date:"M d, Y" }}
+                            {% if event.time %}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-clock me-1"></i> {{ event.time|time:"g:i A" }}
+                            {% endif %}
+                            {% if event.location %}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-map-marker-alt me-1"></i> {{ event.location }}
+                            {% endif %}
+                            <span class="mx-2">•</span>
+                            <span class="badge bg-{{ event.status|lower }}">{{ event.status }}</span>
+                        </div>
+                        <div class="result-snippet">
+                            {{ event.description|striptags|truncatewords:30 }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Resource Results -->
+                {% if results.resources %}
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="fas fa-book me-2"></i>Resources ({{ results.resources|length }})</h4>
+                    {% for resource in results.resources %}
+                    <div class="result-card">
+                        <span class="result-type-badge badge-resource">RESOURCE</span>
+                        <h3 class="result-title">
+                            <a href="{% url 'resources:resource_detail' resource.slug %}">{{ resource.title }}</a>
+                        </h3>
+                        <div class="result-meta">
+                            <i class="fas fa-folder me-1"></i> {{ resource.category.name }}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-tag me-1"></i> {{ resource.resource_type }}
+                            {% if resource.is_featured %}
+                            <span class="mx-2">•</span>
+                            <i class="fas fa-star text-warning me-1"></i> Featured
+                            {% endif %}
+                        </div>
+                        <div class="result-snippet">
+                            {{ resource.description|striptags|truncatewords:30 }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Member Results -->
+                {% if results.members %}
+                <div class="mb-4">
+                    <h4 class="mb-3"><i class="fas fa-users me-2"></i>Members ({{ results.members|length }})</h4>
+                    {% for member in results.members %}
+                    <div class="result-card">
+                        <span class="result-type-badge badge-member">MEMBER</span>
+                        <div class="d-flex align-items-center">
+                            {% if member.photo %}
+                            <img src="{{ member.photo.url }}" alt="{{ member.name }}" 
+                                 class="rounded-circle me-3" 
+                                 style="width: 60px; height: 60px; object-fit: cover;">
+                            {% endif %}
+                            <div>
+                                <h3 class="result-title mb-1">
+                                    <a href="{% url 'members:member_detail' member.id %}">{{ member.name }}</a>
+                                </h3>
+                                <div class="result-meta">
+                                    <i class="fas fa-briefcase me-1"></i> {{ member.position }}
+                                    {% if member.email %}
+                                    <span class="mx-2">•</span>
+                                    <i class="fas fa-envelope me-1"></i> {{ member.email }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+            {% elif query %}
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>No results found for "{{ query }}"</h3>
+                    <p class="text-muted">Try different keywords or check the trending searches below</p>
+                </div>
+            {% else %}
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>Start Searching</h3>
+                    <p class="text-muted">Enter keywords to search across all KUHIN content</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            {% if trending_searches %}
+            <div class="trending-searches mb-4">
+                <h5 class="mb-3">
+                    <i class="fas fa-fire text-danger me-2"></i>Trending Searches
+                </h5>
+                {% for search in trending_searches %}
+                <a href="?q={{ search.query }}" class="trending-tag">
+                    {{ search.query }}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="trending-searches">
+                <h5 class="mb-3">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>Quick Links
+                </h5>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-newspaper me-1"></i> All Blogs
+                    </a>
+                    <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-warning btn-sm">
+                        <i class="fas fa-bullhorn me-1"></i> All News
+                    </a>
+                    <a href="{% url 'events' %}" class="btn btn-outline-info btn-sm">
+                        <i class="fas fa-calendar me-1"></i> All Events
+                    </a>
+                    <a href="{% url 'resources' %}" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-book me-1"></i> All Resources
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Autocomplete functionality
+    const searchInput = document.getElementById('searchInput');
+    const suggestions = document.getElementById('autocompleteSuggestions');
+    let debounceTimer;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        const query = this.value.trim();
+        
+        if (query.length < 2) {
+            suggestions.classList.remove('show');
+            return;
+        }
+        
+        debounceTimer = setTimeout(() => {
+            fetch(`{% url 'search:autocomplete' %}?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.suggestions && data.suggestions.length > 0) {
+                        suggestions.innerHTML = data.suggestions.map(s => 
+                            `<div class="suggestion-item" onclick="selectSuggestion('${s}')">${s}</div>`
+                        ).join('');
+                        suggestions.classList.add('show');
+                    } else {
+                        suggestions.classList.remove('show');
+                    }
+                });
+        }, 300);
+    });
+    
+    function selectSuggestion(query) {
+        searchInput.value = query;
+        suggestions.classList.remove('show');
+        document.getElementById('searchForm').submit();
+    }
+    
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.classList.remove('show');
+        }
+    });
+    
+    // Date filter handling
+    const dateFrom = document.getElementById('dateFrom');
+    const dateTo = document.getElementById('dateTo');
+    
+    [dateFrom, dateTo].forEach(input => {
+        input.addEventListener('change', function() {
+            const url = new URL(window.location.href);
+            if (dateFrom.value) url.searchParams.set('date_from', dateFrom.value);
+            if (dateTo.value) url.searchParams.set('date_to', dateTo.value);
+            window.location.href = url.toString();
+        });
+    });
+</script>
+{% endblock %}

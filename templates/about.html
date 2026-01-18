@@ -1,74 +1,270 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About Us - KUHIN{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-lg-8 mx-auto">
-        <h1 class="mb-4">About KUHIN</h1>
-        
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3 class="card-title">Our Mission</h3>
-                <p class="card-text">
+
+<!-- Hero Section -->
+<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
+    <!-- Background overlay -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
+    <div class="hero-bg-pattern"></div>
+    
+    <div class="container position-relative z-1 text-center py-5">
+        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+            <i class="fas fa-info-circle me-2"></i>Know Us Better
+        </span>
+        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">About KUHIN</h1>
+        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+            Bridging healthcare and technology through innovation, collaboration, and practical application.
+        </p>
+    </div>
+</section>
+
+<div class="container py-5 mt-n5 position-relative z-2">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <!-- Our Mission Section -->
+            <div class="glass-panel p-4 p-md-5 rounded-4 mb-5 fade-in-up" style="transition-delay: 0.1s;">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                        <i class="fas fa-bullseye fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0">Our Mission</h2>
+                </div>
+                <p class="text-muted mb-0" style="font-size: 1.05rem; line-height: 1.8;">
                     To promote health informatics education and research at Kathmandu University, 
                     bridging the gap between healthcare and technology through innovation, 
                     collaboration, and practical application.
                 </p>
             </div>
-        </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3 class="card-title">What is Health Informatics?</h3>
-                <p class="card-text">
+            <!-- What is Health Informatics Section -->
+            <div class="glass-panel p-4 p-md-5 rounded-4 mb-5 fade-in-up" style="transition-delay: 0.2s;">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rounded-circle bg-info bg-opacity-10 text-info d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                        <i class="fas fa-heartbeat fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0">What is Health Informatics?</h2>
+                </div>
+                <p class="text-muted mb-3" style="font-size: 1.05rem; line-height: 1.8;">
                     Health Informatics is the interdisciplinary field that uses information technology 
                     to organize and analyze health records to improve healthcare outcomes. 
                     It combines computer science, information science, and healthcare to improve 
                     the efficiency and quality of patient care.
                 </p>
-                <p class="card-text">
-                    At KUHIN, we focus on:
-                </p>
-                <ul>
-                    <li>Electronic Health Records (EHR) Systems</li>
-                    <li>Health Data Analytics</li>
-                    <li>Telemedicine Technologies</li>
-                    <li>Healthcare Software Development</li>
-                    <li>Medical Data Security</li>
-                </ul>
+                
+                <h5 class="fw-bold text-dark mb-3">At KUHIN, we focus on:</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="text-primary mt-1"><i class="fas fa-check-circle fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Electronic Health Records (EHR)</h6>
+                                <p class="text-muted small mb-0">Systems for managing patient data</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="text-primary mt-1"><i class="fas fa-check-circle fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Health Data Analytics</h6>
+                                <p class="text-muted small mb-0">Extracting insights from health data</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="text-primary mt-1"><i class="fas fa-check-circle fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Telemedicine Technologies</h6>
+                                <p class="text-muted small mb-0">Remote healthcare delivery solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="text-primary mt-1"><i class="fas fa-check-circle fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Healthcare Software Development</h6>
+                                <p class="text-muted small mb-0">Building innovative health solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3 mb-0">
+                            <div class="text-primary mt-1"><i class="fas fa-check-circle fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Medical Data Security</h6>
+                                <p class="text-muted small mb-0">Protecting sensitive health information</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3 class="card-title">Club Objectives</h3>
-                <ul>
-                    <li>Provide hands-on experience with health information systems</li>
-                    <li>Organize workshops and seminars on health technology</li>
-                    <li>Facilitate research in health informatics</li>
-                    <li>Connect students with industry professionals</li>
-                    <li>Participate in health tech competitions</li>
-                    <li>Develop practical solutions for healthcare challenges</li>
-                </ul>
+            <!-- Club Objectives Section -->
+            <div class="glass-panel p-4 p-md-5 rounded-4 mb-5 fade-in-up" style="transition-delay: 0.3s;">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                        <i class="fas fa-tasks fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0">Club Objectives</h2>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">1</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Hands-on Experience</h6>
+                                <p class="text-muted small mb-0">Provide experience with health information systems</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">2</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Workshops & Seminars</h6>
+                                <p class="text-muted small mb-0">Organize events on health technology</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">3</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Research Facilitation</h6>
+                                <p class="text-muted small mb-0">Enable research in health informatics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">4</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Industry Connections</h6>
+                                <p class="text-muted small mb-0">Connect with health tech professionals</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">5</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Competitions</h6>
+                                <p class="text-muted small mb-0">Participate in health tech competitions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-3">
+                            <div class="badge bg-success bg-opacity-10 text-success fw-bold mt-1" style="height: fit-content;">6</div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Practical Solutions</h6>
+                                <p class="text-muted small mb-0">Develop solutions for healthcare challenges</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Who Can Join?</h3>
-                <p class="card-text">
+            <!-- Who Can Join Section -->
+            <div class="glass-panel p-4 p-md-5 rounded-4 fade-in-up" style="transition-delay: 0.4s;">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0">Who Can Join?</h2>
+                </div>
+                
+                <p class="text-muted mb-4" style="font-size: 1.05rem;">
                     KUHIN welcomes students from all faculties who are interested in:
                 </p>
-                <ul>
-                    <li>Computer Science & IT students interested in healthcare applications</li>
-                    <li>Medical/Health sciences students interested in technology</li>
-                    <li>Anyone passionate about improving healthcare through technology</li>
-                    <li>Researchers looking for interdisciplinary collaboration</li>
-                </ul>
-                <a href="/contact/" class="btn btn-primary mt-3">Join Our Club</a>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-light border-start border-4 border-warning">
+                            <h6 class="fw-bold text-dark mb-1">
+                                <i class="fas fa-code text-warning me-2"></i>Computer Science & IT
+                            </h6>
+                            <p class="text-muted small mb-0">Students interested in healthcare applications</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-light border-start border-4 border-warning">
+                            <h6 class="fw-bold text-dark mb-1">
+                                <i class="fas fa-hospital text-warning me-2"></i>Medical/Health Sciences
+                            </h6>
+                            <p class="text-muted small mb-0">Students interested in technology solutions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-light border-start border-4 border-warning">
+                            <h6 class="fw-bold text-dark mb-1">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>Tech Enthusiasts
+                            </h6>
+                            <p class="text-muted small mb-0">Anyone passionate about healthcare technology</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 rounded-3 bg-light border-start border-4 border-warning">
+                            <h6 class="fw-bold text-dark mb-1">
+                                <i class="fas fa-microscope text-warning me-2"></i>Researchers
+                            </h6>
+                            <p class="text-muted small mb-0">Looking for interdisciplinary collaboration</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-primary bg-primary bg-opacity-10 border-primary border-opacity-25 rounded-3 d-flex align-items-center gap-3 mb-0">
+                    <div class="text-primary" style="font-size: 1.5rem;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">Ready to Join?</h6>
+                        <p class="text-muted small mb-0">Get in touch with us to become a part of KUHIN community</p>
+                    </div>
+                    <a href="{% url 'home:contact' %}" class="btn btn-primary rounded-pill fw-bold ms-auto">Contact Us</a>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<style>
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .glass-panel {
+            padding: 1.5rem !important;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
 {% endblock %}

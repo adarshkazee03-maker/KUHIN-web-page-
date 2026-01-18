@@ -1,20 +1,102 @@
 <!-- Call-to-Action Banner Component -->
-<!-- Usage: {% include 'components/cta-banner.html' with title="Join KUHIN" text="Become part of our Health Informatics community" button_text="Join Now" button_url="/join/" %} -->
+<!-- Usage: {% include 'components/cta-banner.html' with title="Join KUHIN" text="Become part..." button_text="Join" button_url="/join/" %} -->
 
-<section class="cta-banner">
-    <div class="cta-banner-content">
-        <h2 class="cta-banner-title">{{ title }}</h2>
-        {% if text %}
-            <p class="cta-banner-text">{{ text }}</p>
-        {% endif %}
-        
-        {% if button_text and button_url %}
-            <div class="cta-banner-actions">
-                <a href="{{ button_url }}" class="btn btn-light btn-lg">
-                    {{ button_text }}
-                    <i class="fas fa-arrow-right ms-2"></i>
-                </a>
+<section class="cta-banner py-5 fade-in-up">
+    <div class="container">
+        <div class="cta-banner-content position-relative rounded-5 overflow-hidden p-5 text-center text-white shadow-lg" 
+             style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+            
+            <!-- Abstract Background Pattern -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 opacity-20 pointer-events-none" 
+                 style="background-image: radial-gradient(circle at 20% 50%, rgba(34, 211, 238, 0.4) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(227, 24, 55, 0.2) 0%, transparent 50%); pointer-events: none;">
             </div>
-        {% endif %}
+            
+            <!-- Floating Decorative Elements -->
+            <div class="position-absolute top-0 end-0 p-5 opacity-10 d-none d-md-block" style="transform: translate(30%, -30%); z-index: 0;">
+                <i class="fas fa-network-wired fa-10x"></i>
+            </div>
+            <div class="position-absolute bottom-0 start-0 p-5 opacity-10 d-none d-md-block" style="transform: translate(-30%, 30%); z-index: 0;">
+                <i class="fas fa-dna fa-10x"></i>
+            </div>
+
+            <!-- Content -->
+            <div class="position-relative z-1 py-3">
+                <h2 class="display-4 fw-bold mb-3 tracking-tight fade-in-up" style="animation-delay: 0s;">{{ title }}</h2>
+                
+                {% if text %}
+                    <p class="lead text-white-50 mb-5 mx-auto fade-in-up" style="max-width: 700px; line-height: 1.6; animation-delay: 0.1s;">
+                        {{ text }}
+                    </p>
+                {% endif %}
+                
+                {% if button_text and button_url %}
+                    <div class="d-inline-block fade-in-up" style="animation-delay: 0.2s;">
+                        <a href="{{ button_url }}" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg hover-scale text-primary border-0 transition-all">
+                            {{ button_text }}
+                            <i class="fas fa-arrow-right ms-2 transition-transform"></i>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </section>
+
+<style>
+    /* CTA Banner Styles */
+    .cta-banner {
+        position: relative;
+    }
+    
+    .tracking-tight { 
+        letter-spacing: -0.025em; 
+    }
+    
+    .hover-scale { 
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-scale:hover { 
+        transform: scale(1.05); 
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4) !important;
+    }
+    
+    .hover-scale:hover .fa-arrow-right {
+        transform: translateX(4px);
+    }
+    
+    .transition-transform {
+        transition: transform 0.2s ease;
+    }
+    
+    .text-primary { 
+        color: #2c3e91 !important; 
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .cta-banner-content {
+            padding: 3rem 1.5rem !important;
+        }
+        
+        .display-4 {
+            font-size: 2rem !important;
+        }
+    }
+</style>

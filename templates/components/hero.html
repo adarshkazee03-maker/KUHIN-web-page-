@@ -1,12 +1,90 @@
 <!-- Hero Section Component -->
-<!-- Usage: {% include 'components/hero.html' with title="Page Title" subtitle="Subtitle" image_url="..." %} -->
+<!-- Usage: {% include 'components/hero.html' with title="Page Title" subtitle="Subtitle" image_url="..." badge_text="Optional Badge" badge_icon="fas fa-star" %} -->
 
-<div class="hero-section" {% if image_url %}style="background-image: url('{{ image_url }}');"{% endif %}>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1 class="hero-title">{{ title }}</h1>
-        {% if subtitle %}
-            <p class="hero-subtitle">{{ subtitle }}</p>
+<section class="hero-section position-relative py-5 bg-dark text-white overflow-hidden fade-in-up" style="border-bottom-right-radius: 50px; min-height: 420px; display: flex; align-items: center;">
+    
+    <!-- Background Layer with Image -->
+    <div class="hero-background position-absolute top-0 start-0 w-100 h-100" style="z-index: 0;">
+        {% if image_url %}
+            <!-- Image Background with Blur Effect -->
+            <div class="w-100 h-100" 
+                 style="background-image: url('{{ image_url }}'); 
+                         background-size: cover; 
+                         background-position: center; 
+                         filter: blur(8px) brightness(0.35); 
+                         transform: scale(1.05);">
+            </div>
+        {% else %}
+            <!-- Default Gradient Background -->
+            <div class="w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95;"></div>
         {% endif %}
     </div>
-</div>
+    
+    <!-- Abstract Pattern Overlay -->
+    <div class="hero-bg-pattern position-absolute top-0 start-0 w-100 h-100 opacity-10" style="z-index: 0;"></div>
+    
+    <!-- Content Layer -->
+    <div class="container position-relative z-1 text-center py-5">
+        
+        {% if badge_text %}
+        <div class="fade-in-up" style="animation-delay: 0s;">
+            <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 d-inline-block" 
+                  style="backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+                {% if badge_icon %}<i class="{{ badge_icon }} me-2"></i>{% endif %}{{ badge_text }}
+            </span>
+        </div>
+        {% endif %}
+        
+        <h1 class="display-3 fw-bold mb-3 fade-in-up" style="animation-delay: 0.1s; letter-spacing: -0.5px; font-size: clamp(2.5rem, 8vw, 3.5rem);">
+            {{ title }}
+        </h1>
+        
+        {% if subtitle %}
+        <p class="lead text-white-50 mb-0 fade-in-up mx-auto" 
+           style="animation-delay: 0.2s; max-width: 700px; line-height: 1.7; font-size: clamp(1rem, 2.5vw, 1.25rem);">
+            {{ subtitle }}
+        </p>
+        {% endif %}
+        
+    </div>
+</section>
+
+<style>
+    /* Hero Section Styles */
+    .hero-section {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .hero-section {
+            min-height: 350px;
+            border-bottom-right-radius: 30px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-section {
+            min-height: 300px;
+            border-bottom-right-radius: 20px;
+            padding: 3rem 0 2rem !important;
+        }
+    }
+    
+    /* Animation utilities */
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

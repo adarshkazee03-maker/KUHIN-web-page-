@@ -1,279 +1,237 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Home - KUHIN | Kathmandu University Health Informatics Club{% endblock %}
-{% block meta_description %}KUHIN - Health Informatics Club at Kathmandu University. Promoting health technology, data science, and informatics education in healthcare.{% endblock %}
+{% block meta_description %}KUHIN - Health Informatics Club at Kathmandu University. Bridging Data & Life through health informatics innovation.{% endblock %}
 {% block og_title %}KUHIN - Kathmandu University Health Informatics Club{% endblock %}
 {% block og_description %}Discover KUHIN, a community dedicated to health technology innovation and informatics education.{% endblock %}
 
 {% block content %}
 
-<!-- Hero Section with Professional Branding -->
-<section class="hero-section fade-in py-5 py-md-7" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; border-radius: 12px; margin-bottom: var(--spacing-5);">
-    <div class="container">
-        <div class="row align-items-center min-h-400">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="display-4 fw-bold mb-3 fade-in" style="animation-delay: 0.1s;">Welcome to KUHIN</h1>
-                <p class="lead mb-4 fade-in" style="animation-delay: 0.2s;">
-                    <strong>Kathmandu University Health Informatics Club</strong>
+<!-- HERO SECTION: Bio-Digital Network -->
+<section class="hero-wrapper">
+    <div class="hero-bg-pattern"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-7 fade-in-up">
+                <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-4">
+                    <i class="fa-solid fa-code-branch me-2"></i> Innovating Healthcare
+                </span>
+                <h1 class="display-3 fw-bold mb-4">
+                    Bridging <span class="text-gradient">Data</span> & <span class="text-gradient">Life</span>.
+                </h1>
+                <p class="lead text-white-50 mb-5 pe-lg-5">
+                    Welcome to the Kathmandu University Health Informatics Club. We empower students to solve clinical challenges using data science, AI, and software engineering.
                 </p>
-                <p class="h5 mb-5 fade-in" style="animation-delay: 0.3s;">
-                    Building the future of healthcare through technology, data science, and collaborative innovation
-                </p>
-                <div class="fade-in" style="animation-delay: 0.4s;">
-                    <a href="#mission" class="btn btn-light btn-lg me-3 mb-2">Explore Our Mission</a>
-                    <a href="/contact/" class="btn btn-outline-light btn-lg mb-2">Join Our Community</a>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="/contact/" class="btn btn-primary rounded-pill px-4 py-3 fw-bold" style="box-shadow: var(--shadow-glow);">
+                        Become a Member
+                    </a>
+                    <a href="/about/" class="btn btn-outline-light rounded-pill px-4 py-3 fw-semibold">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <!-- Interactive Graphic Placeholder -->
+            <div class="col-lg-5 d-none d-lg-block fade-in-up" style="transition-delay: 0.2s;">
+                <div class="text-center text-primary opacity-25" style="font-size: 15rem;">
+                    <i class="fa-solid fa-network-wired"></i>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Mission & Vision Section -->
-<section id="mission" class="mission-section py-5 mb-5">
+<!-- QUICK STATS (Floating) -->
+<section class="container stats-container fade-in-up">
+    <div class="glass-panel rounded-4 p-4" style="box-shadow: var(--shadow-soft);">
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-card h-100">
+                    <i class="fa-solid fa-users fa-2x text-primary mb-3"></i>
+                    <h3 class="fw-bold mb-0">{{ member_count|default:"500+" }}</h3>
+                    <p class="text-muted small mb-0">Active Members</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card h-100">
+                    <i class="fa-solid fa-calendar-check fa-2x text-primary mb-3"></i>
+                    <h3 class="fw-bold mb-0">{{ event_count|default:"12+" }}</h3>
+                    <p class="text-muted small mb-0">Annual Events</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card h-100">
+                    <i class="fa-solid fa-file-medical fa-2x text-primary mb-3"></i>
+                    <h3 class="fw-bold mb-0">{{ blog_count|default:"50+" }}</h3>
+                    <p class="text-muted small mb-0">Research Papers</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card h-100">
+                    <i class="fa-solid fa-hand-holding-medical fa-2x text-primary mb-3"></i>
+                    <h3 class="fw-bold mb-0">100%</h3>
+                    <p class="text-muted small mb-0">Commitment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MISSION SECTION -->
+<section class="py-5 my-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold mb-3">Why <span class="text-primary">KUHIN</span>?</h2>
+                <p class="text-muted">We operate at the intersection of medicine and technology.</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-4 fade-in-up">
+                <div class="card h-100 border-0 bg-white p-4 hover-lift">
+                    <div class="rounded-circle bg-primary bg-opacity-10 w-fit p-3 mb-4 text-primary" style="width: fit-content;">
+                        <i class="fa-solid fa-brain fa-2x"></i>
+                    </div>
+                    <h4>Academic Excellence</h4>
+                    <p class="text-muted">Access to workshops on HL7, FHIR, Python for Bio-stats, and EHR management.</p>
+                </div>
+            </div>
+            <!-- Feature 2 -->
+            <div class="col-md-4 fade-in-up" style="transition-delay: 0.1s;">
+                <div class="card h-100 border-0 bg-white p-4 hover-lift">
+                    <div class="rounded-circle bg-primary bg-opacity-10 w-fit p-3 mb-4 text-primary" style="width: fit-content;">
+                        <i class="fa-solid fa-handshake-angle fa-2x"></i>
+                    </div>
+                    <h4>Industry Connection</h4>
+                    <p class="text-muted">Direct networking with Nepal's leading hospitals and health-tech startups.</p>
+                </div>
+            </div>
+            <!-- Feature 3 -->
+            <div class="col-md-4 fade-in-up" style="transition-delay: 0.2s;">
+                <div class="card h-100 border-0 bg-white p-4 hover-lift">
+                    <div class="rounded-circle bg-primary bg-opacity-10 w-fit p-3 mb-4 text-primary" style="width: fit-content;">
+                        <i class="fa-solid fa-laptop-code fa-2x"></i>
+                    </div>
+                    <h4>Practical Innovation</h4>
+                    <p class="text-muted">Work on real-world projects that digitize patient records and improve care delivery.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TIMELINE EVENTS SECTION -->
+<section class="py-5 bg-light position-relative">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap">
+            <div>
+                <h6 class="text-uppercase text-primary fw-bold ls-2">Schedule</h6>
+                <h2 class="fw-bold">Upcoming Events</h2>
+            </div>
+            <a href="/events/" class="btn btn-outline-dark rounded-pill px-4">View Calendar</a>
+        </div>
+
+        <div class="timeline">
+            {% for event in upcoming_events|slice:":4" %}
+            <div class="timeline-item fade-in-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <span class="badge bg-primary mb-2">{{ event.date|date:"M d, Y" }}</span>
+                    <h4 class="h5 fw-bold mb-2">{{ event.title }}</h4>
+                    <p class="text-muted small mb-3">{{ event.description|truncatewords:20|striptags }}</p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <small class="text-muted"><i class="fa-regular fa-clock me-1"></i> {% if event.start_time %}{{ event.start_time|time:"H:i" }}{% else %}TBA{% endif %}</small>
+                        <a href="{% url 'event_detail' event.slug %}" class="btn btn-sm btn-link text-decoration-none p-0">Details <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+             <div class="text-center py-5">
+                <p class="text-muted">No upcoming events scheduled. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- RESOURCES & NEWS GRID -->
+<section class="py-5 my-5">
     <div class="container">
         <div class="row g-5">
-            <!-- Mission -->
-            <div class="col-lg-6 slide-in-left">
-                <div class="section-header text-center mb-4">
-                    <h2 class="section-title text-primary fw-bold">Our Mission</h2>
-                    <div class="section-divider" style="width: 50px; height: 3px; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); margin: 0.75rem auto;"></div>
-                </div>
-                <div class="card card-body border-0 shadow-md">
-                    <p class="mb-3">
-                        <strong>KUHIN</strong> is dedicated to promoting excellence in health informatics education and fostering innovation in healthcare technology.
-                    </p>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Advance health informatics knowledge and skills</li>
-                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Foster collaboration between healthcare and technology sectors</li>
-                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Contribute to healthcare innovation and digital transformation</li>
-                        <li><i class="fas fa-check-circle text-success me-2"></i> Build a community of passionate health tech professionals</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Vision -->
-            <div class="col-lg-6 slide-in-right">
-                <div class="section-header text-center mb-4">
-                    <h2 class="section-title text-primary fw-bold">Our Vision</h2>
-                    <div class="section-divider" style="width: 50px; height: 3px; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); margin: 0.75rem auto;"></div>
-                </div>
-                <div class="card card-body border-0 shadow-md">
-                    <p class="mb-3">
-                        To be a leading hub of health informatics innovation, creating digital solutions that improve patient outcomes and healthcare delivery systems.
-                    </p>
-                    <div class="mt-4">
-                        <h6 class="text-primary fw-bold mb-3">Key Objectives:</h6>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><i class="fas fa-target text-primary me-2"></i> Research & development in health IT</li>
-                            <li class="mb-2"><i class="fas fa-target text-primary me-2"></i> Industry partnerships and collaborations</li>
-                            <li class="mb-2"><i class="fas fa-target text-primary me-2"></i> Professional development and networking</li>
-                            <li><i class="fas fa-target text-primary me-2"></i> Public health advocacy and digital initiatives</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- What We Do Section -->
-<section class="what-we-do-section py-5 bg-light rounded">
-    <div class="container">
-        <h2 class="text-center mb-5 fw-bold">
-            <i class="fas fa-cogs text-primary me-2"></i>
-            What We Do
-        </h2>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4 fade-in" style="animation-delay: 0.1s;">
-                <div class="card h-100 border-0 shadow-sm hover-lift">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3" style="font-size: 2.5rem; color: var(--primary-color);">
-                            <i class="fas fa-laptop-medical"></i>
+            <!-- Latest Research/Blog -->
+            <div class="col-lg-7 fade-in-up">
+                <h3 class="fw-bold mb-4">Latest Insights</h3>
+                {% for blog in latest_blogs|slice:":3" %}
+                <div class="card border-0 mb-3 hover-lift" style="box-shadow: var(--shadow-soft);">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-4">
+                            {% if blog.featured_image %}
+                            <img src="{{ blog.featured_image.url }}" class="img-fluid rounded-start h-100 object-fit-cover" alt="{{ blog.title }}" style="min-height: 140px;">
+                            {% else %}
+                            <div class="bg-light h-100 d-flex align-items-center justify-content-center text-muted" style="min-height: 140px;">
+                                <i class="fa-solid fa-image fa-2x opacity-25"></i>
+                            </div>
+                            {% endif %}
                         </div>
-                        <h5 class="card-title fw-bold">Health Tech Workshops</h5>
-                        <p class="card-text text-muted">
-                            Hands-on sessions on EHR systems, health data analysis, and medical software development.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in" style="animation-delay: 0.2s;">
-                <div class="card h-100 border-0 shadow-sm hover-lift">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3" style="font-size: 2.5rem; color: var(--secondary-color);">
-                            <i class="fas fa-users"></i>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <small class="text-primary fw-bold text-uppercase" style="font-size: 0.7rem;">{{ blog.category.name }}</small>
+                                <h5 class="card-title fw-bold mt-1"><a href="{% url 'blog_detail' blog.slug %}" class="text-dark text-decoration-none">{{ blog.title }}</a></h5>
+                                <p class="card-text text-muted small mb-0">{{ blog.excerpt|truncatewords:15 }}</p>
+                            </div>
                         </div>
-                        <h5 class="card-title fw-bold">Collaboration Projects</h5>
-                        <p class="card-text text-muted">
-                            Work with healthcare professionals, developers, and researchers on real-world projects.
-                        </p>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 fade-in" style="animation-delay: 0.3s;">
-                <div class="card h-100 border-0 shadow-sm hover-lift">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3" style="font-size: 2.5rem; color: var(--accent-color);">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Research & Learning</h5>
-                        <p class="card-text text-muted">
-                            Access resources, research papers, and learning materials in health informatics.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Impact Statistics Section -->
-<section class="stats-section py-5 my-5">
-    <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Our Impact</h2>
-        <div class="row text-center g-4">
-            <div class="col-sm-6 col-lg-3 fade-in" style="animation-delay: 0.1s;">
-                <div class="stat-card p-4">
-                    <h3 class="display-5 fw-bold text-primary mb-2">{{ member_count }}</h3>
-                    <p class="text-muted fw-semibold">Active Members</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 fade-in" style="animation-delay: 0.2s;">
-                <div class="stat-card p-4">
-                    <h3 class="display-5 fw-bold text-secondary mb-2">{{ event_count }}</h3>
-                    <p class="text-muted fw-semibold">Events Organized</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 fade-in" style="animation-delay: 0.3s;">
-                <div class="stat-card p-4">
-                    <h3 class="display-5 fw-bold text-accent mb-2">{{ blog_count }}</h3>
-                    <p class="text-muted fw-semibold">Blog Posts</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3 fade-in" style="animation-delay: 0.4s;">
-                <div class="stat-card p-4">
-                    <h3 class="display-5 fw-bold" style="color: var(--primary-color);">{{ news_count }}</h3>
-                    <p class="text-muted fw-semibold">News Updates</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Upcoming Events Section -->
-<section class="events-section py-5 bg-light rounded">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h2 class="fw-bold mb-0">
-                    <i class="fas fa-calendar-alt text-primary me-2"></i>
-                    Upcoming Events
-                </h2>
-                <p class="text-muted mt-2">Join us for workshops, seminars, and networking events</p>
-            </div>
-            <a href="/events/" class="btn btn-outline-primary">View All Events</a>
-        </div>
-        <div class="row g-4">
-            {% for event in upcoming_events|slice:":3" %}
-            <div class="col-md-6 col-lg-4 slide-in-up">
-                {% include 'components/card-event.html' with event=event %}
-            </div>
-            {% empty %}
-            <div class="col-12">
-                {% include 'components/empty-state.html' with icon='fas fa-calendar-times' title='No Events Scheduled' message='Check back soon for upcoming events!' %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Latest Blog Posts Section -->
-<section class="blog-section py-5 my-5">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h2 class="fw-bold mb-0">
-                    <i class="fas fa-newspaper text-primary me-2"></i>
-                    Latest From Our Blog
-                </h2>
-                <p class="text-muted mt-2">Insights on health informatics trends and innovations</p>
-            </div>
-            <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary">Read More</a>
-        </div>
-        <div class="row g-4">
-            {% for blog in latest_blogs|slice:":3" %}
-            <div class="col-md-6 col-lg-4 fade-in">
-                {% include 'components/card-blog.html' with blog=blog %}
-            </div>
-            {% empty %}
-            <div class="col-12">
-                {% include 'components/empty-state.html' with icon='fas fa-feather' title='No Blog Posts Yet' message='Check back soon for our latest articles!' cta_text='Browse Resources' cta_url='/resources/' %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-
-<!-- Latest News & Updates Section -->
-<section class="news-section py-5 bg-light rounded">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h2 class="fw-bold mb-0">
-                    <i class="fas fa-bell text-primary me-2"></i>
-                    News & Updates
-                </h2>
-                <p class="text-muted mt-2">Stay informed about KUHIN activities and announcements</p>
-            </div>
-            <a href="{% url 'newsletter:news_list' %}" class="btn btn-outline-primary">All News</a>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-8">
-                {% for news in latest_news|slice:":4" %}
-                <div class="news-card card mb-3 border-0 shadow-sm hover-lift">
-                    {% include 'components/card-news.html' with news=news %}
                 </div>
                 {% empty %}
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle me-2"></i>
-                    No news updates available at the moment.
+                <div class="alert alert-info">
+                    <i class="fa-info-circle me-2"></i> No blog posts available yet.
                 </div>
                 {% endfor %}
             </div>
-            <div class="col-lg-4">
-                <!-- Newsletter Signup or Featured Content -->
-                <div class="card border-0 shadow-md" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
-                    <div class="card-body p-5 text-center">
-                        <h5 class="card-title fw-bold mb-3">Stay Connected</h5>
-                        <p class="small mb-4">Get updates about events, blog posts, and news delivered to your inbox</p>
-                        <a href="/contact/" class="btn btn-light btn-sm w-100">Get Newsletter</a>
+
+            <!-- Join CTA & Newsletter -->
+            <div class="col-lg-5 fade-in-up" style="transition-delay: 0.2s;">
+                <div class="glass-panel p-5 rounded-4 h-100 text-center position-relative overflow-hidden">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-10" style="z-index: -1;"></div>
+                    
+                    <div class="mb-4">
+                        <i class="fa-regular fa-envelope-open fa-3x text-primary"></i>
                     </div>
-                </div>
-                
-                <!-- Quick Links Card -->
-                <div class="card border-0 shadow-md mt-4">
-                    <div class="card-body">
-                        <h6 class="card-title fw-bold mb-3">Quick Links</h6>
-                        <ul class="list-unstyled">
-                            <li class="mb-2"><a href="/team/" class="text-decoration-none"><i class="fas fa-users me-2 text-primary"></i>Meet Our Team</a></li>
-                            <li class="mb-2"><a href="/resources/" class="text-decoration-none"><i class="fas fa-book me-2 text-primary"></i>Resources</a></li>
-                            <li class="mb-2"><a href="/gallery/" class="text-decoration-none"><i class="fas fa-images me-2 text-primary"></i>Gallery</a></li>
-                            <li><a href="/about/" class="text-decoration-none"><i class="fas fa-info-circle me-2 text-primary"></i>About Us</a></li>
-                        </ul>
-                    </div>
+                    <h3 class="fw-bold">Stay Updated</h3>
+                    <p class="text-muted mb-4">Get the latest health informatics news, event invites, and research opportunities.</p>
+                    
+                    <form action="{% url 'subscribe' %}" method="POST" class="mb-3">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="email" name="email" class="form-control form-control-lg fs-6" placeholder="Your email address" required>
+                            <button class="btn btn-primary fw-bold" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                    <small class="text-muted">We respect your privacy. Unsubscribe anytime.</small>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Call to Action Banner -->
-{% include 'components/cta-banner.html' with 
-    title='Ready to Join KUHIN?' 
-    text='Become part of a dynamic community dedicated to health informatics innovation. Network with professionals, participate in projects, and shape the future of healthcare technology.'
-    button_text='Contact Us'
-    button_url='/contact/'
-%}
+<!-- CALL TO ACTION -->
+<section class="py-5 bg-dark text-white text-center position-relative overflow-hidden" style="background: var(--gradient-hero);">
+    <!-- Abstract Shapes -->
+    <div class="position-absolute top-0 end-0 opacity-10" style="transform: translate(30%, -30%);">
+        <i class="fa-solid fa-dna fa-10x"></i>
+    </div>
+    
+    <div class="container position-relative z-2">
+        <h2 class="display-5 fw-bold mb-3">Ready to shape the future?</h2>
+        <p class="lead text-white-50 mb-4">Join KUHIN today and start your journey in Health Informatics.</p>
+        <a href="/contact/" class="btn btn-light rounded-pill px-5 py-3 fw-bold hover-scale">
+            Contact Us
+        </a>
+    </div>
+</section>
 
 {% endblock %}
