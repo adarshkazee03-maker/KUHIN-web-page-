@@ -8,7 +8,6 @@ from newsletter.models import NewsUpdate
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
-from search.models import ContentView
 
 
 def enhanced_home(request):
@@ -92,13 +91,10 @@ def enhanced_home(request):
         'total_news': NewsUpdate.objects.filter(is_active=True).count(),
     }
     
-    # Trending Content (most viewed this week)
-    trending_blogs_views = ContentView.get_trending_content(BlogPost, limit=3)
-    trending_blog_ids = [cv.object_id for cv in trending_blogs_views]
+    # Trending Content - Get latest published blogs
     trending_blogs = BlogPost.objects.filter(
-        id__in=trending_blog_ids,
         status='published'
-    ).select_related('category')
+    ).select_related('category').order_by('-created_at')[:3]
     
     context = {
         # Hero section

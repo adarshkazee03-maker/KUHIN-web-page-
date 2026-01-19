@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'resources',
     'blog',
     'newsletter',
-    'search',
     'homepage_features',
 ]
 
