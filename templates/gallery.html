@@ -6,54 +6,48 @@
 {% block content %}
 
 <!-- Gallery Hero Header -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 text-center py-5">
+        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-camera-retro me-2"></i>Visual Archives
         </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Gallery</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+        <h1 class="display-4 fw-bold mb-3" style="color: white;">Gallery</h1>
+        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
             Moments from KUHIN events and activities.
         </p>
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
+<div class="kuhin-content" style="padding-top: 2rem;">
+<div class="container">
 
     {% if images %}
     
-    <!-- Filter Buttons (Placeholder for future functionality) -->
-    <div class="d-flex justify-content-center flex-wrap gap-2 mb-5 fade-in-up">
-        <button class="btn btn-primary rounded-pill px-4 shadow-sm">All Photos</button>
-        <button class="btn btn-light text-secondary border rounded-pill px-4 hover-lift">Events</button>
-        <button class="btn btn-light text-secondary border rounded-pill px-4 hover-lift">Workshops</button>
+    <!-- Filter Buttons -->
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-5">
+        <button class="btn btn-primary rounded-pill px-4">All Photos</button>
+        <button class="btn btn-light text-secondary border rounded-pill px-4">Events</button>
+        <button class="btn btn-light text-secondary border rounded-pill px-4">Workshops</button>
     </div>
 
     <div class="row g-4">
         {% for image in images %}
-        <div class="col-lg-4 col-md-6 fade-in-up" style="transition-delay: 0.1s;">
-            <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden position-relative hover-lift transition-all group border-0 shadow-sm">
+        <div class="col-lg-4 col-md-6">
+            <div class="kuhin-card h-100 p-0 overflow-hidden position-relative">
                 
                 <!-- Image Container with Zoom Effect -->
-                <div class="position-relative overflow-hidden" style="height: 260px;">
+                <div class="position-relative overflow-hidden" style="height: 260px; background: #f0f0f0;">
                     {% if image.image %}
-                    <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover transition-transform duration-700 group-hover:scale-110" alt="{{ image.title }}">
+                    <img src="{{ image.image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);" alt="{{ image.title }}" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
                     {% else %}
                     <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center text-muted">
                         <i class="fas fa-image fa-3x opacity-25"></i>
                     </div>
                     {% endif %}
                     
-                    <!-- Overlay Gradient (Visible on hover) -->
-                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-0 group-hover:opacity-20 transition-all duration-300"></div>
-                    
                     <!-- Category Badge -->
                     <div class="position-absolute top-0 start-0 p-3">
-                        <span class="badge bg-white text-primary shadow-sm backdrop-blur fw-bold bg-opacity-90">
+                        <span class="kuhin-badge" style="background: white; color: #2c3e91; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                             {{ image.category }}
                         </span>
                     </div>

@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="auto" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,47 +27,280 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prevent flash of wrong theme — runs before page renders -->
+    <script>
+      (function() {
+        const saved = localStorage.getItem('kuhin-theme');
+        if (saved) {
+          document.getElementById('html-root')?.setAttribute('data-bs-theme', saved);
+        }
+      })();
+    </script>
+    
+    <!-- Professional Navbar Styling -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     
     <!-- Bio-Digital Theme CSS -->
     <link rel="stylesheet" href="{% static 'css/kuhin-theme.css' %}">
+    
+    <!-- Universal Typography System (loads last to override theme fonts) -->
+    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+    
+    <!-- KUHIN Unified Design System with Dark Mode Support -->
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        :root[data-bs-theme="light"] {
+            --primary-color: #2c3e91;
+            --primary-light: #3d5fff;
+            --secondary-color: #6c757d;
+            --dark-bg: #1a1f35;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1a1f35 0%, #2c3e91 100%);
+            --kuhin-accent: #0d6efd;
+            --kuhin-card-bg: #ffffff;
+            --kuhin-muted: #6c757d;
+        }
+
+        :root[data-bs-theme="dark"] {
+            --primary-color: #6ea8fe;
+            --primary-light: #80b5ff;
+            --secondary-color: #adb5bd;
+            --dark-bg: #0d1117;
+            --light-bg: #1c2128;
+            --card-bg: #1e2228;
+            --hero-gradient: linear-gradient(135deg, #0d1117 0%, #1e2228 100%);
+            --kuhin-accent: #6ea8fe;
+            --kuhin-card-bg: #1e2228;
+            --kuhin-muted: #adb5bd;
+        }
+
+        /* KUHIN Hero Section - Standard for all pages */
+        .kuhin-hero {
+            background: var(--hero-gradient);
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kuhin-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+
+        /* KUHIN Content Wrapper */
+        .kuhin-content {
+            background: var(--bs-body-bg);
+            padding: 3rem 0;
+        }
+
+        /* KUHIN Card - Standard card styling */
+        .kuhin-card {
+            background: var(--kuhin-card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+        }
+
+        .kuhin-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        /* KUHIN Section Title */
+        .kuhin-section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--bs-body-color);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .kuhin-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(44, 62, 145, 0.3);
+        }
+
+        /* Responsive Grid */
+        .kuhin-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .kuhin-grid {
+                gap: 1.5rem;
+            }
+
+            .kuhin-section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Badge styling */
+        .kuhin-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Hover lift effect */
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Skip Link Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            z-index: 9999;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 0 0 4px 4px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Focus Visible for Keyboard Navigation */
+        :focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Skip Navigation Link (Accessibility) -->
-    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
+    <a href="#main-content" class="skip-link visually-hidden-focusable">Skip to main content</a>
     
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top glass-dark navbar-dark transition-all" id="mainNav" role="navigation" aria-label="Main navigation">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/" aria-label="KUHIN Home">
-                <!-- Replace with actual logo image later -->
-                <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
-                    <i class="fa-solid fa-dna"></i>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" id="mainNav" role="navigation" aria-label="Main navigation">
+        <div class="container-fluid px-3 px-lg-5">
+            <!-- Navbar Brand with Professional Logo Placement -->
+            <a class="navbar-brand" href="/" aria-label="KUHIN — Kathmandu University Health Informatics Club home">
+                <div class="navbar-logo-container">
+                    <!-- Main Logo -->
+                    <img src="{% static 'images/Kuhin_logo.png' %}" alt="" aria-hidden="true" class="navbar-logo" loading="eager">
+                    
+                    <!-- Text Branding -->
+                    <div class="navbar-text-logo">
+                        <div class="navbar-text-logo-main">KUHIN</div>
+                        <div class="navbar-text-logo-sub">Health Informatics</div>
+                    </div>
                 </div>
-                <span>KUHIN</span>
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <!-- Mobile Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium">
-                    <li class="nav-item px-2"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" href="/events/">Events</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" href="{% url 'blog:blog_list' %}">Blog</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" href="/resources/">Resources</a></li>
-                    <li class="nav-item px-2"><a class="nav-link" href="/team/">Team</a></li>
+                <!-- Center Navigation Menu -->
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0" role="list">
+                    <li class="nav-item" role="listitem">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                           href="/" 
+                           {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" role="listitem">
+                        <button class="nav-link dropdown-toggle" id="aboutDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                            About
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="aboutDropdown" role="list">
+                            <li role="listitem"><a class="dropdown-item" href="{% url 'home:about' %}">About KUHIN</a></li>
+                            <li role="listitem"><a class="dropdown-item" href="{% url 'home:programs' %}">Programs</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item" role="listitem">
+                        <a class="nav-link" href="{% url 'home:events' %}">Events</a>
+                    </li>
+                    <li class="nav-item" role="listitem">
+                        <a class="nav-link" href="{% url 'blog:blog_list' %}">Blog</a>
+                    </li>
+                    <li class="nav-item" role="listitem">
+                        <a class="nav-link" href="{% url 'home:resources' %}">Resources</a>
+                    </li>
+                    <li class="nav-item" role="listitem">
+                        <a class="nav-link" href="{% url 'home:team' %}">Team</a>
+                    </li>
                 </ul>
                 
-                <div class="d-flex align-items-center">
-                    <!-- CTA -->
-                    <a href="/contact/" class="btn btn-primary rounded-pill px-4 fw-bold">Join Us</a>
+                <!-- Right Controls -->
+                <div class="navbar-controls">
+                    <!-- Theme Toggle Button -->
+                    <button 
+                        id="theme-toggle" 
+                        class="btn btn-sm d-flex align-items-center gap-2"
+                        onclick="toggleTheme()"
+                        aria-label="Toggle dark mode"
+                        title="Toggle dark mode"
+                    >
+                        <span id="theme-icon">🌙</span>
+                        <span id="theme-label" class="d-none d-md-inline" style="font-size: 0.85rem;">Dark</span>
+                    </button>
+                    
+                    <!-- Contact CTA Button -->
+                    <a href="{% url 'home:contact' %}" class="btn btn-sm navbar-cta">
+                        Contact
+                    </a>
                 </div>
             </div>
         </div>
@@ -76,7 +309,7 @@
     {% block breadcrumb %}{% endblock %}
 
     <!-- Main Content -->
-    <main id="main-content" class="main-content" role="main" style="padding-top: 80px;">
+    <main id="main-content" role="main" class="main-content" style="padding-top: 110px;" tabindex="-1">
         {% block content %}
         {% endblock %}
     </main>
@@ -88,34 +321,39 @@
                 <div class="col-lg-4">
                     <h4 class="mb-4">KUHIN</h4>
                     <p class="text-white-50">Empowering the next generation of healthcare leaders through data science and technology innovation at Kathmandu University.</p>
-                    <div class="d-flex gap-3 mt-4">
-                        <a href="#" class="text-white" title="Facebook"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-white" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
-                        <a href="#" class="text-white" title="GitHub"><i class="fab fa-github fa-lg"></i></a>
-                    </div>
+                    <nav aria-label="Social media links" class="d-flex gap-3 mt-4">
+                        <a href="#" class="text-white" title="Facebook" aria-label="Visit KUHIN Facebook page"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-white" title="LinkedIn" aria-label="Visit KUHIN LinkedIn page"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" class="text-white" title="GitHub" aria-label="Visit KUHIN GitHub page"><i class="fab fa-github fa-lg"></i></a>
+                    </nav>
                 </div>
                 <div class="col-lg-2 col-6">
                     <h6 class="text-primary mb-3">Explore</h6>
-                    <ul class="list-unstyled text-white-50">
-                        <li class="mb-2"><a href="/about/" class="text-reset text-decoration-none">About</a></li>
-                        <li class="mb-2"><a href="/events/" class="text-reset text-decoration-none">Events</a></li>
-                        <li class="mb-2"><a href="/gallery/" class="text-reset text-decoration-none">Gallery</a></li>
-                    </ul>
+                    <nav aria-label="Footer explore links">
+                        <ul class="list-unstyled text-white-50">
+                            <li class="mb-2"><a href="{% url 'home:about' %}" class="text-reset text-decoration-none">About</a></li>
+                            <li class="mb-2"><a href="{% url 'home:programs' %}" class="text-reset text-decoration-none">Programs</a></li>
+                            <li class="mb-2"><a href="{% url 'home:events' %}" class="text-reset text-decoration-none">Events</a></li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="col-lg-2 col-6">
                     <h6 class="text-primary mb-3">Resources</h6>
-                    <ul class="list-unstyled text-white-50">
-                        <li class="mb-2"><a href="{% url 'blog:blog_list' %}" class="text-reset text-decoration-none">Research</a></li>
-                        <li class="mb-2"><a href="/resources/" class="text-reset text-decoration-none">Datasets</a></li>
-                        <li class="mb-2"><a href="{% url 'newsletter:news_list' %}" class="text-reset text-decoration-none">Newsletter</a></li>
-                    </ul>
+                    <nav aria-label="Footer resources links">
+                        <ul class="list-unstyled text-white-50">
+                            <li class="mb-2"><a href="{% url 'blog:blog_list' %}" class="text-reset text-decoration-none">Blog</a></li>
+                            <li class="mb-2"><a href="{% url 'home:resources' %}" class="text-reset text-decoration-none">Resources</a></li>
+                            <li class="mb-2"><a href="{% url 'home:gallery' %}" class="text-reset text-decoration-none">Gallery</a></li>
+                            <li class="mb-2"><a href="{% url 'newsletter:news_list' %}" class="text-reset text-decoration-none">Newsletter</a></li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="col-lg-4">
                     <h6 class="text-primary mb-3">Contact</h6>
-                    <ul class="list-unstyled text-white-50">
-                        <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i> Dhulikhel, Kavre, Nepal</li>
-                        <li class="mb-2"><i class="fa-solid fa-envelope me-2"></i> kuhin@ku.edu.np</li>
-                    </ul>
+                    <address class="list-unstyled text-white-50">
+                        <p class="mb-2"><i class="fa-solid fa-location-dot me-2"></i> Dhulikhel, Kavre, Nepal</p>
+                        <p class="mb-2"><i class="fa-solid fa-envelope me-2"></i> <a href="mailto:kuhin@ku.edu.np" class="text-reset">kuhin@ku.edu.np</a></p>
+                    </address>
                 </div>
             </div>
         </div>
@@ -131,8 +369,9 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/kuhin-theme.js' %}"></script>
     
     {% block scripts %}{% endblock %}

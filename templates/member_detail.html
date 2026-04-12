@@ -1,96 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ member.name }} - Team - KUHIN{% endblock %}
+{% block title %}{{ member.name }} - KUHIN{% endblock %}
 
 {% block content %}
 
-<!-- Member Hero Header -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, #1a1f35 0%, #2c3e91 100%); min-height: 500px; display: flex; align-items: center; color: white; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: rgba(255, 255, 255, 0.05); border-radius: 50%; transform: translate(100px, -100px);"></div>
     
-    <div class="container position-relative z-1 py-4">
+    <div class="container position-relative z-1">
         <div class="row align-items-center">
-            
-            <!-- Breadcrumb -->
-            <div class="col-12 mb-4 fade-in-up">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'home:home' %}" class="text-white-50 text-decoration-none hover-text-white">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'home:team' %}" class="text-white-50 text-decoration-none hover-text-white">Team</a></li>
-                        <li class="breadcrumb-item active text-white" aria-current="page">{{ member.name }}</li>
-                    </ol>
-                </nav>
-            </div>
-
-            <!-- Profile Image (Left) -->
-            <div class="col-lg-3 col-md-4 text-center mb-4 mb-md-0 fade-in-up">
-                <div class="position-relative d-inline-block">
-                    <!-- Rotating Tech Ring Wrapper -->
-                    <div class="member-avatar-wrapper" style="width: 200px; height: 200px;">
-                        {% if member.photo %}
-                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-avatar shadow-glow">
-                        {% else %}
-                        <div class="member-avatar bg-light d-flex align-items-center justify-content-center text-secondary shadow-glow">
-                            <i class="fas fa-user fa-5x opacity-25"></i>
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    {% if member.is_active %}
-                    <div class="position-absolute bottom-0 end-0 bg-success border border-4 border-dark rounded-circle p-3 shadow-lg" title="Active Member" style="transform: translate(-10%, -10%);"></div>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Member Info (Right) -->
-            <div class="col-lg-9 col-md-8 fade-in-up" style="transition-delay: 0.1s;">
-                <h1 class="display-4 fw-bold mb-2">{{ member.name }}</h1>
-                <h4 class="text-primary mb-3">{{ member.position }}</h4>
-                
-                <div class="d-flex flex-wrap gap-2 mb-4">
-                    {% if member.team %}
-                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 rounded-pill px-3 py-2 backdrop-blur">
-                        <i class="fas fa-building me-2 text-info"></i>{{ member.team }}
-                    </span>
-                    {% endif %}
-                    
-                    <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-25 rounded-pill px-3 py-2 backdrop-blur">
-                        <i class="fas fa-graduation-cap me-2 text-warning"></i>Batch {{ member.batch }}
-                    </span>
-                    
-                    {% if member.is_active %}
-                    <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25 rounded-pill px-3 py-2 backdrop-blur">
-                        <i class="fas fa-check-circle me-1"></i>Active
-                    </span>
+            <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
+                <div style="width: 250px; height: 250px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);">
+                    {% if member.photo %}
+                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" style="width: 100%; height: 100%; object-fit: cover;">
                     {% else %}
-                    <span class="badge bg-secondary bg-opacity-20 text-secondary border border-secondary border-opacity-25 rounded-pill px-3 py-2 backdrop-blur">
-                        Alumni
+                    <div style="width: 100%; height: 100%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user fa-5x opacity-50"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-lg-8 ps-lg-4">
+                <div style="margin-bottom: 1rem;">
+                    <a href="{% url 'home:team' %}" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.9rem;">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Team
+                    </a>
+                </div>
+                
+                <h1 style="font-size: 3rem; font-weight: bold; margin-bottom: 0.5rem;">{{ member.name }}</h1>
+                <h2 style="font-size: 1.5rem; color: #90caf9; margin-bottom: 1.5rem; font-weight: 600;">{{ member.position }}</h2>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem;">
+                    {% if member.team %}
+                    <span style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem;">
+                        <i class="fas fa-building me-2"></i>{{ member.team }}
+                    </span>
+                    {% endif %}
+                    
+                    <span style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem;">
+                        <i class="fas fa-graduation-cap me-2"></i>Batch {{ member.batch }}
+                    </span>
+                    
+                    {% if member.is_active %}
+                    <span style="background: rgba(76,175,80,0.2); color: #4caf50; padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(76,175,80,0.3); font-size: 0.9rem;">
+                        <i class="fas fa-check-circle me-1"></i>Active Member
                     </span>
                     {% endif %}
                 </div>
-
-                <!-- Quick Social Row -->
-                <div class="d-flex gap-3">
+                
+                <div style="display: flex; gap: 1rem;">
                     {% if member.email %}
-                    <a href="mailto:{{ member.email }}" class="btn btn-light rounded-circle shadow-sm text-primary hover-scale share-btn">
+                    <a href="mailto:{{ member.email }}" style="background: white; color: #2c3e91; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s; border: none;">
                         <i class="fas fa-envelope"></i>
                     </a>
                     {% endif %}
                     {% if member.linkedin %}
-                    <a href="{{ member.linkedin }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-primary hover-scale share-btn">
+                    <a href="{{ member.linkedin }}" target="_blank" style="background: white; color: #2c3e91; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s; border: none;">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
                     {% endif %}
                     {% if member.github %}
-                    <a href="{{ member.github }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-dark hover-scale share-btn">
+                    <a href="{{ member.github }}" target="_blank" style="background: white; color: #2c3e91; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s; border: none;">
                         <i class="fab fa-github"></i>
                     </a>
                     {% endif %}
                     {% if member.website %}
-                    <a href="{{ member.website }}" target="_blank" class="btn btn-light rounded-circle shadow-sm text-info hover-scale share-btn">
+                    <a href="{{ member.website }}" target="_blank" style="background: white; color: #2c3e91; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s; border: none;">
                         <i class="fas fa-globe"></i>
                     </a>
                     {% endif %}
@@ -100,240 +78,159 @@
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
 
-    <div class="row g-4">
-        
-        <!-- Left Column: Biography & Details -->
-        <div class="col-lg-8">
+<div style="background: #f8f9fa; padding: 3rem 0;">
+    <div class="container">
+        <div class="row g-4">
             
-            <!-- Info Grid Panel -->
-            <div class="glass-panel p-4 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.1s; border-left: 4px solid var(--primary-color);">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="d-flex gap-3 align-items-start">
-                            <div class="rounded-3 bg-primary bg-opacity-10 p-3 text-primary">
-                                <i class="fas fa-briefcase fa-lg"></i>
-                            </div>
-                            <div>
-                                <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Role in Project</small>
-                                <p class="fw-bold text-dark mb-0">{{ member.role_in_project|default:"Member" }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex gap-3 align-items-start">
-                            <div class="rounded-3 bg-warning bg-opacity-10 p-3 text-warning">
-                                <i class="fas fa-star fa-lg"></i>
-                            </div>
-                            <div>
-                                <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Specialization</small>
-                                <p class="fw-bold text-dark mb-0">{{ member.specialization|default:"Health Informatics" }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex gap-3 align-items-start">
-                            <div class="rounded-3 bg-info bg-opacity-10 p-3 text-info">
-                                <i class="fas fa-calendar-alt fa-lg"></i>
-                            </div>
-                            <div>
-                                <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Join Date</small>
-                                <p class="fw-bold text-dark mb-0">
-                                    {% if member.join_date %}
-                                        {{ member.join_date|date:"M d, Y" }}
-                                    {% else %}
-                                        Unknown
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex gap-3 align-items-start">
-                            <div class="rounded-3 bg-success bg-opacity-10 p-3 text-success">
-                                <i class="fas fa-clock fa-lg"></i>
-                            </div>
-                            <div>
-                                <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem; letter-spacing: 1px;">Member Since</small>
-                                <p class="fw-bold text-dark mb-0">{{ member.created_at|date:"Y" }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Biography Card -->
-            {% if member.bio %}
-            <div class="glass-panel p-4 p-md-5 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.2s;">
-                <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">
-                    <i class="fas fa-user-circle text-primary me-2"></i>Biography
-                </h4>
-                <div class="text-muted" style="line-height: 1.8;">
-                    {{ member.bio|safe }}
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Achievements Section -->
-            {% if member.achievements %}
-            <div class="glass-panel p-4 p-md-5 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.3s;">
-                <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">
-                    <i class="fas fa-trophy text-warning me-2"></i>Achievements
-                </h4>
-                <div class="text-muted">
-                    {{ member.achievements|safe }}
-                </div>
-            </div>
-            {% endif %}
-
-        </div>
-
-        <!-- Right Column: Sidebar Info -->
-        <div class="col-lg-4">
-            
-            <!-- Contact Card -->
-            <div class="glass-panel p-4 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.4s;">
-                <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="fas fa-address-card me-2 text-primary"></i>Contact Info</h5>
+            <!-- Main Content -->
+            <div class="col-lg-8">
                 
-                <ul class="list-unstyled mb-0">
-                    {% if member.email %}
-                    <li class="mb-3">
-                        <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem;">Email</small>
-                        <a href="mailto:{{ member.email }}" class="d-block text-decoration-none text-primary fw-medium text-break">{{ member.email }}</a>
-                    </li>
-                    {% endif %}
-                    
-                    {% if member.phone %}
-                    <li class="mb-3">
-                        <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem;">Phone</small>
-                        <a href="tel:{{ member.phone }}" class="d-block text-decoration-none text-dark fw-medium">{{ member.phone }}</a>
-                    </li>
-                    {% endif %}
+                <!-- Quick Info Grid -->
+                <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+                    <h3 style="font-weight: bold; margin-bottom: 1.5rem; color: #1a1f35;">Quick Info</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <p style="font-size: 0.85rem; color: #999; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Role in Project</p>
+                            <p style="font-size: 1rem; font-weight: 600; color: #1a1f35;">{{ member.role_in_project|default:"Member" }}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; color: #999; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Specialization</p>
+                            <p style="font-size: 1rem; font-weight: 600; color: #1a1f35;">{{ member.specialization|default:"—" }}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; color: #999; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Member Since</p>
+                            <p style="font-size: 1rem; font-weight: 600; color: #1a1f35;">{{ member.created_at|date:"Y" }}</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; color: #999; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 0.5rem;">Join Date</p>
+                            <p style="font-size: 1rem; font-weight: 600; color: #1a1f35;">
+                                {% if member.join_date %}
+                                    {{ member.join_date|date:"M d, Y" }}
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-                    {% if member.website %}
-                    <li>
-                        <small class="text-uppercase text-secondary fw-bold" style="font-size: 0.7rem;">Website</small>
-                        <a href="{{ member.website }}" target="_blank" class="d-block text-decoration-none text-primary fw-medium">
-                            Visit Portfolio <i class="fas fa-external-link-alt ms-1 small"></i>
+                <!-- Biography -->
+                {% if member.bio %}
+                <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 2rem;">
+                    <h3 style="font-weight: bold; margin-bottom: 1.5rem; color: #1a1f35;">
+                        <i class="fas fa-user-circle me-2" style="color: #2c3e91;"></i>About
+                    </h3>
+                    <div style="color: #666; line-height: 1.8; font-size: 1rem;">
+                        {{ member.bio|safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Achievements -->
+                {% if member.achievements %}
+                <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="font-weight: bold; margin-bottom: 1.5rem; color: #1a1f35;">
+                        <i class="fas fa-trophy me-2" style="color: #ffc107;"></i>Achievements
+                    </h3>
+                    <div style="color: #666; line-height: 1.8;">
+                        {{ member.achievements|safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                
+                <!-- Contact Card -->
+                <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem;">
+                    <h5 style="font-weight: bold; margin-bottom: 1rem; color: #1a1f35; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                        <i class="fas fa-address-card me-2" style="color: #2c3e91;"></i>Contact
+                    </h5>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        {% if member.email %}
+                        <div>
+                            <p style="font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem;">Email</p>
+                            <a href="mailto:{{ member.email }}" style="color: #2c3e91; text-decoration: none; font-weight: 500; word-break: break-all;">{{ member.email }}</a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if member.phone %}
+                        <div>
+                            <p style="font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem;">Phone</p>
+                            <a href="tel:{{ member.phone }}" style="color: #1a1f35; text-decoration: none; font-weight: 500;">{{ member.phone }}</a>
+                        </div>
+                        {% endif %}
+
+                        {% if member.website %}
+                        <div>
+                            <p style="font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem;">Website</p>
+                            <a href="{{ member.website }}" target="_blank" style="color: #2c3e91; text-decoration: none; font-weight: 500;">Visit Portfolio <i class="fas fa-external-link-alt ms-1" style="font-size: 0.8rem;"></i></a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                    <h5 style="font-weight: bold; margin-bottom: 1rem; color: #1a1f35; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+                        <i class="fas fa-share-alt me-2" style="color: #2c3e91;"></i>Social
+                    </h5>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        {% if member.linkedin %}
+                        <a href="{{ member.linkedin }}" target="_blank" style="background: white; border: 1px solid #e0e0e0; color: #1a1f35; padding: 0.75rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
+                            <span><i class="fab fa-linkedin me-2" style="color: #2c3e91;"></i>LinkedIn</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; color: #999;"></i>
                         </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+                        {% endif %}
+                        
+                        {% if member.github %}
+                        <a href="{{ member.github }}" target="_blank" style="background: white; border: 1px solid #e0e0e0; color: #1a1f35; padding: 0.75rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
+                            <span><i class="fab fa-github me-2"></i>GitHub</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; color: #999;"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% if member.twitter %}
+                        <a href="{{ member.twitter }}" target="_blank" style="background: white; border: 1px solid #e0e0e0; color: #1a1f35; padding: 0.75rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s;">
+                            <span><i class="fab fa-twitter me-2" style="color: #0891b2;"></i>Twitter</span>
+                            <i class="fas fa-arrow-right" style="font-size: 0.8rem; color: #999;"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
 
-            <!-- Team Details Card -->
-            <div class="glass-panel p-4 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.5s;">
-                <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="fas fa-info-circle me-2 text-primary"></i>Team Details</h5>
-                
-                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-light pb-2">
-                    <span class="text-secondary small fw-bold text-uppercase">Position</span>
-                    <span class="fw-bold text-dark text-end">{{ member.position }}</span>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-light pb-2">
-                    <span class="text-secondary small fw-bold text-uppercase">Team</span>
-                    <span class="fw-bold text-dark">{{ member.team }}</span>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-3 border-bottom border-light pb-2">
-                    <span class="text-secondary small fw-bold text-uppercase">Batch</span>
-                    <span class="fw-bold text-dark">{{ member.batch }}</span>
-                </div>
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="text-secondary small fw-bold text-uppercase">Status</span>
-                    {% if member.is_active %}
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Active</span>
-                    {% else %}
-                    <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">Inactive</span>
-                    {% endif %}
-                </div>
             </div>
-
-            <!-- Detailed Social Links -->
-            <div class="glass-panel p-4 rounded-4 fade-in-up" style="transition-delay: 0.6s;">
-                <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="fas fa-share-alt me-2 text-primary"></i>Social Profiles</h5>
-                
-                <div class="d-flex flex-column gap-2">
-                    {% if member.linkedin %}
-                    <a href="{{ member.linkedin }}" target="_blank" class="btn btn-outline-light text-dark border-0 shadow-sm d-flex align-items-center justify-content-between px-3 py-2 hover-lift">
-                        <span><i class="fab fa-linkedin me-2 text-primary"></i> LinkedIn</span>
-                        <i class="fas fa-arrow-right small text-muted"></i>
-                    </a>
-                    {% endif %}
-                    
-                    {% if member.github %}
-                    <a href="{{ member.github }}" target="_blank" class="btn btn-outline-light text-dark border-0 shadow-sm d-flex align-items-center justify-content-between px-3 py-2 hover-lift">
-                        <span><i class="fab fa-github me-2 text-dark"></i> GitHub</span>
-                        <i class="fas fa-arrow-right small text-muted"></i>
-                    </a>
-                    {% endif %}
-                    
-                    {% if member.twitter %}
-                    <a href="{{ member.twitter }}" target="_blank" class="btn btn-outline-light text-dark border-0 shadow-sm d-flex align-items-center justify-content-between px-3 py-2 hover-lift">
-                        <span><i class="fab fa-twitter me-2 text-info"></i> Twitter</span>
-                        <i class="fas fa-arrow-right small text-muted"></i>
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
 
-<!-- Back Button -->
-<div class="container text-center mt-5 mb-5 fade-in-up" style="transition-delay: 0.7s;">
-    <a href="{% url 'home:team' %}" class="btn btn-outline-secondary rounded-pill px-4 hover-scale">
-        <i class="fas fa-arrow-left me-2"></i>Back to Team
-    </a>
-</div>
-
 <style>
-    .member-avatar-wrapper {
-        border-radius: 50%;
-        overflow: hidden;
-        border: 4px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(8, 145, 178, 0.2);
+    /* Smooth hover effects for social buttons and links */
+    a[style*="border: 1px solid #e0e0e0"]:hover {
+        border-color: #2c3e91 !important;
+        background-color: #f5f7ff !important;
+        transform: translateY(-2px);
     }
     
-    .member-avatar {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 50%;
+    /* Link hover effects */
+    a[href*="mailto"], a[href*="tel"], a[href^="http"] {
+        transition: all 0.2s ease;
     }
     
-    .shadow-glow {
-        box-shadow: 0 0 30px rgba(8, 145, 178, 0.3);
+    a[href*="mailto"]:hover, a[href*="tel"]:hover, a[href^="http"]:hover {
+        opacity: 0.8;
     }
     
-    .share-btn {
-        width: 45px;
-        height: 45px;
-        display: grid;
-        place-items: center;
-        transition: all 0.3s ease;
-    }
-    
-    .hover-text-white:hover {
-        color: white !important;
-    }
-    
-    .backdrop-blur {
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-    
-    .hover-lift:hover {
-        transform: translateY(-3px);
-        background-color: white;
-    }
-    
-    .hover-scale:hover {
-        transform: scale(1.1);
+    /* Responsive adjustments for mobile */
+    @media (max-width: 768px) {
+        div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr !important;
+        }
     }
 </style>
 

@@ -4,195 +4,351 @@
 {% block title %}Our Team - KUHIN{% endblock %}
 
 {% block content %}
-<!-- Team Hero Section -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
-            <i class="fas fa-users me-2"></i>Community
-        </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Meet Our Team</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
-            The dedicated students and visionaries driving KUHIN's mission forward.
-        </p>
+<!-- Hero Section -->
+<section class="team-hero" style="background: linear-gradient(135deg, #1a1f35 0%, #2c3e91 100%); min-height: 500px; display: flex; align-items: center; color: white;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-primary text-white mb-3" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Our Leadership</span>
+                <h1 class="display-3 fw-bold mb-4">Meet The KUHIN Team</h1>
+                <p class="lead mb-4 opacity-75">Passionate students and leaders dedicated to innovation, community, and excellence. Together, we're building the future.</p>
+                <div class="d-flex gap-3">
+                    <div>
+                        <h3 class="text-primary fw-bold" id="memberCount">0</h3>
+                        <p class="small opacity-75">Team Members</p>
+                    </div>
+                    <div>
+                        <h3 class="text-primary fw-bold" id="batchCount">0</h3>
+                        <p class="small opacity-75">Different Batches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center opacity-75">
+                <i class="fas fa-users display-1" style="opacity: 0.3;"></i>
+            </div>
+        </div>
     </div>
 </section>
 
-
-<div class="container py-5 mt-n5 position-relative z-2">
-
-    <!-- Executive Committee Section -->
-    {% if executive_committee %}
-    <section class="mb-5 fade-in-up" style="transition-delay: 0.3s;">
-        <div class="text-center mb-5 pt-4">
-            <h2 class="fw-bold text-dark d-inline-block border-bottom border-4 border-primary pb-2">
-                Executive Committee
-            </h2>
-        </div>
-        
-        <div class="row g-4 justify-content-center">
-            {% for member in executive_committee %}
-            <div class="col-lg-4 col-md-6">
-                <!-- Card Link Wrapper -->
-                <a href="{% url 'home:member_detail' member.pk %}" class="text-decoration-none">
-                    <div class="glass-panel member-card h-100 p-4 rounded-4 text-center position-relative transition-all hover-lift border-0 shadow-sm">
-                        
-                        <!-- Avatar with Rotating Tech Ring -->
-                        <div class="member-avatar-wrapper mx-auto mb-4 position-relative">
-                            {% if member.photo %}
-                            <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-avatar w-100 h-100 object-fit-cover rounded-circle border border-4 border-white shadow-sm">
-                            {% else %}
-                            <div class="member-avatar bg-light d-flex align-items-center justify-content-center text-secondary w-100 h-100 rounded-circle border border-4 border-white shadow-sm">
-                                <i class="fas fa-user fa-3x opacity-25"></i>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- Content -->
-                        <h4 class="fw-bold text-dark mb-1">{{ member.name }}</h4>
-                        <p class="text-primary fw-bold small text-uppercase mb-2">{{ member.position }}</p>
-                        
-                        <div class="mb-3 d-flex flex-wrap justify-content-center gap-2">
-                            {% if member.role_in_project %}
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill fw-normal">
-                                {{ member.role_in_project }}
-                            </span>
-                            {% endif %}
-                            <span class="badge bg-light text-muted border rounded-pill fw-normal">
-                                Batch: {{ member.batch }}
-                            </span>
-                        </div>
-
-                        <p class="text-muted small mb-4 px-2 line-clamp-3">
-                            {{ member.bio|truncatewords:20 }}
-                        </p>
-
-                        <!-- Social Links -->
-                        <div class="d-flex justify-content-center gap-2 position-relative z-2 mt-auto pt-3 border-top border-light">
-                            {% if member.email %}
-                            <a href="mailto:{{ member.email }}" class="btn btn-sm btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 36px; height: 36px; display: grid; place-items: center;" title="Email">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                            {% endif %}
-                            {% if member.linkedin %}
-                            <a href="{{ member.linkedin }}" target="_blank" class="btn btn-sm btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 36px; height: 36px; display: grid; place-items: center;" title="LinkedIn">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            {% endif %}
-                            {% if member.github %}
-                            <a href="{{ member.github }}" target="_blank" class="btn btn-sm btn-light text-dark rounded-circle shadow-sm hover-scale" style="width: 36px; height: 36px; display: grid; place-items: center;" title="GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
+<div class="container-fluid py-5" style="background: #f8f9fa;">
+    <!-- Search & Filter -->
+    <div class="container mb-5">
+        <div class="row g-3">
+            <div class="col-md-8">
+                <input type="text" class="form-control form-control-lg" id="memberSearch" placeholder="Search members by name, position, or batch..." style="border: 2px solid #e0e0e0; border-radius: 50px; padding: 12px 20px; font-size: 1rem;">
             </div>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    <!-- Advisory Board Section -->
-    {% if advisory_board %}
-    <section class="mb-5 fade-in-up">
-        <div class="text-center mb-5 pt-4">
-            <h2 class="fw-bold text-dark d-inline-block border-bottom border-4 border-secondary pb-2">
-                Advisory Board
-            </h2>
-        </div>
-        
-        <div class="row g-4 justify-content-center">
-            {% for member in advisory_board %}
-            <div class="col-lg-4 col-md-6">
-                <a href="{% url 'home:member_detail' member.pk %}" class="text-decoration-none">
-                    <div class="glass-panel member-card h-100 p-4 rounded-4 text-center position-relative transition-all hover-lift border-0 shadow-sm">
-                        
-                        <div class="member-avatar-wrapper mx-auto mb-4 position-relative" style="width: 120px; height: 120px;">
-                            {% if member.photo %}
-                            <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-avatar w-100 h-100 object-fit-cover rounded-circle border border-4 border-white shadow-sm">
-                            {% else %}
-                            <div class="member-avatar bg-light d-flex align-items-center justify-content-center text-secondary w-100 h-100 rounded-circle border border-4 border-white shadow-sm">
-                                <i class="fas fa-user-tie fa-3x opacity-25"></i>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <h4 class="fw-bold text-dark mb-1">{{ member.name }}</h4>
-                        <p class="text-secondary fw-bold small text-uppercase mb-3">{{ member.position }}</p>
-                        
-                        <p class="text-muted small mb-3 px-2 line-clamp-3">
-                            {{ member.bio|truncatewords:25 }}
-                        </p>
-
-                        <div class="d-flex justify-content-center gap-2 position-relative z-2 mt-auto pt-3 border-top border-light">
-                             {% if member.linkedin %}
-                            <a href="{{ member.linkedin }}" target="_blank" class="btn btn-sm btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 36px; height: 36px; display: grid; place-items: center;" title="LinkedIn">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            {% endif %}
-                             {% if member.email %}
-                            <a href="mailto:{{ member.email }}" class="btn btn-sm btn-light text-secondary rounded-circle shadow-sm hover-scale" style="width: 36px; height: 36px; display: grid; place-items: center;" title="Email">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    <!-- No Members State -->
-    {% if not members and not executive_committee and not advisory_board %}
-    <div class="row fade-in-up">
-        <div class="col-12 text-center py-5">
-            <div class="glass-panel p-5 rounded-4 d-inline-block">
-                <i class="fas fa-user-group fa-3x text-muted mb-3 opacity-50"></i>
-                <h4 class="text-muted fw-bold">Team Updates in Progress</h4>
-                <p class="text-muted small">Please check back later for the updated roster.</p>
+            <div class="col-md-4">
+                <select class="form-select form-select-lg" id="teamFilter" style="border: 2px solid #e0e0e0; border-radius: 50px; padding: 12px 20px; font-size: 1rem;">
+                    <option value="">Show All Members</option>
+                    <option value="Executive Committee">Executive Committee</option>
+                    <option value="Advisory Board">Advisory Board</option>
+                </select>
             </div>
         </div>
     </div>
-    {% endif %}
 
+    <div class="container">
+        <!-- Members Grid -->
+        <div class="row g-4" id="membersGrid">
+            {% for member in executive_committee %}
+            <div class="col-lg-3 col-md-6 member-item" data-name="{{ member.name|lower }}" data-position="{{ member.position|lower }}" data-batch="{{ member.batch }}" data-team="Executive Committee">
+                <div class="member-card h-100">
+                    <div class="member-image-container">
+                        {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-image">
+                        {% else %}
+                        <div class="member-image bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user fa-4x text-secondary opacity-25"></i>
+                        </div>
+                        {% endif %}
+                        <div class="member-overlay">
+                            <div class="social-links">
+                                {% if member.email %}<a href="mailto:{{ member.email }}" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>{% endif %}
+                                {% if member.linkedin %}<a href="{{ member.linkedin }}" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                                {% if member.github %}<a href="{{ member.github }}" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>{% endif %}
+                            </div>
+                            <a href="{% url 'home:member_detail' member.pk %}" class="view-btn">View Profile</a>
+                        </div>
+                    </div>
+                    <div class="member-info p-4">
+                        <h5 class="fw-bold mb-1" style="color: #1a1f35;">{{ member.name }}</h5>
+                        <p class="text-primary fw-bold small text-uppercase mb-3">{{ member.position }}</p>
+                        <p class="text-muted small mb-3">{{ member.bio|truncatewords:15|striptags }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-primary bg-opacity-10 text-primary">{{ member.role_in_project }}</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ member.batch }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for member in advisory_board %}
+            <div class="col-lg-3 col-md-6 member-item" data-name="{{ member.name|lower }}" data-position="{{ member.position|lower }}" data-batch="{{ member.batch }}" data-team="Advisory Board">
+                <div class="member-card h-100">
+                    <div class="member-image-container">
+                        {% if member.photo %}
+                        <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="member-image">
+                        {% else %}
+                        <div class="member-image bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-user fa-4x text-secondary opacity-25"></i>
+                        </div>
+                        {% endif %}
+                        <div class="member-overlay">
+                            <div class="social-links">
+                                {% if member.email %}<a href="mailto:{{ member.email }}" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>{% endif %}
+                                {% if member.linkedin %}<a href="{{ member.linkedin }}" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                                {% if member.github %}<a href="{{ member.github }}" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>{% endif %}
+                            </div>
+                            <a href="{% url 'home:member_detail' member.pk }}" class="view-btn">View Profile</a>
+                        </div>
+                    </div>
+                    <div class="member-info p-4">
+                        <h5 class="fw-bold mb-1" style="color: #1a1f35;">{{ member.name }}</h5>
+                        <p class="text-secondary fw-bold small text-uppercase mb-3">{{ member.position }}</p>
+                        <p class="text-muted small mb-3">{{ member.bio|truncatewords:15|striptags }}</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ member.role_in_project }}</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary">{{ member.batch }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-5" style="display: none;">
+            <i class="fas fa-search fa-4x text-muted mb-3 opacity-50"></i>
+            <p class="text-muted fw-bold mt-3">No members found matching your search</p>
+        </div>
+
+        <!-- Empty State -->
+        {% if not executive_committee and not advisory_board %}
+        <div class="text-center py-5">
+            <i class="fas fa-user-group fa-4x text-muted opacity-50 mb-3"></i>
+            <p class="text-muted fw-bold">Team roster coming soon!</p>
+        </div>
+        {% endif %}
+    </div>
 </div>
 
 <style>
-    /* Specific Member Card Styles */
-    .member-avatar-wrapper {
-        width: 140px;
-        height: 140px;
-        background: conic-gradient(from 0deg, transparent, var(--primary-color));
-        padding: 4px;
-        border-radius: 50%;
-        animation: rotate 8s linear infinite;
-    }
-    
-    @keyframes rotate {
-        100% { transform: rotate(360deg); }
-    }
-    
-    .hover-lift:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(44, 62, 145, 0.15) !important;
-    }
-    
-    .hover-scale:hover {
-        transform: scale(1.1);
-    }
-    
-    .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
+    /* Hero Section */
+    .team-hero {
+        position: relative;
         overflow: hidden;
     }
+
+    .team-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        transform: translate(100px, -100px);
+    }
+
+    /* Member Card Styles */
+    .member-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+    }
+
+    .member-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .member-image-container {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        background: #f0f0f0;
+    }
+
+    .member-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .member-card:hover .member-image {
+        transform: scale(1.05);
+    }
+
+    .member-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(44, 62, 145, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .member-card:hover .member-overlay {
+        opacity: 1;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .social-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        color: #2c3e91;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .social-btn:hover {
+        transform: scale(1.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .view-btn {
+        padding: 12px 30px;
+        background: white;
+        color: #2c3e91;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+    }
+
+    .view-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .member-info {
+        background: white;
+    }
+
+    .member-item {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .member-item.hidden {
+        display: none;
+    }
+
+    /* Search & Filter */
+    .form-control-lg, .form-select-lg {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-control-lg::placeholder {
+        color: #bbb;
+    }
+
+    .form-control-lg:focus, .form-select-lg:focus {
+        border-color: #2c3e91 !important;
+        box-shadow: 0 0 0 3px rgba(44, 62, 145, 0.1) !important;
+    }
+
+    /* Stats */
+    h3.text-primary {
+        font-size: 2.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .display-3 {
+            font-size: 2rem;
+        }
+
+        .member-image-container {
+            height: 200px;
+        }
+
+        .team-hero {
+            min-height: 400px;
+        }
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('memberSearch');
+        const filterSelect = document.getElementById('teamFilter');
+        const memberItems = document.querySelectorAll('.member-item');
+        const noResults = document.getElementById('noResults');
+        const membersGrid = document.getElementById('membersGrid');
+        const memberCount = document.getElementById('memberCount');
+        const batchCount = document.getElementById('batchCount');
+
+        // Update stats
+        memberCount.textContent = memberItems.length;
+        const uniqueBatches = new Set();
+        memberItems.forEach(item => {
+            uniqueBatches.add(item.getAttribute('data-batch'));
+        });
+        batchCount.textContent = uniqueBatches.size;
+
+        function filterMembers() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const teamFilter = filterSelect.value;
+            let visibleCount = 0;
+
+            memberItems.forEach(item => {
+                const name = item.getAttribute('data-name') || '';
+                const position = item.getAttribute('data-position') || '';
+                const batch = item.getAttribute('data-batch') || '';
+                const team = item.getAttribute('data-team') || '';
+
+                const matchesSearch = name.includes(searchTerm) || 
+                                    position.includes(searchTerm) || 
+                                    batch.includes(searchTerm);
+                const matchesTeam = teamFilter === '' || team === teamFilter;
+                const shouldShow = matchesSearch && matchesTeam;
+
+                if (shouldShow) {
+                    item.classList.remove('hidden');
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                    item.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+
+        searchInput.addEventListener('input', filterMembers);
+        filterSelect.addEventListener('change', filterMembers);
+    });
+</script>
 
 {% endblock %}

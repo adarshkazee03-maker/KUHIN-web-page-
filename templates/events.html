@@ -6,36 +6,32 @@
 {% block content %}
 
 <!-- Events Hero Section -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 text-center py-5">
+        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-calendar-check me-2"></i>Workshops & Seminars
         </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Events & Activities</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+        <h1 class="display-4 fw-bold mb-3" style="color: white;">Events & Activities</h1>
+        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
             Join us for hands-on workshops, expert talks, and community gatherings.
         </p>
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
+<div class="container py-5 position-relative z-2" style="background: #f8f9fa;">
 
     <!-- Modern Tab Toggle -->
-    <div class="d-flex justify-content-center mb-5 fade-in-up" style="transition-delay: 0.3s;">
-        <div class="glass-panel p-2 rounded-pill d-inline-block shadow-lg bg-white">
+    <div class="d-flex justify-content-center mb-5">
+        <div class="kuhin-card" style="display: inline-block;">
             <ul class="nav nav-pills custom-pills" id="eventsTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link rounded-pill px-4 py-2 active fw-bold" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab">
-                        Upcoming Events
+                    <button class="nav-link rounded-pill px-4 py-2 active fw-bold" id="upcoming-tab" data-bs-toggle="pill" data-bs-target="#upcoming" type="button" role="tab" style="color: #2c3e91;">
+                        <i class="fas fa-star me-2"></i>Upcoming Events
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link rounded-pill px-4 py-2 fw-bold" id="past-tab" data-bs-toggle="pill" data-bs-target="#past" type="button" role="tab">
-                        Past Archive
+                    <button class="nav-link rounded-pill px-4 py-2 fw-bold" id="past-tab" data-bs-toggle="pill" data-bs-target="#past" type="button" role="tab" style="color: #666;">
+                        <i class="fas fa-archive me-2"></i>Past Archive
                     </button>
                 </li>
             </ul>
@@ -49,42 +45,44 @@
             {% if upcoming_events %}
                 <div class="row g-4">
                     {% for event in upcoming_events %}
-                    <div class="col-lg-6 fade-in-up">
-                        <div class="glass-panel h-100 p-0 rounded-4 overflow-hidden border-0 shadow-sm hover-lift transition-all d-flex flex-column flex-sm-row">
+                    <div class="col-lg-6">
+                        <div class="kuhin-card h-100 p-0 overflow-hidden d-flex flex-sm-row">
                             
                             <!-- Date "Ticket Stub" Column -->
-                            <div class="bg-primary bg-opacity-10 text-primary p-4 d-flex flex-column align-items-center justify-content-center text-center border-end border-primary border-opacity-10" style="min-width: 140px;">
-                                <span class="d-block small text-uppercase fw-bold ls-1">{{ event.date|date:"M" }}</span>
-                                <span class="d-block display-4 fw-bold lh-1">{{ event.date|date:"d" }}</span>
-                                <span class="d-block small opacity-75 mb-2">{{ event.date|date:"Y" }}</span>
+                            <div style="background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); color: white; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-width: 140px; box-shadow: 2px 0 12px rgba(44, 62, 145, 0.15);">
+                                <span class="small text-uppercase fw-bold" style="letter-spacing: 1px; opacity: 0.9;">{{ event.date|date:"M" }}</span>
+                                <span class="display-5 fw-bold" style="line-height: 1;">{{ event.date|date:"d" }}</span>
+                                <span class="small opacity-75 mb-2">{{ event.date|date:"Y" }}</span>
                                 {% if event.start_time %}
-                                <div class="badge bg-white text-primary shadow-sm rounded-pill mt-2">
+                                <div class="badge rounded-pill mt-2" style="background: rgba(255,255,255,0.2);">
                                     {{ event.start_time|time:"H:i" }}
                                 </div>
                                 {% endif %}
                             </div>
 
                             <!-- Content Column -->
-                            <div class="p-4 flex-grow-1 d-flex flex-column">
+                            <div style="padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column;">
                                 <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <span class="badge bg-light text-secondary border rounded-pill">
+                                        <span class="kuhin-badge" style="background: #e8f0fe; color: #2c3e91;">
                                             <i class="fas fa-map-marker-alt me-1"></i> {{ event.location }}
                                         </span>
                                         {% if event.registration_link %}
-                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill">Open</span>
+                                        <span class="kuhin-badge" style="background: #e6f5f0; color: #27ae60;">
+                                            <i class="fas fa-check-circle me-1"></i>Open
+                                        </span>
                                         {% endif %}
                                     </div>
-                                    <h4 class="fw-bold mb-2 text-dark">{{ event.title }}</h4>
-                                    <p class="text-muted small mb-0 line-clamp-2">{{ event.description|striptags }}</p>
+                                    <h4 class="fw-bold mb-2" style="color: #1a1f35;">{{ event.title }}</h4>
+                                    <p class="text-muted small mb-0" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ event.description|striptags }}</p>
                                 </div>
 
                                 <div class="mt-auto d-flex gap-2">
-                                    <a href="{% url 'home:event_detail' event.slug %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 flex-grow-1">
+                                    <a href="{% url 'home:event_detail' event.slug %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 flex-grow-1" style="border-color: #2c3e91; color: #2c3e91;">
                                         Details
                                     </a>
                                     {% if event.registration_link %}
-                                    <a href="{{ event.registration_link }}" target="_blank" class="btn btn-primary btn-sm rounded-pill px-3 fw-bold shadow-glow">
+                                    <a href="{{ event.registration_link }}" target="_blank" class="btn btn-sm rounded-pill px-3 fw-bold" style="background: #2c3e91; color: white;">
                                         Register
                                     </a>
                                     {% endif %}

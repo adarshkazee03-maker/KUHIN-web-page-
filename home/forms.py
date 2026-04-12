@@ -6,8 +6,14 @@ class ContactForm(forms.Form):
     """Contact form for sending messages to KUHIN Club"""
     
     name = forms.CharField(
+        min_length=2,
         max_length=100,
         required=True,
+        error_messages={
+            'required': 'Name is required. Please enter your full name.',
+            'min_length': 'Name must be at least 2 characters long.',
+            'max_length': 'Name must not exceed 100 characters.',
+        },
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Your Full Name',
@@ -17,6 +23,10 @@ class ContactForm(forms.Form):
     
     email = forms.EmailField(
         required=True,
+        error_messages={
+            'required': 'Email is required.',
+            'invalid': 'Please enter a valid email address (e.g., user@example.com).',
+        },
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
             'placeholder': 'your.email@example.com',
@@ -25,8 +35,14 @@ class ContactForm(forms.Form):
     )
     
     subject = forms.CharField(
+        min_length=3,
         max_length=200,
         required=True,
+        error_messages={
+            'required': 'Subject is required.',
+            'min_length': 'Subject must be at least 3 characters long.',
+            'max_length': 'Subject must not exceed 200 characters.',
+        },
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Message Subject',
@@ -35,7 +51,14 @@ class ContactForm(forms.Form):
     )
     
     message = forms.CharField(
+        min_length=10,
+        max_length=5000,
         required=True,
+        error_messages={
+            'required': 'Message is required.',
+            'min_length': 'Message must be at least 10 characters long.',
+            'max_length': 'Message must not exceed 5000 characters.',
+        },
         widget=forms.Textarea(attrs={
             'class': 'form-control',
             'placeholder': 'Your message...',
@@ -81,7 +104,7 @@ class ContactForm(forms.Form):
         # Additional email format validation
         email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not re.match(email_pattern, email):
-            raise ValidationError('Please enter a valid email address (e.g., user@example.com).')
+            raise ValidationError('❌ Email address is incorrect. Please enter a valid email (e.g., john@example.com).')
         
         # Check for disposable email domains (common spam)
         disposable_domains = [
@@ -91,11 +114,11 @@ class ContactForm(forms.Form):
         domain = email.split('@')[1].lower()
         for disposable in disposable_domains:
             if disposable in domain:
-                raise ValidationError('Please use a valid, permanent email address.')
+                raise ValidationError('❌ Email address is incorrect. Please use a valid, permanent email address.')
         
         # Check for consecutive dots or invalid patterns
         if '..' in email:
-            raise ValidationError('Email address contains invalid characters.')
+            raise ValidationError('❌ Email address is incorrect. Email contains invalid characters.')
         
         return email.lower()
     

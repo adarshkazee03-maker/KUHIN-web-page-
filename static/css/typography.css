@@ -1,0 +1,294 @@
+/* ===============================================================
+   KUHIN UNIVERSAL TYPOGRAPHY SYSTEM
+   Single font family throughout the website with consistent styling
+   =============================================================== */
+
+:root {
+    /* Universal Font Family - Inter for everything */
+    --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    --font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    --font-family-mono: 'Courier New', 'Courier', monospace;
+    
+    /* Font Sizes - Consistent Scale */
+    --font-size-xs: 0.75rem;     /* 12px */
+    --font-size-sm: 0.875rem;    /* 14px */
+    --font-size-base: 1rem;      /* 16px */
+    --font-size-lg: 1.125rem;    /* 18px */
+    --font-size-xl: 1.25rem;     /* 20px */
+    --font-size-2xl: 1.5rem;     /* 24px */
+    --font-size-3xl: 1.875rem;   /* 30px */
+    --font-size-4xl: 2.25rem;    /* 36px */
+    --font-size-5xl: 3rem;       /* 48px */
+    
+    /* Font Weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Line Heights */
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    --line-height-loose: 2;
+    
+    /* Letter Spacing */
+    --letter-spacing-tight: -0.015em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.05em;
+    --letter-spacing-wider: 0.1em;
+}
+
+/* ===== BODY & BASE TEXT ===== */
+body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-normal);
+    color: #1a1f35;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+[data-bs-theme="dark"] body {
+    color: #e1e5eb;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+h1, .h1 {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+h2, .h2 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+h3, .h3 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.01em;
+}
+
+h4, .h4 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h5, .h5 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h6, .h6 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+}
+
+/* ===== PARAGRAPH ===== */
+p {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: 1rem;
+}
+
+p.lead {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    font-weight: var(--font-weight-normal);
+}
+
+/* ===== SMALL TEXT ===== */
+small, .small {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+}
+
+/* ===== EMPHASIS ===== */
+strong, b {
+    font-weight: var(--font-weight-bold);
+}
+
+em, i {
+    font-style: italic;
+}
+
+/* ===== LINKS ===== */
+a {
+    font-family: var(--font-family-base);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ===== LISTS ===== */
+ul, ol {
+    font-family: var(--font-family-base);
+    line-height: var(--line-height-relaxed);
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+/* ===== CODE & PREFORMATTED ===== */
+code, pre, kbd {
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-sm);
+}
+
+code {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+pre {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    line-height: var(--line-height-normal);
+}
+
+/* ===== BLOCKQUOTE ===== */
+blockquote {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    font-style: italic;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    border-left: 4px solid currentColor;
+    opacity: 0.8;
+}
+
+/* ===== LABELS & FORM TEXT ===== */
+label {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-label {
+    font-weight: var(--font-weight-medium);
+}
+
+.form-text {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+}
+
+/* ===== BUTTONS ===== */
+button, .btn, a.btn {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+}
+
+/* ===== NAVBAR FONT ===== */
+.navbar-brand {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+}
+
+.nav-link {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+}
+
+/* ===== CARD TITLES ===== */
+.card-title {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+}
+
+.card-text {
+    font-family: var(--font-family-base);
+    line-height: var(--line-height-relaxed);
+}
+
+/* ===== BADGE ===== */
+.badge {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xs);
+}
+
+/* ===== DISPLAY TEXT ===== */
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+}
+
+/* ===== DARK MODE ADJUSTMENTS ===== */
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+    color: #e1e5eb;
+}
+
+[data-bs-theme="dark"] p,
+[data-bs-theme="dark"] li {
+    color: #c5cad3;
+}
+
+/* ===== RESPONSIVE TYPOGRAPHY ===== */
+@media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+    
+    h1, .h1 {
+        font-size: var(--font-size-4xl);
+    }
+    
+    h2, .h2 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    h3, .h3 {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .display-1, .display-2, .display-3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h1, .h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    h2, .h2 {
+        font-size: var(--font-size-2xl);
+    }
+}

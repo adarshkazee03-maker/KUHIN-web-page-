@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from django.core.cache import cache
+from django.utils import timezone
 from events.models import Event
 from members.models import Member
 from resources.models import Resource
@@ -20,19 +21,32 @@ from homepage_features.views import enhanced_home
 
 def home(request):
     """
-    Display enhanced homepage with interactive features.
+    Display health informatics-focused home page.
     
-    Uses the enhanced_home view from homepage_features app which includes:
-    - Active announcements carousel
-    - Event countdown timer
-    - Member spotlights
-    - Achievements section
-    - Testimonials
-    - Activity feed
-    - Trending content
-    - Statistics counters
+    Context includes:
+    - Upcoming events
+    - Latest blog posts
+    - Member testimonials
+    - Statistics (members, events, projects)
     """
-    return enhanced_home(request)
+    # Get context data
+    upcoming_events = Event.objects.filter(date__gte=timezone.now()).order_by('date')[:6]
+    latest_blogs = BlogPost.objects.filter(status='published').order_by('-published_date')[:3]
+    
+    # Get testimonial members
+    testimonial_members = Member.objects.filter(is_active=True).order_by('-join_date')[:3]
+    
+    context = {
+        'upcoming_events': upcoming_events,
+        'latest_blogs': latest_blogs,
+        'testimonial_members': testimonial_members,
+        'members_count': Member.objects.filter(is_active=True).count(),
+        'events_count': Event.objects.count(),
+        'projects_count': 20,  # You can update this with actual project count
+        'impact_score': '100%'
+    }
+    
+    return render(request, 'home/new_index.html', context)
 
 def about(request):
     """
@@ -324,7 +338,7 @@ def contact(request):
             if not is_allowed:
                 messages.error(
                     request,
-                    f'You have reached the message limit (5 messages per hour). Please try again later.'
+                    '⏰ Rate limit reached: You have sent 5 messages in the past hour. Please try again after 1 hour.'
                 )
                 return redirect('contact')
             
@@ -353,7 +367,7 @@ def contact(request):
                 # Show success message
                 messages.success(
                     request,
-                    email_result['message']
+                    '✅ Your message is sent successfully! We will get back to you soon.'
                 )
                 
                 # Clear form by redirecting
@@ -362,10 +376,8 @@ def contact(request):
                 # Email sending failed
                 messages.error(request, email_result['error'])
         else:
-            # Form validation failed
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field.capitalize()}: {error}")
+            # Form validation failed - re-render form with errors
+            pass  # Form with errors will be rendered below
     else:
         # GET request - display empty form
         form = ContactForm()
@@ -374,3 +386,13 @@ def contact(request):
         'form': form,
     }
     return render(request, 'contact.html', context)
+
+
+def programs(request):
+    """
+    Display KUHIN's programs and activities page.
+    
+    Returns:
+        HttpResponse: Rendered programs template
+    """
+    return render(request, 'programs.html')

@@ -81,3 +81,42 @@ def news_detail(request, slug):
     }
     return render(request, 'news/news_detail.html', context)
 
+
+def subscribe(request):
+    """
+    Handle newsletter subscription via email.
+    
+    Features:
+    - Accepts email via POST request
+    - Creates or updates Subscriber
+    - Returns JSON response with status
+    
+    Args:
+        request (HttpRequest): The HTTP request object
+        
+    Returns:
+        HttpResponse: JSON response with success/error status
+    """
+    if request.method == 'POST':
+        from django.http import JsonResponse
+        from .models import Subscriber
+        
+        email = request.POST.get('email', '').strip()
+        
+        if not email:
+            return JsonResponse({'status': 'error', 'message': 'Email is required'}, status=400)
+        
+        # Check if subscriber already exists
+        subscriber, created = Subscriber.objects.get_or_create(email=email)
+        
+        if created:
+            message = 'Successfully subscribed to our newsletter!'
+        else:
+            message = 'You are already subscribed to our newsletter.'
+        
+        return JsonResponse({
+            'status': 'success',
+            'message': message
+        })
+    
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

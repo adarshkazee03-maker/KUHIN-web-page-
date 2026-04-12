@@ -7,30 +7,27 @@
 {% block content %}
 
 <!-- Hero Section -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 text-center py-5">
+        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-paper-plane me-2"></i>Get In Touch
         </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">Contact KUHIN</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+        <h1 class="display-4 fw-bold mb-3" style="color: white;">Contact KUHIN</h1>
+        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
             Interested in joining KUHIN or have any questions? We'd love to hear from you!
         </p>
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
+<section class="kuhin-content">
+<div class="container">
     
     <!-- Messages Display -->
     {% if messages %}
-    <div class="row justify-content-center mb-4 fade-in-up">
+    <div class="row justify-content-center mb-4">
         <div class="col-lg-10">
             {% for message in messages %}
-            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show border-0 shadow-sm rounded-3 d-flex align-items-center" role="alert">
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show border-0 rounded-3 d-flex align-items-center" role="alert" style="background: {% if message.tags == 'success' %}#e8f5e9{% else %}#ffebee{% endif %};">
                 {% if message.tags == 'success' %}
                     <i class="fas fa-check-circle me-3 text-success fa-lg"></i>
                 {% else %}
@@ -46,45 +43,41 @@
 
     <div class="row g-5">
         <!-- Left Column: Contact Info & Map -->
-        <div class="col-lg-5 fade-in-up" style="transition-delay: 0.2s;">
+        <div class="col-lg-5">
             
             <!-- Info Cards Row -->
-            <div class="row g-3 mb-4">
-                <div class="col-6">
-                    <div class="glass-panel p-4 rounded-4 text-center h-100 hover-lift transition-all">
-                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                            <i class="fas fa-envelope fa-lg"></i>
-                        </div>
-                        <h6 class="fw-bold text-dark">Email</h6>
-                        <a href="mailto:kuhin@ku.edu.np" class="small text-muted text-decoration-none stretched-link">kuhin@ku.edu.np</a>
+            <div class="kuhin-grid mb-4">
+                <div class="kuhin-card text-center h-100">
+                    <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); border-radius: 50%; color: white;">
+                        <i class="fas fa-envelope fa-lg"></i>
                     </div>
+                    <h6 class="fw-bold" style="color: #2c3e91;">Email</h6>
+                    <a href="mailto:kuhin@ku.edu.np" class="small text-muted text-decoration-none">kuhin@ku.edu.np</a>
                 </div>
-                <div class="col-6">
-                    <div class="glass-panel p-4 rounded-4 text-center h-100 hover-lift transition-all">
-                        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
-                            <i class="fas fa-map-marker-alt fa-lg"></i>
-                        </div>
-                        <h6 class="fw-bold text-dark">Location</h6>
-                        <p class="small text-muted mb-0">Dhulikhel, Nepal</p>
+                <div class="kuhin-card text-center h-100">
+                    <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); border-radius: 50%; color: white;">
+                        <i class="fas fa-map-marker-alt fa-lg"></i>
                     </div>
+                    <h6 class="fw-bold" style="color: #2c3e91;">Location</h6>
+                    <p class="small text-muted mb-0">Dhulikhel, Nepal</p>
                 </div>
             </div>
 
             <!-- Map Card -->
-            <div class="glass-panel p-2 rounded-4 mb-4 position-relative overflow-hidden shadow-sm" style="height: 350px;">
+            <div class="kuhin-card p-2 mb-4" style="height: 350px; padding: 0; overflow: hidden;">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.1234567!2d85.5394458!3d27.6196898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb098fe8f2b1ad%3A0x241afd754bfc2622!2sKathmandu%20University%20School%20of%20Engineering!5e0!3m2!1sen!2snp!4v1670000000000" 
-                    width="100%" height="100%" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    width="100%" height="100%" style="border: none; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 
             <!-- Social Links -->
-            <div class="glass-panel p-4 rounded-4 text-center">
+            <div class="kuhin-card text-center">
                 <h6 class="fw-bold mb-3 text-secondary text-uppercase small">Connect With Us</h6>
-                <div class="d-flex justify-content-center gap-3">
-                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 45px; height: 45px; display: grid; place-items: center;"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 45px; height: 45px; display: grid; place-items: center;"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 45px; height: 45px; display: grid; place-items: center;"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" style="width: 45px; height: 45px; display: grid; place-items: center;"><i class="fab fa-github"></i></a>
-                </div>
+                <nav aria-label="KUHIN social media links" class="d-flex justify-content-center gap-3">
+                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" title="Visit KUHIN Facebook page" aria-label="KUHIN Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" title="Visit KUHIN LinkedIn page" aria-label="KUHIN LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" title="Visit KUHIN Instagram page" aria-label="KUHIN Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" class="btn btn-light text-primary rounded-circle shadow-sm hover-scale" title="Visit KUHIN GitHub page" aria-label="KUHIN GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+                </nav>
             </div>
         </div>
 
@@ -96,53 +89,143 @@
                     <i class="fas fa-paper-plane fa-10x text-primary"></i>
                 </div>
 
-                <h3 class="fw-bold text-dark mb-4">
+                <h3 class="fw-bold text-dark mb-4" id="contact-heading">
                     <i class="fas fa-envelope-open-text me-2 text-primary"></i>Send us a Message
                 </h3>
                 
-                <form method="post" action="{% url 'home:contact' %}" id="contactForm" novalidate>
+                <!-- Error Summary for Screen Readers -->
+                {% if form.errors %}
+                <div role="alert" aria-live="assertive" class="alert alert-danger mb-4" id="form-errors" tabindex="-1">
+                    <h4 class="h5 mb-2">Please fix the following errors:</h4>
+                    <ul class="mb-0">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                            <li><a href="#id_{{ field.name }}" class="alert-link">{{ field.label }}: {{ error }}</a></li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <form method="post" action="{% url 'home:contact' %}" id="contactForm" aria-labelledby="contact-heading" novalidate>
                     {% csrf_token %}
                     
                     <div class="row g-3 mb-3">
                         <!-- Name Field -->
                         <div class="col-md-6">
-                            <label for="id_name" class="form-label fw-bold small text-secondary">Your Name</label>
-                            {% render_field form.name class="form-control form-control-lg bg-light border-0" placeholder="e.g. John Doe" %}
+                            <label for="id_name" class="form-label fw-bold small text-secondary">
+                                Your Name
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">(required)</span>
+                            </label>
                             {% if form.name.errors %}
-                                <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+                                <input 
+                                    type="text" 
+                                    id="id_name"
+                                    name="name" 
+                                    class="form-control form-control-lg bg-light border-2 border-danger" 
+                                    placeholder="e.g. John Doe" 
+                                    value="{{ form.name.value|default:'' }}"
+                                    aria-required="true"
+                                    aria-describedby="name-error"
+                                    aria-invalid="true"
+                                >
+                                <div id="name-error" class="text-danger small mt-2 fw-bold" role="alert">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ form.name.errors.0 }}
+                                </div>
+                            {% else %}
+                                {% render_field form.name class="form-control form-control-lg bg-light border-0" placeholder="e.g. Your Full Name" id="id_name" aria-required="true" %}
                             {% endif %}
                         </div>
                         
                         <!-- Email Field -->
                         <div class="col-md-6">
-                            <label for="id_email" class="form-label fw-bold small text-secondary">Email Address</label>
-                            {% render_field form.email class="form-control form-control-lg bg-light border-0" placeholder="e.g. john@example.com" %}
+                            <label for="id_email" class="form-label fw-bold small text-secondary">
+                                Email Address
+                                <span class="text-danger" aria-hidden="true">*</span>
+                                <span class="visually-hidden">(required)</span>
+                            </label>
                             {% if form.email.errors %}
-                                <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+                                <input 
+                                    type="email" 
+                                    id="id_email"
+                                    name="email" 
+                                    class="form-control form-control-lg bg-light border-2 border-danger" 
+                                    placeholder="e.g. your.email@example.com" 
+                                    value="{{ form.email.value|default:'' }}"
+                                    aria-required="true"
+                                    aria-describedby="email-error"
+                                    aria-invalid="true"
+                                >
+                                <div id="email-error" class="text-danger small mt-2 fw-bold" role="alert">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ form.email.errors.0 }}
+                                </div>
+                            {% else %}
+                                {% render_field form.email class="form-control form-control-lg bg-light border-0" placeholder="e.g. your.email@example.com" id="id_email" type="email" aria-required="true" %}
                             {% endif %}
                         </div>
                     </div>
                     
                     <!-- Subject Field -->
                     <div class="mb-3">
-                        <label for="id_subject" class="form-label fw-bold small text-secondary">Subject</label>
-                        {% render_field form.subject class="form-control form-control-lg bg-light border-0" placeholder="How can we help?" %}
+                        <label for="id_subject" class="form-label fw-bold small text-secondary">
+                            Subject
+                            <span class="text-danger" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(required)</span>
+                        </label>
                         {% if form.subject.errors %}
-                            <div class="text-danger small mt-1">{{ form.subject.errors.0 }}</div>
+                            <input 
+                                type="text" 
+                                id="id_subject"
+                                name="subject" 
+                                class="form-control form-control-lg bg-light border-2 border-danger" 
+                                placeholder="How can we help?" 
+                                value="{{ form.subject.value|default:'' }}"
+                                aria-required="true"
+                                aria-describedby="subject-error"
+                                aria-invalid="true"
+                            >
+                            <div id="subject-error" class="text-danger small mt-2 fw-bold" role="alert">
+                                <i class="fas fa-exclamation-circle me-1"></i>{{ form.subject.errors.0 }}
+                            </div>
+                        {% else %}
+                            {% render_field form.subject class="form-control form-control-lg bg-light border-0" placeholder="How can we help?" id="id_subject" aria-required="true" %}
                         {% endif %}
                     </div>
                     
                     <!-- Message Field -->
                     <div class="mb-4">
-                        <label for="id_message" class="form-label fw-bold small text-secondary">Message</label>
-                        {% render_field form.message class="form-control form-control-lg bg-light border-0" rows="5" placeholder="Write your message here..." %}
+                        <label for="id_message" class="form-label fw-bold small text-secondary">
+                            Message
+                            <span class="text-danger" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(required, minimum 20 characters)</span>
+                        </label>
+                        <div id="message-hint" class="form-text mb-2">Minimum 20 characters</div>
                         {% if form.message.errors %}
-                            <div class="text-danger small mt-1">{{ form.message.errors.0 }}</div>
+                            <textarea 
+                                id="id_message"
+                                name="message" 
+                                class="form-control form-control-lg bg-light border-2 border-danger" 
+                                rows="5" 
+                                placeholder="Write your message here..."
+                                aria-required="true"
+                                aria-describedby="message-error message-hint"
+                                aria-invalid="true"
+                            >{{ form.message.value|default:'' }}</textarea>
+                            <div id="message-error" class="text-danger small mt-2 fw-bold" role="alert">
+                                <i class="fas fa-exclamation-circle me-1"></i>{{ form.message.errors.0 }}
+                            </div>
+                        {% else %}
+                            {% render_field form.message class="form-control form-control-lg bg-light border-0" rows="5" placeholder="Write your message here..." id="id_message" aria-required="true" aria-describedby="message-hint" %}
                         {% endif %}
                     </div>
                     
-                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-glow hover-scale">
-                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-glow hover-scale"
+                        aria-label="Send contact form message"
+                    >
+                        <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>Send Message
                     </button>
                 </form>
             </div>
@@ -162,10 +245,39 @@
         transform: translateY(-3px);
     }
     
+    /* Dark mode support for form */
+    [data-bs-theme="dark"] .form-control {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border-color: #444;
+    }
+    
+    [data-bs-theme="dark"] .form-control:focus {
+        background-color: #3d3d3d;
+        border-color: #666;
+    }
+    
+    [data-bs-theme="dark"] .glass-panel {
+        background: rgba(45, 45, 45, 0.95);
+        color: #ffffff;
+    }
+    
     /* Responsive padding adjustment */
     @media (max-width: 768px) {
         .glass-panel { padding: 1.5rem !important; }
     }
 </style>
+
+<script>
+// Focus error summary on page load if errors exist
+document.addEventListener('DOMContentLoaded', function() {
+    const errorSummary = document.getElementById('form-errors');
+    if (errorSummary) {
+        errorSummary.focus();
+        // Optionally scroll to error summary
+        errorSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+</script>
 
 {% endblock %}

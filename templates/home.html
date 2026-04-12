@@ -1,0 +1,1098 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}KUHIN - Transforming Healthcare Through Data & Technology{% endblock %}
+{% block meta_description %}KUHIN - Kathmandu University Health Informatics Club. Join 500+ students, professionals, and innovators building the future of healthcare in Nepal.{% endblock %}
+{% block og_title %}KUHIN - Health Informatics Club - Transform Healthcare{% endblock %}
+{% block og_description %}Join Nepal's premier health informatics community. Learn data science, AI, and healthcare technology.{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #0066CC;
+  --primary-dark: #004C99;
+  --primary-light: #3399FF;
+  --secondary: #00A67E;
+  --secondary-dark: #008563;
+  --accent: #6366F1;
+  --accent-dark: #4F46E5;
+  --dark: #1A1F36;
+  --gray-900: #0F172A;
+  --gray-800: #1E293B;
+  --gray-700: #334155;
+  --gray-600: #475569;
+  --gray-500: #64748B;
+  --gray-400: #94A3B8;
+  --gray-300: #CBD5E1;
+  --gray-200: #E2E8F0;
+  --gray-100: #F1F5F9;
+  --light: #F8FAFC;
+  --white: #FFFFFF;
+  --gradient-hero: linear-gradient(135deg, #0066CC 0%, #6366F1 100%);
+  --gradient-card: linear-gradient(135deg, rgba(0,102,204,0.05) 0%, rgba(99,102,241,0.05) 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(0, 102, 204, 0.3);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+}
+
+* { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
+
+body { background-color: var(--light); overflow-x: hidden; }
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { stroke-dashoffset: 1000; }
+  50% { stroke-dashoffset: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+}
+
+/* Responsive Typography */
+h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; }
+h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; }
+h3 { font-size: clamp(1.25rem, 3vw, 1.875rem); line-height: 1.3; }
+p { font-size: clamp(0.875rem, 2vw, 1rem); line-height: 1.6; }
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: white;
+  padding: 8px;
+  border-radius: 0 0 4px 0;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+  z-index: 999;
+  box-shadow: var(--shadow-lg);
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--primary-dark);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* CTA Button Hover Effects */
+.btn-primary-glow {
+  transition: all var(--transition-base);
+}
+
+.btn-primary-glow:hover {
+  box-shadow: 0 0 30px rgba(0, 102, 204, 0.4), var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.btn-outline-light-custom:hover {
+  background-color: white;
+  color: var(--primary) !important;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+/* Hero ECG Animation */
+.ecg-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: heartbeat 4s ease-in-out infinite;
+}
+
+/* Projects Card Glassmorphism */
+.project-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all var(--transition-base);
+}
+
+.project-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform: translateY(-8px);
+}
+
+/* Skills Quiz Styling */
+.quiz-card {
+  background: var(--gradient-card);
+  border: 1px solid rgba(0, 102, 204, 0.1);
+  border-radius: 1.5rem;
+  transition: all var(--transition-base);
+}
+
+.quiz-option {
+  background: var(--light);
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-align: center;
+}
+
+.quiz-option:hover {
+  border-color: var(--primary);
+  background: rgba(0, 102, 204, 0.05);
+}
+
+.quiz-option.selected {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.progress-bar-custom {
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-hero);
+  transition: width var(--transition-base);
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  background: var(--gradient-hero);
+  color: white;
+  border-radius: 2rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.newsletter-input {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 50px;
+  padding: 12px 20px;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .quiz-card {
+    margin: 0;
+  }
+
+  .btn-light, .btn-outline-light {
+    width: 100%;
+  }
+
+  .project-card {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- HERO SECTION -->
+<section class="position-relative min-vh-100 d-flex align-items-center overflow-hidden" style="background: var(--gradient-hero); background-attachment: fixed;">
+  <!-- Animated Background Pattern -->
+  <div class="position-absolute inset-0 opacity-10">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="white" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
+  </div>
+
+  <!-- Animated ECG Line -->
+  <div class="position-absolute inset-0" style="opacity: 0.15;">
+    <svg width="100%" height="100%" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <polyline 
+        class="ecg-line" 
+        points="0,100 50,100 60,80 70,120 80,100 100,100 120,50 140,150 160,100 180,100 200,90 210,110 220,100 240,100 260,40 280,160 300,100 320,100 340,95 350,105 360,100 380,100 400,30 420,170 440,100 460,100 480,98 490,102 500,100 520,100 540,35 560,165 580,100 600,100 620,97 630,103 640,100 660,100 680,40 700,160 720,100 740,100 760,96 770,104 780,100 800,100 820,45 840,155 860,100 880,100 900,99 910,101 920,100 940,100 960,40 980,160 1000,100" 
+        fill="none" 
+        stroke="white" 
+        stroke-width="3" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <div class="container position-relative z-2">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 text-white">
+        <div class="fade-in-up">
+          <!-- Trust Badges -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-white bg-opacity-20 border border-white border-opacity-25 rounded-pill px-3 py-2 text-white">
+              <i class="fas fa-graduation-cap me-2"></i>KU Affiliated
+            </span>
+            <span class="badge bg-white bg-opacity-20 border border-white border-opacity-25 rounded-pill px-3 py-2 text-white">
+              <i class="fas fa-trophy me-2"></i>20+ Projects
+            </span>
+            <span class="badge bg-white bg-opacity-20 border border-white border-opacity-25 rounded-pill px-3 py-2 text-white">
+              <i class="fas fa-handshake me-2"></i>15+ Partners
+            </span>
+          </div>
+
+          <h1 class="fw-bold mb-4" style="color: white;">
+            Transforming Healthcare Through Data & Technology
+          </h1>
+
+          <p class="lead text-white-75 mb-5" style="font-size: clamp(1rem, 2.5vw, 1.25rem);">
+            Join our community of innovators building solutions that make healthcare better in Nepal
+          </p>
+
+          <!-- CTAs with Hover Effects -->
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="{% url 'home:contact' %}" class="btn btn-light fw-bold rounded-pill px-5 py-3 btn-primary-glow" style="color: var(--primary);">
+              <i class="fas fa-rocket me-2"></i> Join KUHIN
+            </a>
+            <a href="{% url 'home:about' %}" class="btn btn-outline-light fw-bold rounded-pill px-5 py-3 btn-outline-light-custom">
+              Learn More <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Icon - Animated Circles -->
+      <div class="col-lg-6 d-none d-lg-flex justify-content-center">
+        <div class="fade-in-up" style="animation-delay: 0.2s;">
+          <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.25;">
+            <circle cx="150" cy="150" r="100" fill="none" stroke="white" stroke-width="2" opacity="0.3"/>
+            <circle cx="150" cy="150" r="80" fill="none" stroke="white" stroke-width="2" opacity="0.2"/>
+            <circle cx="150" cy="150" r="60" fill="none" stroke="white" stroke-width="2" opacity="0.1"/>
+            <path d="M150 50 Q200 100 200 150 Q200 200 150 200 Q100 200 100 150 Q100 100 150 50" fill="none" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK STATS (Floating Cards) -->
+<section class="position-relative z-3" style="margin-top: -80px; margin-bottom: 80px;">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Members Stat -->
+      <div class="col-lg-3 col-md-6 col-sm-6 fade-in-up">
+        <div class="glass-panel p-4 text-center h-100 hover-lift" style="animation-delay: 0.4s;">
+          <div class="display-5 text-primary mb-3"><i class="fas fa-users"></i></div>
+          <h3 class="fw-bold text-dark mb-2">
+            <span class="counter" data-target="{{ members_count|default:'500' }}">0</span><span class="counter-plus">+</span>
+          </h3>
+          <p class="text-muted small mb-0">Active Members</p>
+        </div>
+      </div>
+
+      <!-- Events Stat -->
+      <div class="col-lg-3 col-md-6 col-sm-6 fade-in-up" style="animation-delay: 0.5s;">
+        <div class="glass-panel p-4 text-center h-100 hover-lift">
+          <div class="display-5 text-secondary mb-3"><i class="fas fa-calendar-days"></i></div>
+          <h3 class="fw-bold text-dark mb-2">
+            <span class="counter" data-target="{{ events_count|default:'50' }}">0</span><span class="counter-plus">+</span>
+          </h3>
+          <p class="text-muted small mb-0">Annual Events</p>
+        </div>
+      </div>
+
+      <!-- Blogs Stat -->
+      <div class="col-lg-3 col-md-6 col-sm-6 fade-in-up" style="animation-delay: 0.6s;">
+        <div class="glass-panel p-4 text-center h-100 hover-lift">
+          <div class="display-5 text-accent mb-3"><i class="fas fa-flask-vial"></i></div>
+          <h3 class="fw-bold text-dark mb-2">
+            <span class="counter" data-target="{{ stats.total_blogs|default:'50' }}">0</span><span class="counter-plus">+</span>
+          </h3>
+          <p class="text-muted small mb-0">Research Papers</p>
+        </div>
+      </div>
+
+      <!-- Partners Stat -->
+      <div class="col-lg-3 col-md-6 col-sm-6 fade-in-up" style="animation-delay: 0.7s;">
+        <div class="glass-panel p-4 text-center h-100 hover-lift">
+          <div class="display-5 mb-3" style="color: #FF6B6B;"><i class="fas fa-hospital"></i></div>
+          <h3 class="fw-bold text-dark mb-2">
+            <span class="counter" data-target="{{ stats.total_partners|default:'15' }}">0</span><span class="counter-plus">+</span>
+          </h3>
+          <p class="text-muted small mb-0">Hospital Partners</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION SECTION (Why KUHIN?) -->
+<section class="py-5 bg-white" id="main-content">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Why Join KUHIN?</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Be part of a movement transforming healthcare in Nepal</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4 fade-in-up" style="animation-delay: 0.1s;">
+        <div class="glass-panel p-5 h-100 hover-lift text-center">
+          <div class="display-5 text-primary mb-4"><i class="fas fa-brain"></i></div>
+          <h4 class="fw-bold text-dark mb-3">Academic Excellence</h4>
+          <p class="text-muted">Learn from industry experts, leading academics, and experienced mentors in health informatics and healthcare technology.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 fade-in-up" style="animation-delay: 0.2s;">
+        <div class="glass-panel p-5 h-100 hover-lift text-center">
+          <div class="display-5 text-secondary mb-4"><i class="fas fa-handshake"></i></div>
+          <h4 class="fw-bold text-dark mb-3">Industry Connection</h4>
+          <p class="text-muted">Network with professionals, healthcare organizations, and leading health tech companies. Build relationships that matter.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 fade-in-up" style="animation-delay: 0.3s;">
+        <div class="glass-panel p-5 h-100 hover-lift text-center">
+          <div class="display-5 text-accent mb-4"><i class="fas fa-laptop-code"></i></div>
+          <h4 class="fw-bold text-dark mb-3">Practical Innovation</h4>
+          <p class="text-muted">Work on real healthcare projects addressing actual problems in the Nepali healthcare system using cutting-edge technologies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR PROJECTS SHOWCASE -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Our Projects</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Real-world solutions making healthcare better</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Project 1: Clinical Decision Support -->
+      <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.1s;">
+        <div class="project-card p-5 h-100 rounded-4 text-white">
+          <div class="mb-4">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);">
+              <i class="fas fa-brain fa-2x"></i>
+            </div>
+          </div>
+          <h5 class="fw-bold mb-3">Clinical Decision Support</h5>
+          <p class="mb-4 text-white-75">AI-powered system to assist doctors with diagnosis and treatment recommendations based on patient data.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-white bg-opacity-20 text-white">Python</span>
+            <span class="badge bg-white bg-opacity-20 text-white">ML</span>
+            <span class="badge bg-white bg-opacity-20 text-white">Healthcare</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: EHR Integration Platform -->
+      <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.2s;">
+        <div class="project-card p-5 h-100 rounded-4 text-white">
+          <div class="mb-4">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);">
+              <i class="fas fa-server fa-2x"></i>
+            </div>
+          </div>
+          <h5 class="fw-bold mb-3">EHR Integration Platform</h5>
+          <p class="mb-4 text-white-75">Middleware connecting multiple hospital systems using FHIR standards for seamless data exchange.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-white bg-opacity-20 text-white">FHIR</span>
+            <span class="badge bg-white bg-opacity-20 text-white">APIs</span>
+            <span class="badge bg-white bg-opacity-20 text-white">Interoperability</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3: Health Data Analytics Dashboard -->
+      <div class="col-lg-4 col-md-6 fade-in-up" style="animation-delay: 0.3s;">
+        <div class="project-card p-5 h-100 rounded-4 text-white">
+          <div class="mb-4">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+              <i class="fas fa-chart-pie fa-2x"></i>
+            </div>
+          </div>
+          <h5 class="fw-bold mb-3">Health Data Analytics Dashboard</h5>
+          <p class="mb-4 text-white-75">Interactive visualization platform for epidemiological data tracking and public health monitoring in Nepal.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-white bg-opacity-20 text-white">Analytics</span>
+            <span class="badge bg-white bg-opacity-20 text-white">Dashboards</span>
+            <span class="badge bg-white bg-opacity-20 text-white">Public Health</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS SECTION -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Skills You'll Develop</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Gain expertise across multiple domains</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.1s;">
+        <div class="glass-panel p-4 h-100 hover-lift" style="border-top: 4px solid var(--primary);">
+          <div class="display-6 text-primary mb-3"><i class="fas fa-chart-line"></i></div>
+          <h5 class="fw-bold text-dark mb-3">Data Science & Analytics</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-2">• Python & R Programming</li>
+            <li class="mb-2">• SQL & Data Querying</li>
+            <li class="mb-2">• Data Visualization</li>
+            <li>• Statistical Analysis</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.15s;">
+        <div class="glass-panel p-4 h-100 hover-lift" style="border-top: 4px solid var(--secondary);">
+          <div class="display-6 text-secondary mb-3"><i class="fas fa-microchip"></i></div>
+          <h5 class="fw-bold text-dark mb-3">Machine Learning</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-2">• ML Algorithms</li>
+            <li class="mb-2">• Deep Learning & NLP</li>
+            <li class="mb-2">• Model Evaluation</li>
+            <li>• Production Deployment</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.2s;">
+        <div class="glass-panel p-4 h-100 hover-lift" style="border-top: 4px solid var(--accent);">
+          <div class="display-6 text-accent mb-3"><i class="fas fa-hospital"></i></div>
+          <h5 class="fw-bold text-dark mb-3">Healthcare Domain</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-2">• Medical Terminology</li>
+            <li class="mb-2">• EHR Systems & FHIR</li>
+            <li class="mb-2">• Clinical Workflows</li>
+            <li>• Healthcare Compliance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 fade-in-up" style="animation-delay: 0.25s;">
+        <div class="glass-panel p-4 h-100 hover-lift" style="border-top: 4px solid #FF6B6B;">
+          <div class="display-6 mb-3" style="color: #FF6B6B;"><i class="fas fa-code"></i></div>
+          <h5 class="fw-bold text-dark mb-3">Software Development</h5>
+          <ul class="list-unstyled text-muted small">
+            <li class="mb-2">• Web & API Development</li>
+            <li class="mb-2">• Cloud Platforms</li>
+            <li class="mb-2">• DevOps & Docker</li>
+            <li>• System Design</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE SKILLS QUIZ -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 fade-in-up">
+        <h2 class="fw-bold text-dark mb-3">Find Your Path</h2>
+        <p class="text-muted mb-4">Take a quick quiz to discover which KUHIN specialization matches your interests and background.</p>
+        <div id="quizDescription">
+          <p class="text-muted mb-0"><i class="fas fa-lightbulb me-2 text-primary"></i> Answer 3 quick questions and get personalized recommendations</p>
+        </div>
+      </div>
+
+      <div class="col-lg-6 fade-in-up">
+        <div id="skillsQuiz" class="quiz-card p-5 rounded-4">
+          <!-- Progress Bar -->
+          <div class="mb-4">
+            <p class="text-muted small mb-2">Question <span id="quizProgress">1</span> of 3</p>
+            <div class="progress-bar-custom">
+              <div class="progress-fill" id="quizProgressBar" style="width: 33.33%;"></div>
+            </div>
+          </div>
+
+          <!-- Question 1 -->
+          <div class="quiz-question" id="question1">
+            <h5 class="fw-bold text-dark mb-4">What interests you most?</h5>
+            <div class="d-grid gap-3">
+              <button class="quiz-option" onclick="selectOption(this, 'clinical')">
+                <i class="fas fa-stethoscope me-2"></i> Clinical Data
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'ml')">
+                <i class="fas fa-brain me-2"></i> AI/ML
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'ehr')">
+                <i class="fas fa-server me-2"></i> EHR Systems
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'public-health')">
+                <i class="fas fa-globe me-2"></i> Public Health
+              </button>
+            </div>
+            <button class="btn btn-primary rounded-pill w-100 mt-4" onclick="nextQuestion()">Next</button>
+          </div>
+
+          <!-- Question 2 (Hidden) -->
+          <div class="quiz-question d-none" id="question2">
+            <h5 class="fw-bold text-dark mb-4">Your background?</h5>
+            <div class="d-grid gap-3">
+              <button class="quiz-option" onclick="selectOption(this, 'medicine')">
+                <i class="fas fa-prescription-bottle me-2"></i> Medicine
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'cs')">
+                <i class="fas fa-laptop-code me-2"></i> Computer Science
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'both')">
+                <i class="fas fa-balance-scale me-2"></i> Both
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'other')">
+                <i class="fas fa-question me-2"></i> Other
+              </button>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button class="btn btn-outline-primary rounded-pill flex-grow-1" onclick="previousQuestion()">Back</button>
+              <button class="btn btn-primary rounded-pill flex-grow-1" onclick="nextQuestion()">Next</button>
+            </div>
+          </div>
+
+          <!-- Question 3 (Hidden) -->
+          <div class="quiz-question d-none" id="question3">
+            <h5 class="fw-bold text-dark mb-4">Your goal?</h5>
+            <div class="d-grid gap-3">
+              <button class="quiz-option" onclick="selectOption(this, 'research')">
+                <i class="fas fa-microscope me-2"></i> Research
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'industry')">
+                <i class="fas fa-building me-2"></i> Industry
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'startup')">
+                <i class="fas fa-rocket me-2"></i> Startup
+              </button>
+              <button class="quiz-option" onclick="selectOption(this, 'teaching')">
+                <i class="fas fa-chalkboard-user me-2"></i> Teaching
+              </button>
+            </div>
+            <div class="d-flex gap-2 mt-4">
+              <button class="btn btn-outline-primary rounded-pill flex-grow-1" onclick="previousQuestion()">Back</button>
+              <button class="btn btn-primary rounded-pill flex-grow-1" onclick="showResult()">Get Result</button>
+            </div>
+          </div>
+
+          <!-- Result (Hidden) -->
+          <div class="quiz-result d-none" id="resultContainer">
+            <div class="text-center">
+              <div class="display-6 text-primary mb-3"><i class="fas fa-star"></i></div>
+              <h5 class="fw-bold text-dark mb-3" id="resultTitle">You'd thrive in Clinical Data Science!</h5>
+              <p class="text-muted mb-4" id="resultDescription">Based on your interests and background, this specialization is perfect for you.</p>
+              <a href="{% url 'home:contact' %}" class="btn btn-primary rounded-pill px-5 py-2 fw-bold">
+                <i class="fas fa-rocket me-2"></i> Join Now
+              </a>
+              <button class="btn btn-outline-primary rounded-pill px-5 py-2 fw-bold ms-2" onclick="resetQuiz()">Retake Quiz</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING EVENTS TIMELINE -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Upcoming Events</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Join our community and enhance your skills</p>
+    </div>
+
+    {% if upcoming_events %}
+      <div class="row g-4">
+        {% for event in upcoming_events|slice:":6" %}
+          <div class="col-lg-6 fade-in-up">
+            <div class="glass-panel p-4 hover-lift">
+              <div class="d-flex align-items-start gap-3">
+                <div class="badge bg-primary text-white rounded-circle p-3" style="min-width: 50px; min-height: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <i class="fas fa-calendar"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <p class="text-primary fw-bold small mb-1">{{ event.date|date:"M d, Y" }}</p>
+                  <h5 class="fw-bold text-dark mb-2">{{ event.title }}</h5>
+                  <p class="text-muted small mb-3">{{ event.description|truncatewords:20 }}</p>
+                  <a href="{% url 'home:event_detail' event.slug %}" class="btn btn-sm btn-primary rounded-pill px-3 py-1">
+                    Learn More <i class="fas fa-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="text-center mt-5">
+        <a href="{% url 'home:events' %}" class="btn btn-outline-primary rounded-pill px-5 py-2 fw-bold">
+          View All Events <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    {% else %}
+      <div class="glass-panel p-5 text-center">
+        <div class="display-6 text-muted mb-3"><i class="fas fa-calendar-plus"></i></div>
+        <h5 class="fw-bold text-dark mb-2">Exciting Events Coming Soon!</h5>
+        <p class="text-muted mb-4">Check back soon for our upcoming workshops and community gatherings.</p>
+        <a href="{% url 'home:contact' %}" class="btn btn-primary rounded-pill px-4 py-2">Get Notified</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- NEWSLETTER SUBSCRIPTION -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="newsletter-section p-5 p-md-7">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6 fade-in-up">
+          <h2 class="fw-bold mb-3">Stay Updated</h2>
+          <p class="text-white-75 mb-0">
+            Get the latest news, event updates, and exclusive insights from KUHIN delivered to your inbox every week.
+          </p>
+        </div>
+        <div class="col-lg-6 fade-in-up" style="animation-delay: 0.1s;">
+          <form method="post" action="{% url 'newsletter:subscribe' %}" class="d-flex gap-2 flex-column flex-sm-row">
+            {% csrf_token %}
+            <input 
+              type="email" 
+              name="email" 
+              class="newsletter-input flex-grow-1" 
+              placeholder="Enter your email address"
+              required
+              alt="Email address for newsletter subscription"
+            >
+            <button type="submit" class="btn btn-light fw-bold rounded-pill px-4 py-2" style="color: var(--primary); white-space: nowrap;">
+              Subscribe
+            </button>
+          </form>
+          <p class="text-white-75 small mt-3 mb-0">
+            <i class="fas fa-shield-alt me-1"></i> We respect your privacy. Unsubscribe anytime.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST INSIGHTS SECTION -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Latest Insights</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Explore our latest articles and resources</p>
+    </div>
+
+    {% if latest_blogs %}
+      <div class="row g-4">
+        {% for blog in latest_blogs|slice:":3" %}
+          <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="glass-panel overflow-hidden h-100 hover-lift">
+              <!-- Image -->
+              <div style="height: 200px; overflow: hidden; background: var(--gradient-card);">
+                {% if blog.featured_image %}
+                  <img src="{{ blog.featured_image.url }}" alt="{{ blog.title }}" class="w-100 h-100 object-fit-cover" style="transition: transform var(--transition-base);">
+                {% else %}
+                  <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: var(--gradient-hero); color: white;">
+                    <i class="fas fa-newspaper fa-3x"></i>
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Content -->
+              <div class="p-4">
+                <p class="text-primary fw-bold small mb-2">{{ blog.published_date|date:"M d, Y" }}</p>
+                <h5 class="fw-bold text-dark mb-2">{{ blog.title }}</h5>
+                <p class="text-muted small mb-3">{{ blog.excerpt|truncatewords:15 }}</p>
+                <a href="{% url 'blog:blog_detail' blog.slug %}" class="btn btn-sm btn-primary rounded-pill px-3 py-1">
+                  Read More <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="text-center mt-5">
+        <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary rounded-pill px-5 py-2 fw-bold">
+          Explore Blog <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    {% else %}
+      <div class="glass-panel p-5 text-center">
+        <div class="display-6 text-muted mb-3"><i class="fas fa-book-open"></i></div>
+        <h5 class="fw-bold text-dark mb-2">Articles Coming Soon!</h5>
+        <p class="text-muted">Check back soon for our latest insights and research articles.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- TESTIMONIALS SECTION (FIXED) -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <h2 class="fw-bold text-dark mb-3">Member Stories</h2>
+      <p class="text-muted" style="font-size: 1.1rem;">Real transformations through KUHIN</p>
+    </div>
+
+    {% if testimonial_members %}
+      <div class="row g-4">
+        {% for member in testimonial_members|slice:":3" %}
+          <div class="col-lg-4 col-md-6 fade-in-up">
+            <div class="glass-panel p-5 text-center h-100 hover-lift">
+              <!-- Avatar -->
+              <div class="mb-4">
+                {% if member.profile_picture %}
+                  <img 
+                    src="{{ member.profile_picture.url }}" 
+                    alt="{{ member.name }}" 
+                    class="rounded-circle" 
+                    style="width: 100px; height: 100px; object-fit: cover; border: 4px solid var(--primary); opacity: 0.9;"
+                  >
+                {% else %}
+                  <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; background: var(--gradient-hero); color: white; font-size: 2rem;">
+                    <i class="fas fa-user"></i>
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Quote (FIXED - Now uses actual testimonial_text) -->
+              <p class="text-muted fst-italic mb-4" style="font-size: 1rem;">
+                "{{ member.testimonial_text|default:"An inspiring journey in health informatics with KUHIN." }}"
+              </p>
+
+              <!-- Member Info -->
+              <h5 class="fw-bold text-dark mb-1">{{ member.name }}</h5>
+              <p class="text-primary small fw-bold mb-0">{{ member.position|default:"KUHIN Member" }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="glass-panel p-5 text-center">
+        <div class="display-6 text-muted mb-3"><i class="fas fa-quote-left"></i></div>
+        <h5 class="fw-bold text-dark mb-2">Member testimonials coming soon</h5>
+        <p class="text-muted">Join KUHIN and become part of our success stories</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- FINAL CTA SECTION -->
+<section class="py-5 position-relative overflow-hidden bg-white" style="background: var(--gradient-hero); color: white;">
+  <!-- Background DNA Graphic -->
+  <div class="position-absolute opacity-10" style="top: -50%; right: -10%; width: 600px; height: 600px;">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="white" stroke-width="1" fill="none">
+        <path d="M100 20 Q150 50 150 100 Q150 150 100 180 Q50 150 50 100 Q50 50 100 20" opacity="0.3"/>
+        <path d="M100 40 Q140 70 140 100 Q140 130 100 160 Q60 130 60 100 Q60 70 100 40" opacity="0.2"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="container position-relative z-2">
+    <div class="row align-items-center">
+      <div class="col-lg-8 fade-in-up">
+        <h2 class="fw-bold mb-3" style="font-size: clamp(2rem, 5vw, 3rem);">
+          Ready to Transform Healthcare?
+        </h2>
+        <p class="lead text-white-75 mb-0" style="font-size: clamp(1rem, 2vw, 1.25rem);">
+          Join KUHIN and start your journey in health informatics. Connect with innovators, learn cutting-edge technologies, and make a real impact on healthcare in Nepal.
+        </p>
+      </div>
+      <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 fade-in-up" style="animation-delay: 0.1s;">
+        <div class="d-flex gap-2 flex-column flex-sm-row justify-content-lg-end flex-lg-column flex-xl-row">
+          <a href="{% url 'home:contact' %}" class="btn btn-light fw-bold rounded-pill px-5 py-3 btn-primary-glow" style="color: var(--primary); white-space: nowrap;">
+            <i class="fas fa-rocket me-2"></i> Join Now
+          </a>
+          <a href="{% url 'home:contact' %}" class="btn btn-outline-light fw-bold rounded-pill px-5 py-3 btn-outline-light-custom">
+            Contact Us <i class="fas fa-envelope ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Intersection Observer for fade-in animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('fade-in-up');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.fade-in-up').forEach(el => {
+  observer.observe(el);
+});
+
+// Counter Animation for Statistics
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.counted) {
+      const target = parseInt(entry.target.dataset.target);
+      const increment = Math.ceil(target / 30);
+      let current = 0;
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          entry.target.textContent = target;
+          clearInterval(timer);
+        } else {
+          entry.target.textContent = current;
+        }
+      }, 50);
+
+      entry.target.dataset.counted = true;
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.counter').forEach(el => {
+  counterObserver.observe(el);
+});
+
+// Skills Quiz Functionality
+let currentQuestion = 1;
+let quizAnswers = {};
+
+function selectOption(button, value) {
+  const parent = button.parentElement;
+  parent.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+  button.classList.add('selected');
+  quizAnswers[`q${currentQuestion}`] = value;
+}
+
+function nextQuestion() {
+  if (!quizAnswers[`q${currentQuestion}`]) {
+    alert('Please select an option');
+    return;
+  }
+
+  document.getElementById(`question${currentQuestion}`).classList.add('d-none');
+  currentQuestion++;
+  document.getElementById(`question${currentQuestion}`).classList.remove('d-none');
+  
+  // Update progress
+  const progress = (currentQuestion / 3) * 100;
+  document.getElementById('quizProgressBar').style.width = progress + '%';
+  document.getElementById('quizProgress').textContent = currentQuestion;
+}
+
+function previousQuestion() {
+  document.getElementById(`question${currentQuestion}`).classList.add('d-none');
+  currentQuestion--;
+  document.getElementById(`question${currentQuestion}`).classList.remove('d-none');
+  
+  const progress = (currentQuestion / 3) * 100;
+  document.getElementById('quizProgressBar').style.width = progress + '%';
+  document.getElementById('quizProgress').textContent = currentQuestion;
+}
+
+function showResult() {
+  if (!quizAnswers.q3) {
+    alert('Please select an option');
+    return;
+  }
+
+  // Generate result based on answers
+  const interest = quizAnswers.q1;
+  const background = quizAnswers.q2;
+  const goal = quizAnswers.q3;
+
+  let resultTitle = 'Perfect Match!';
+  let resultDescription = 'Based on your interests and background, KUHIN is perfect for you.';
+
+  if (interest === 'ml' && goal === 'research') {
+    resultTitle = 'You\'d thrive in AI Research!';
+    resultDescription = 'Your combination of ML interest and research goals makes you perfect for our research initiatives.';
+  } else if (interest === 'ehr' && background === 'cs') {
+    resultTitle = 'You\'d thrive in Healthcare Systems!';
+    resultDescription = 'Your tech background and EHR interest position you perfectly for building healthcare software solutions.';
+  } else if (interest === 'clinical' && background === 'medicine') {
+    resultTitle = 'You\'d thrive in Clinical Data Science!';
+    resultDescription = 'Your medical background combined with clinical data interest is ideal for clinical decision support projects.';
+  } else if (goal === 'startup') {
+    resultTitle = 'You\'d thrive in Health Tech Innovation!';
+    resultDescription = 'Your entrepreneurial goals align perfectly with KUHIN\'s focus on healthcare innovation.';
+  }
+
+  document.getElementById('resultTitle').textContent = resultTitle;
+  document.getElementById('resultDescription').textContent = resultDescription;
+
+  document.getElementById(`question${currentQuestion}`).classList.add('d-none');
+  document.getElementById('resultContainer').classList.remove('d-none');
+}
+
+function resetQuiz() {
+  currentQuestion = 1;
+  quizAnswers = {};
+  
+  document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+  document.getElementById('resultContainer').classList.add('d-none');
+  document.getElementById('question1').classList.remove('d-none');
+  
+  document.getElementById('quizProgressBar').style.width = '33.33%';
+  document.getElementById('quizProgress').textContent = '1';
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const href = this.getAttribute('href');
+    if (href !== '#' && document.querySelector(href)) {
+      e.preventDefault();
+      document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Back to Top Button
+const backToTopButton = document.getElementById('backToTop');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    backToTopButton.classList.add('show');
+  } else {
+    backToTopButton.classList.remove('show');
+  }
+});
+
+backToTopButton.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// Keyboard navigation for quiz
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !document.getElementById('resultContainer').classList.contains('d-none')) {
+    const activeQuestion = document.querySelector('.quiz-question:not(.d-none)');
+    if (activeQuestion && currentQuestion < 3) {
+      nextQuestion();
+    }
+  }
+});
+</script>
+{% endblock %}

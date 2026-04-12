@@ -6,30 +6,27 @@
 {% block content %}
 
 <!-- Blog Hero Section -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 text-center py-5">
+        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-brain me-2"></i>Insights & Stories
         </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">KUHIN Blog</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+        <h1 class="display-4 fw-bold mb-3" style="color: white;">KUHIN Blog</h1>
+        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
             Stay updated with insights, research, and stories from our health informatics community.
         </p>
     </div>
 </section>
 
-<div class="container py-5 position-relative z-2" style="margin-top: -4rem;">
+<section class="kuhin-content">
+<div class="container">
     
     <!-- Search and Filter Control Panel -->
-    <div class="glass-panel p-4 rounded-4 mb-5 shadow-lg fade-in-up">
+    <div class="kuhin-card p-4 mb-5">
         <div class="row g-3 align-items-center">
             <div class="col-md-6">
                 <form method="get" class="search-form position-relative">
-                    <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3" style="color: #999;"></i>
                     <input 
                         type="text" 
                         name="search" 
@@ -41,8 +38,8 @@
             </div>
             <div class="col-md-6">
                 <div class="filter-dropdown position-relative">
-                    <i class="fas fa-filter position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" style="z-index: 1;"></i>
-                    <select class="form-select form-select-lg bg-light border-0 ps-5 rounded-pill cursor-pointer" onchange="window.location.href=this.value">
+                    <i class="fas fa-filter position-absolute top-50 start-0 translate-middle-y ms-3" style="color: #999; z-index: 1;"></i>
+                    <select class="form-select form-select-lg bg-light border-0 ps-5 rounded-pill" onchange="window.location.href=this.value">
                         <option value="{% url 'blog:blog_list' %}">All Categories</option>
                         {% for category in categories %}
                             <option 
@@ -62,22 +59,23 @@
     {% if blogs %}
         <div class="row g-4">
             {% for blog in blogs %}
-                <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay: 0.1s;">
-                    <article class="glass-panel h-100 p-0 rounded-4 overflow-hidden d-flex flex-column hover-lift transition-all group border-0 shadow-sm">
+                <div class="col-md-6 col-lg-4">
+                    <article class="kuhin-card h-100 p-0 overflow-hidden d-flex flex-column">
                         
                         <!-- Image Wrapper -->
                         <div class="position-relative overflow-hidden" style="height: 220px;">
                             {% if blog.featured_image %}
-                                <img src="{{ blog.featured_image.url }}" class="w-100 h-100 object-fit-cover transition-transform duration-500" alt="{{ blog.title }}" style="transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <img src="{{ blog.featured_image.url }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);" alt="{{ blog.title }}" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             {% else %}
-                                <div class="w-100 h-100 bg-light d-flex align-items-center justify-content-center bg-gradient-placeholder">
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center" style="background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%);">
                                     <i class="fas fa-newspaper fa-3x text-white opacity-50"></i>
                                 </div>
                             {% endif %}
                             
                             <!-- Category Badge -->
                             <div class="position-absolute top-0 end-0 p-3">
-                                <span class="badge bg-white text-dark shadow-sm rounded-pill fw-bold bg-opacity-90 backdrop-blur">
+                                <span class="kuhin-badge" style="background: white; color: #2c3e91; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
                                     {{ blog.category.name }}
                                 </span>
                             </div>
@@ -88,38 +86,40 @@
                             <!-- Meta Info -->
                             <div class="d-flex align-items-center gap-3 mb-3 small text-muted">
                                 <span class="d-flex align-items-center">
-                                    <i class="far fa-calendar-alt me-1 text-primary"></i> 
+                                    <i class="far fa-calendar-alt me-1" style="color: #2c3e91;"></i> 
                                     {{ blog.published_date|date:"M d, Y" }}
                                 </span>
                                 <span class="d-flex align-items-center">
-                                    <i class="far fa-eye me-1 text-primary"></i> 
+                                    <i class="far fa-eye me-1" style="color: #2c3e91;"></i> 
                                     {{ blog.views }}
                                 </span>
                             </div>
 
-                            <h5 class="card-title fw-bold mb-3 text-dark">
-                                <a href="{% url 'blog:blog_detail' blog.slug %}" class="text-decoration-none text-dark stretched-link title-hover">
+                            <h5 class="card-title fw-bold mb-3" style="color: #1a1f35;">
+                                <a href="{% url 'blog:blog_detail' blog.slug %}" class="text-decoration-none" style="color: inherit;">
                                     {{ blog.title }}
                                 </a>
                             </h5>
                             
-                            <p class="card-text text-muted small flex-grow-1 line-clamp-3">
+                            <p class="card-text text-muted small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ blog.excerpt }}
                             </p>
                             
                             <!-- Author Footer -->
-                            <div class="mt-4 pt-3 border-top d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold small me-2" style="width: 32px; height: 32px;">
-                                        {{ blog.author.first_name|first|default:blog.author.username|first|upper }}
+                            <div class="mt-4 pt-3" style="border-top: 1px solid #e0e0e0;" >
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold small me-2" style="width: 32px; height: 32px; background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); color: white;">
+                                            {{ blog.author.first_name|first|default:blog.author.username|first|upper }}
+                                        </div>
+                                        <span class="small fw-bold text-secondary">
+                                            {{ blog.author.first_name }} {{ blog.author.last_name|default:"" }}
+                                        </span>
                                     </div>
-                                    <span class="small fw-bold text-secondary">
-                                        {{ blog.author.first_name }} {{ blog.author.last_name|default:"" }}
+                                    <span class="btn btn-sm btn-link text-decoration-none p-0 fw-bold small" style="color: #2c3e91;">
+                                        Read <i class="fas fa-arrow-right ms-1"></i>
                                     </span>
                                 </div>
-                                <span class="btn btn-sm btn-link text-decoration-none p-0 text-primary fw-bold small">
-                                    Read <i class="fas fa-arrow-right ms-1 transition-transform"></i>
-                                </span>
                             </div>
                         </div>
                     </article>
@@ -128,9 +128,9 @@
         </div>
     {% else %}
         <!-- Empty State -->
-        <div class="text-center py-5 fade-in-up">
-            <div class="glass-panel p-5 rounded-4 d-inline-block">
-                <div class="text-secondary opacity-25 mb-3">
+        <div class="text-center py-5">
+            <div class="kuhin-card p-5 d-inline-block">
+                <div style="color: #ccc; margin-bottom: 1rem;">
                     <i class="fas fa-search fa-4x"></i>
                 </div>
                 <h4 class="text-muted fw-bold">No posts found</h4>
@@ -141,23 +141,26 @@
                     There are no blog posts available in this category yet.
                     {% endif %}
                 </p>
-                <a href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary rounded-pill px-4 mt-3">
+                <a href="{% url 'blog:blog_list' %}" class="btn rounded-pill px-4 mt-3" style="border: 2px solid #2c3e91; color: #2c3e91;">
                     Clear Filters
                 </a>
             </div>
         </div>
     {% endif %}
 
-    <!-- Pagination (Optional - Add if logic exists in views) -->
+    <!-- Pagination (Optional) -->
     {% if is_paginated %}
     <div class="mt-5 text-center">
         <!-- Pagination controls would go here -->
     </div>
     {% endif %}
 </div>
+</section>
 
+{% endblock %}
+
+{% block extra_css %}
 <style>
-    /* Styling Utilities */
     .bg-gradient-placeholder {
         background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     }
@@ -203,5 +206,4 @@
         transition: transform 0.2s ease;
     }
 </style>
-
 {% endblock %}

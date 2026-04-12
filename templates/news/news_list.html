@@ -6,23 +6,20 @@
 {% block content %}
 
 <!-- News List Hero -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 text-center py-5">
-        <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2 mb-3 fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 text-center py-5">
+        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-bullhorn me-2"></i>Announcements
         </span>
-        <h1 class="display-4 fw-bold mb-3 fade-in-up" style="transition-delay: 0.1s;">News & Updates</h1>
-        <p class="lead text-white-50 mb-0 fade-in-up" style="transition-delay: 0.2s;">
+        <h1 class="display-4 fw-bold mb-3" style="color: white;">News & Updates</h1>
+        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
             Stay informed with the latest announcements, achievements, and notices from KUHIN.
         </p>
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
+<section class="kuhin-content">
+<div class="container">
     
     <!-- News Timeline -->
     {% if news_updates %}
@@ -30,25 +27,22 @@
         <div class="col-lg-9">
             
             {% for news in news_updates %}
-            <div class="glass-panel p-0 rounded-4 overflow-hidden mb-4 fade-in-up position-relative hover-lift transition-all" style="transition-delay: {{ forloop.counter0|add:1 }}00ms;">
+            <div class="kuhin-card p-0 overflow-hidden mb-4 position-relative">
                 <div class="d-flex flex-column flex-md-row">
                     
                     <!-- Date Badge (Timeline Style) -->
-                    <div class="news-date-column d-flex flex-column align-items-center justify-content-center text-center p-3 text-white position-relative overflow-hidden" style="min-width: 100px;">
-                        <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-100" style="z-index: 0; background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);"></div>
-                        <div class="position-relative z-1">
-                            <span class="d-block h2 fw-bold mb-0 lh-1">{{ news.created_at|date:"d" }}</span>
-                            <span class="d-block small text-uppercase fw-bold opacity-75 mb-1">{{ news.created_at|date:"M" }}</span>
-                            <span class="d-block small opacity-50">{{ news.created_at|date:"Y" }}</span>
-                        </div>
+                    <div style="background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); color: white; min-width: 100px; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                        <span class="d-block h2 fw-bold mb-0" style="line-height: 1;">{{ news.created_at|date:"d" }}</span>
+                        <span class="d-block small text-uppercase fw-bold" style="opacity: 0.9; margin-bottom: 0.5rem;">{{ news.created_at|date:"M" }}</span>
+                        <span class="d-block small" style="opacity: 0.7;">{{ news.created_at|date:"Y" }}</span>
                     </div>
 
                     <!-- Content -->
                     <div class="p-4 flex-grow-1">
                         <div class="d-flex flex-column h-100">
                             <div class="mb-2">
-                                <h3 class="h4 fw-bold mb-1 text-dark">
-                                    <a href="{% url 'newsletter:news_detail' news.slug %}" class="text-decoration-none text-dark stretched-link news-title-link">
+                                <h3 class="h4 fw-bold mb-1" style="color: #1a1f35;">
+                                    <a href="{% url 'newsletter:news_detail' news.slug %}" class="text-decoration-none" style="color: inherit;">
                                         {{ news.title }}
                                     </a>
                                 </h3>
@@ -56,19 +50,19 @@
                                 <div class="small text-muted mb-3 d-flex align-items-center flex-wrap gap-3">
                                     <span><i class="far fa-clock me-1"></i> {{ news.created_at|date:"g:i A" }}</span>
                                     {% if news.updated_at != news.created_at %}
-                                    <span class="badge bg-light text-secondary border rounded-pill">
+                                    <span class="kuhin-badge" style="background: #f5f5f5; color: #666;">
                                         <i class="fas fa-history me-1"></i> Updated {{ news.updated_at|date:"M d" }}
                                     </span>
                                     {% endif %}
                                 </div>
                             </div>
 
-                            <div class="text-muted mb-4 line-clamp-3">
+                            <div class="text-muted mb-4" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
                                 {{ news.description|striptags|truncatewords:40 }}
                             </div>
 
-                            <div class="mt-auto d-flex align-items-center text-primary fw-bold small text-uppercase">
-                                Read Full Update <i class="fas fa-arrow-right ms-2 transition-transform"></i>
+                            <div class="mt-auto d-flex align-items-center fw-bold small text-uppercase" style="color: #2c3e91;">
+                                Read Full Update <i class="fas fa-arrow-right ms-2" style="transition: transform 0.2s ease;"></i>
                             </div>
                         </div>
                     </div>
@@ -116,16 +110,17 @@
     {% endif %}
 
 </div>
+</section>
 
 <style>
     /* Hover Effects */
     .hover-lift:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(8, 145, 178, 0.15) !important;
+        box-shadow: 0 15px 30px rgba(44, 62, 145, 0.15) !important;
     }
     
     .hover-lift:hover .news-title-link {
-        color: var(--primary-color) !important;
+        color: #2c3e91 !important;
     }
     
     .hover-lift:hover .fa-arrow-right {

@@ -382,11 +382,7 @@
     }
     
     .testimonial-photo {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid var(--primary-color, #2c3e91);
+        display: none;
     }
     
     .testimonial-info h5 {
@@ -396,14 +392,11 @@
     }
     
     .testimonial-info p {
-        margin: 0;
-        color: #666;
-        font-size: 0.9rem;
+        display: none;
     }
     
     .testimonial-rating {
-        color: #ffc107;
-        margin-top: 1rem;
+        display: none;
     }
     
     /* Activity Feed */
@@ -629,7 +622,7 @@
             <div class="hero-content">
                 <h1>Welcome to KUHIN</h1>
                 <p>Kathmandu University Health Informatics Club</p>
-                <a href="{% url 'about' %}" class="hero-cta">
+                <a href="{% url 'home:about' %}" class="hero-cta">
                     Learn More
                 </a>
             </div>
@@ -851,26 +844,9 @@
                     <i class="fas fa-quote-left testimonial-quote"></i>
                     <p class="testimonial-text">{{ testimonial.testimonial_text }}</p>
                     <div class="testimonial-author">
-                        {% if testimonial.photo %}
-                        <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.name }}" class="testimonial-photo">
-                        {% else %}
-                        <div class="testimonial-photo" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                            {{ testimonial.name|first }}
-                        </div>
-                        {% endif %}
                         <div class="testimonial-info">
                             <h5>{{ testimonial.name }}</h5>
-                            <p>{{ testimonial.position }}</p>
                         </div>
-                    </div>
-                    <div class="testimonial-rating">
-                        {% for i in "12345"|slice:":"|make_list %}
-                            {% if forloop.counter <= testimonial.rating %}
-                            <i class="fas fa-star"></i>
-                            {% else %}
-                            <i class="far fa-star"></i>
-                            {% endif %}
-                        {% endfor %}
                     </div>
                 </div>
             </div>

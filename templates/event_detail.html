@@ -6,43 +6,39 @@
 {% block content %}
 
 <!-- Event Hero Header -->
-<section class="position-relative py-5 bg-dark text-white overflow-hidden" style="border-bottom-right-radius: 50px;">
-    <!-- Background overlay -->
-    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: var(--gradient-hero); opacity: 0.95; z-index: 0;"></div>
-    <div class="hero-bg-pattern"></div>
-    
-    <div class="container position-relative z-1 py-4">
-        <div class="row align-items-center">
-            <div class="col-lg-10 mx-auto text-center fade-in-up">
+<section class="kuhin-hero" style="min-height: 500px;">
+    <div class="container position-relative z-3 py-4">
+        <div class="row align-items-center h-100">
+            <div class="col-lg-10 mx-auto text-center">
                 <!-- Breadcrumb -->
                 <nav aria-label="breadcrumb" class="d-flex justify-content-center mb-4">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'home:home' %}" class="text-white-50 text-decoration-none">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'home:events' %}" class="text-white-50 text-decoration-none">Events</a></li>
+                    <ol class="breadcrumb" style="background: rgba(255,255,255,0.1); border-radius: 50px; padding: 0.5rem 1.5rem;">
+                        <li class="breadcrumb-item"><a href="{% url 'home:home' %}" class="text-white text-opacity-75" style="text-decoration: none;">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'home:events' %}" class="text-white text-opacity-75" style="text-decoration: none;">Events</a></li>
                         <li class="breadcrumb-item active text-white" aria-current="page">{{ event.title|truncatechars:30 }}</li>
                     </ol>
                 </nav>
 
-                <h1 class="display-3 fw-bold mb-4">{{ event.title }}</h1>
+                <h1 class="display-3 fw-bold mb-4" style="color: white;">{{ event.title }}</h1>
                 
                 <!-- Hero Meta Badges -->
-                <div class="d-flex flex-wrap justify-content-center gap-3 text-white-50">
-                    <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 rounded-pill px-3 py-2">
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <span class="kuhin-badge" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
                         <i class="fas fa-tag me-2"></i>{{ event.event_type }}
                     </span>
                     
-                    <span class="badge bg-light bg-opacity-10 text-white border border-light border-opacity-25 rounded-pill px-3 py-2">
+                    <span class="kuhin-badge" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
                         {% if event.status == 'upcoming' %}
-                            <i class="fas fa-clock me-2 text-warning"></i>Upcoming
+                            <i class="fas fa-clock me-2"></i>Upcoming
                         {% elif event.status == 'ongoing' %}
-                            <i class="fas fa-play-circle me-2 text-success"></i>Ongoing
+                            <i class="fas fa-play-circle me-2"></i>Ongoing
                         {% else %}
-                            <i class="fas fa-check-circle me-2 text-secondary"></i>{{ event.status|title }}
+                            <i class="fas fa-check-circle me-2"></i>{{ event.status|title }}
                         {% endif %}
                     </span>
 
-                    <span class="d-flex align-items-center px-2">
-                        <i class="fas fa-map-marker-alt me-2 text-primary"></i>{{ event.location }}
+                    <span class="d-flex align-items-center px-2" style="color: white;">
+                        <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
                     </span>
                 </div>
             </div>
@@ -50,14 +46,15 @@
     </div>
 </section>
 
-<div class="container py-5 mt-n5 position-relative z-2">
+<section class="kuhin-content">
+<div class="container">
     
     <!-- Banner Image (Floating overlap) -->
     {% if event.banner %}
-    <div class="row justify-content-center mb-5 fade-in-up">
+    <div class="row justify-content-center mb-5">
         <div class="col-lg-10">
-            <div class="rounded-4 overflow-hidden shadow-glow position-relative" style="max-height: 400px;">
-                <img src="{{ event.banner.url }}" alt="{{ event.title }}" class="w-100 h-100 object-fit-cover">
+            <div class="rounded-4 overflow-hidden" style="max-height: 400px; box-shadow: 0 20px 60px rgba(44, 62, 145, 0.2);">
+                <img src="{{ event.banner.url }}" alt="{{ event.title }}" class="w-100 h-100" style="object-fit: cover;">
             </div>
         </div>
     </div>
@@ -69,9 +66,9 @@
         <div class="col-lg-8">
             
             <!-- About -->
-            <div class="glass-panel p-4 p-md-5 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.1s;">
-                <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">
-                    <i class="fas fa-align-left text-primary me-2"></i>About This Event
+            <div class="kuhin-card p-5 mb-4">
+                <h4 class="fw-bold mb-4" style="color: #2c3e91; border-bottom: 2px solid #2c3e91; padding-bottom: 1rem;">
+                    <i class="fas fa-align-left me-2"></i>About This Event
                 </h4>
                 <div class="text-muted" style="line-height: 1.8;">
                     {{ event.description|safe }}
@@ -80,11 +77,11 @@
 
             <!-- Prerequisites & Outcomes Grid -->
             {% if event.prerequisites or event.outcome %}
-            <div class="row g-4 mb-4 fade-in-up" style="transition-delay: 0.2s;">
+            <div class="row g-4 mb-4">
                 {% if event.prerequisites %}
                 <div class="col-md-{% if event.outcome %}6{% else %}12{% endif %}">
-                    <div class="glass-panel p-4 rounded-4 h-100">
-                        <h5 class="fw-bold mb-3 text-dark"><i class="fas fa-list-check text-warning me-2"></i>Prerequisites</h5>
+                    <div class="kuhin-card h-100">
+                        <h5 class="fw-bold mb-3" style="color: #2c3e91;"><i class="fas fa-list-check me-2"></i>Prerequisites</h5>
                         <div class="small text-muted">
                             {{ event.prerequisites|safe }}
                         </div>
@@ -94,8 +91,8 @@
 
                 {% if event.outcome %}
                 <div class="col-md-{% if event.prerequisites %}6{% else %}12{% endif %}">
-                    <div class="glass-panel p-4 rounded-4 h-100 bg-primary bg-opacity-5 border-primary border-opacity-10">
-                        <h5 class="fw-bold mb-3 text-primary"><i class="fas fa-lightbulb me-2"></i>What You'll Learn</h5>
+                    <div class="kuhin-card h-100" style="background: linear-gradient(135deg, #e8f0fe 0%, #f0f8ff 100%); border: 1px solid #e0e8ff;">
+                        <h5 class="fw-bold mb-3" style="color: #2c3e91;"><i class="fas fa-lightbulb me-2"></i>What You'll Learn</h5>
                         <div class="small text-muted">
                             {{ event.outcome|safe }}
                         </div>
@@ -107,9 +104,9 @@
 
             <!-- Speakers -->
             {% if event.speakers %}
-            <div class="glass-panel p-4 p-md-5 rounded-4 mb-4 fade-in-up" style="transition-delay: 0.3s;">
-                <h4 class="fw-bold mb-4 text-dark border-bottom pb-2">
-                    <i class="fas fa-microphone text-primary me-2"></i>Speakers
+            <div class="kuhin-card p-5 mb-4">
+                <h4 class="fw-bold mb-4" style="color: #2c3e91; border-bottom: 2px solid #2c3e91; padding-bottom: 1rem;">
+                    <i class="fas fa-microphone me-2"></i>Speakers
                 </h4>
                 <div class="text-muted">
                     {{ event.speakers|linebreaks }}
@@ -119,20 +116,20 @@
 
             <!-- Related Events -->
             {% if related_events %}
-            <div class="mt-5 pt-4 fade-in-up" style="transition-delay: 0.4s;">
-                <h4 class="fw-bold mb-4">You Might Also Like</h4>
+            <div class="mt-5 pt-4">
+                <h4 class="kuhin-section-title">You Might Also Like</h4>
                 <div class="row g-4">
                     {% for related in related_events %}
                     <div class="col-md-6">
-                        <div class="glass-panel h-100 p-3 rounded-4 hover-lift transition-all">
+                        <div class="kuhin-card h-100 p-3">
                             <div class="d-flex gap-3 align-items-center">
-                                <div class="bg-primary bg-opacity-10 text-primary rounded p-3 text-center" style="min-width: 70px;">
+                                <div style="background: linear-gradient(135deg, #2c3e91 0%, #3d5fff 100%); color: white; border-radius: 12px; padding: 1rem; text-align: center; min-width: 70px;">
                                     <span class="d-block fw-bold h5 mb-0">{{ related.date|date:"d" }}</span>
-                                    <span class="d-block small text-uppercase">{{ related.date|date:"M" }}</span>
+                                    <span class="d-block small text-uppercase" style="font-size: 0.75rem; opacity: 0.9;">{{ related.date|date:"M" }}</span>
                                 </div>
                                 <div>
                                     <h6 class="fw-bold mb-1">
-                                        <a href="{% url 'home:event_detail' related.slug %}" class="text-dark text-decoration-none stretched-link">{{ related.title }}</a>
+                                        <a href="{% url 'home:event_detail' related.slug %}" class="text-dark text-decoration-none">{{ related.title }}</a>
                                     </h6>
                                     <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ related.location }}</small>
                                 </div>
@@ -150,15 +147,14 @@
         <div class="col-lg-4">
             
             <!-- Registration Card (Sticky) -->
-            <div class="glass-panel p-4 rounded-4 mb-4 text-center fade-in-up sticky-top" style="top: 100px; z-index: 10;">
+            <div class="kuhin-card p-4 mb-4 text-center sticky-top" style="top: 100px; z-index: 10;">
                 
                 {% if event.registration_link and event.status == 'upcoming' %}
                     <h5 class="fw-bold mb-3">Reserve Your Spot</h5>
                     
                     {% if event.max_participants %}
-                    <div class="progress mb-3" style="height: 6px;">
-                        <!-- Mock progress based on assumption, ideally backend passes calculation -->
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 65%"></div>
+                    <div class="progress mb-3" style="height: 6px; background: #e0e0e0; border-radius: 3px;">
+                        <div class="progress-bar" role="progressbar" style="width: 65%; background: #2c3e91;"></div>
                     </div>
                     <p class="small text-muted mb-4">Limited seats available (Max: {{ event.max_participants }})</p>
                     {% endif %}
@@ -252,12 +248,14 @@
         </div>
     </div>
 </div>
+</section>
 
 <!-- Back Button -->
-<div class="container text-center mb-5 pb-3 fade-in-up" style="transition-delay: 0.5s;">
-    <a href="{% url 'home:events' %}" class="btn btn-outline-secondary rounded-pill px-4">
+<section class="kuhin-content">
+<div class="container text-center mb-5 pb-3">
+    <a href="{% url 'home:events' %}" class="btn rounded-pill px-4" style="border: 2px solid #2c3e91; color: #2c3e91;">
         <i class="fas fa-arrow-left me-2"></i>Back to Events
     </a>
 </div>
-
+</section>
 {% endblock %}
