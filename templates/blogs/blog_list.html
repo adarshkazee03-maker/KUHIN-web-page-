@@ -5,21 +5,32 @@
 
 {% block content %}
 
-<!-- Blog Hero Section -->
-<section class="kuhin-hero" style="min-height: 500px;">
-    <div class="container position-relative z-3 text-center py-5">
-        <span class="kuhin-badge mb-3" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
-            <i class="fas fa-brain me-2"></i>Insights & Stories
-        </span>
-        <h1 class="display-4 fw-bold mb-3" style="color: white;">KUHIN Blog</h1>
-        <p class="lead mb-0" style="color: rgba(255,255,255,0.9);">
-            Stay updated with insights, research, and stories from our health informatics community.
-        </p>
+<!-- Hero Section - Professional Design -->
+<section class="page-hero" style="background-image: linear-gradient(135deg, rgba(30,58,95,0.92) 0%, rgba(44,82,130,0.80) 100%), url('/static/images/backgroundtemp1.png'); background-blend-mode: overlay;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div style="animation: fadeInUp 0.8s ease-out; position: relative; z-index: 1; background: rgba(8, 17, 40, 0.55); padding: 2rem 2.25rem; border-radius: 1rem; box-shadow: 0 24px 55px rgba(0, 0, 0, 0.28);">
+                    <p style="color: #F8E8C2; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; opacity: 1; text-shadow: 0 1px 6px rgba(0,0,0,0.45);">INSIGHTS & STORIES</p>
+                    <h1 style="color: #ffffff; font-size: 3.4rem; font-weight: 900; line-height: 1.05; margin-bottom: 1.25rem; text-shadow: 3px 3px 18px rgba(0,0,0,0.55);">
+                        KUHIN Blog
+                    </h1>
+                    <p style="color: #e8eef7; font-size: 1.15rem; line-height: 1.85; margin-bottom: 1.75rem; max-width: 680px; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,0.35);">
+                        Read articles, case studies, insights, and in-depth discussions from our community about health informatics, innovation, and technology.
+                    </p>
+                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                        <a href="#main-content" style="background: #D4A574; color: #1a1e3c; padding: 1rem 2rem; font-weight: 700; border-radius: 8px; text-decoration: none; transition: all 0.3s; box-shadow: 0 10px 30px rgba(212,165,116,0.35);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(212,165,116,0.45)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(212,165,116,0.35)';">
+                            Read Articles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <section class="kuhin-content">
-<div class="container">
+    <div class="container">
     
     <!-- Search and Filter Control Panel -->
     <div class="kuhin-card p-4 mb-5">

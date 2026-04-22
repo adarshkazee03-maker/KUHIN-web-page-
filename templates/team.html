@@ -4,33 +4,48 @@
 {% block title %}Our Team - KUHIN{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="team-hero" style="background: linear-gradient(135deg, #1a1f35 0%, #2c3e91 100%); min-height: 500px; display: flex; align-items: center; color: white;">
+<!-- Hero Section - Professional Design -->
+<section class="page-hero team-hero">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <span class="badge bg-primary text-white mb-3" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Our Leadership</span>
-                <h1 class="display-3 fw-bold mb-4">Meet The KUHIN Team</h1>
-                <p class="lead mb-4 opacity-75">Passionate students and leaders dedicated to innovation, community, and excellence. Together, we're building the future.</p>
-                <div class="d-flex gap-3">
-                    <div>
-                        <h3 class="text-primary fw-bold" id="memberCount">0</h3>
-                        <p class="small opacity-75">Team Members</p>
-                    </div>
-                    <div>
-                        <h3 class="text-primary fw-bold" id="batchCount">0</h3>
-                        <p class="small opacity-75">Different Batches</p>
+        <div class="row align-items-center gx-5">
+            <div class="col-lg-7">
+                <div style="animation: fadeInUp 0.8s ease-out; background: linear-gradient(135deg, rgba(30,58,95,0.92), rgba(44,82,130,0.84)); padding: 2.5rem 2.25rem; border-radius: 1rem; box-shadow: 0 24px 60px rgba(0,0,0,0.28);">
+                    <p style="color: #F8E8C2; font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 1rem; opacity: 1; text-shadow: 0 1px 6px rgba(0,0,0,0.45);">OUR LEADERSHIP</p>
+                    <h1 style="color: #ffffff; font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 3px 3px 18px rgba(0,0,0,0.55);">
+                        Meet the KUHIN Team
+                    </h1>
+                    <p style="color: #e8eef7; font-size: 1.1rem; line-height: 1.75; margin-bottom: 2rem; max-width: 720px; font-weight: 500; text-shadow: 0 1px 8px rgba(0,0,0,0.35);">
+                        Passionate students, faculty advisors, and leaders dedicated to innovation, collaborative learning, and advancing health technology in Nepal.
+                    </p>
+                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+                        <a href="#main-content" style="background: var(--primary-color); color: #ffffff; padding: 1rem 2.5rem; font-weight: 700; border-radius: 8px; text-decoration: none; transition: all 0.3s; box-shadow: 0 10px 30px rgba(8,145,178,0.28);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(8,145,178,0.35)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(8,145,178,0.28)';">
+                            View Our Team
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 text-center opacity-75">
-                <i class="fas fa-users display-1" style="opacity: 0.3;"></i>
+            <div class="col-lg-5">
+                <div class="team-stats-card p-4 p-md-5 rounded-4" style="background: rgba(255,255,255,0.08); border-left: 6px solid var(--primary-color); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);">
+                    <div class="d-flex align-items-center justify-content-between gap-4 flex-column flex-sm-row mb-4">
+                        <div>
+                            <h3 class="text-white fw-bold mb-1" id="memberCount">0</h3>
+                            <p class="small text-white-75 mb-0">Team Members</p>
+                        </div>
+                        <div>
+                            <h3 class="text-white fw-bold mb-1" id="batchCount">0</h3>
+                            <p class="small text-white-75 mb-0">Different Batches</p>
+                        </div>
+                    </div>
+                    <p class="text-white-75 mb-0" style="line-height: 1.8;">
+                        Explore our leadership team and advisors, learn about each member's role, and connect with the people driving KUHIN forward.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<div class="container-fluid py-5" style="background: #f8f9fa;">
+<div class="container-fluid py-5" id="main-content" style="background: #f8f9fa;">
     <!-- Search & Filter -->
     <div class="container mb-5">
         <div class="row g-3">
@@ -152,6 +167,28 @@
         transform: translate(100px, -100px);
     }
 
+    .team-stats-card {
+        min-height: 240px;
+        border-radius: 32px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .team-stats-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+    }
+
+    .team-stats-card h3 {
+        font-size: 3rem;
+        letter-spacing: -0.03em;
+        color: #ffffff;
+    }
+
+    .team-stats-card p {
+        margin-bottom: 0;
+    }
+
     /* Member Card Styles */
     .member-card {
         background: white;
@@ -160,6 +197,9 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         cursor: pointer;
+        min-height: 540px;
+        display: flex;
+        flex-direction: column;
     }
 
     .member-card:hover {
@@ -231,8 +271,8 @@
 
     .view-btn {
         padding: 12px 30px;
-        background: white;
-        color: #2c3e91;
+        background: var(--primary-color);
+        color: white;
         text-decoration: none;
         border-radius: 25px;
         font-weight: 600;
@@ -242,11 +282,18 @@
 
     .view-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 12px rgba(8,145,178,0.3);
     }
 
     .member-info {
         background: white;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .member-info p {
+        flex: 1;
     }
 
     .member-item {
